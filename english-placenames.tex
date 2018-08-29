@@ -1,0 +1,2903 @@
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+
+%% Unicode normalization of input text.
+%%  0: no normalization (default)
+%%  1: normalize to NFC
+%%  2: normalize to NFD
+\XeTeXinputnormalization 1
+
+%% The Memoir class.
+\documentclass[12pt,letterpaper,oneside,article,draft]{memoir}
+
+%% The amsmath package is useful for some non-mathematical stuff as well as the obvious
+%% mathematical advantages. It needs to be loaded very early to avoid various package conflicts.
+\usepackage{amsmath}
+
+%% Microtypographic features.
+%\usepackage[final]{microtype}
+
+%% Tweak the date and time formats.
+\usepackage[UKenglish,cleanlook]{isodate}
+
+\usepackage{rotating}
+
+%%%%
+%%%% Font configuration.
+%%%%
+
+%% XeLaTeX font support.
+\usepackage{fontspec}
+\usepackage{xltxtra}
+
+%% Basic font definitions.
+\setmainfont{Brill}
+\defaultfontfeatures{Scale=MatchLowercase}
+\setsansfont[LetterSpace=-0.1]{Calibri}
+\setmonofont[FakeStretch=0.9]{Consolas}
+
+%% Page headers and footers.
+\newfontfamily\pageheadfont{Brill}
+\newfontfamily\pagefootfont{Brill}
+
+%%
+%% Special fonts.
+%%
+
+\usepackage{newunicodechar}
+
+%% Scripts, languages, and fonts.
+%%
+%% These set up fonts for various scripts and the commands for text in
+%% the languages that use them. Note that the font families (scripts)
+%% are not exactly the same as the language commands. Also,
+%% the Cyrillic command is not really a language.
+%%
+%% Some fonts need scaling options, others can just inherit the
+%% MatchLowercase scaling from the \defaultfontfeatures above.
+%% See fontspec documentation for more details.
+\newfontfamily{\cyrillicfont}[Scale=MatchLowercase,Script=Cyrillic]{Times New Roman}
+\newfontfamily{\oitalicfont}[Scale=MatchUppercase]{Aegean}
+\newfontfamily{\armenianfont}[Scale=MatchLowercase,Script=Armenian]{Sylfaen}
+\newfontfamily{\gothicfont}[Scale=0.8]{Analecta}
+\newfontfamily{\hebrewfont}[Script=Hebrew]{Times New Roman}
+\newfontfamily{\devanagarifont}[Scale=0.9,Script=Devanagari]{Siddhanta}
+\newfontfamily{\avestanfont}[Scale=0.9]{Avestamanus}
+\newfontfamily{\hittitefont}[Scale=0.8]{Akkadian}
+\newfontfamily{\opersianfont}[Scale=0.9]{Aegean}
+\newfontfamily{\syriacfont}[Script=Syriac]{Estrangelo Edessa}
+\newfontfamily{\arabicfont}[Script=Arabic,Scale=1.5]{Arabic Typesetting}
+\newfontfamily{\mycenaeanfont}[Scale=MatchUppercase]{Aegean}
+\newfontfamily{\georgianfont}[Scale=MatchLowercase,Script=Georgian]{Sylfaen}
+\newfontfamily{\punjabifont}[Scale=1,Script=Gurmukhi]{Gurmukhi MT}
+\newfontfamily{\pahlavifont}[Scale=0.8]{Noto Sans Inscriptional Pahlavi}
+
+\NewDocumentCommand{\greek}{m}{#1}
+\NewDocumentCommand{\cyrillic}{m}{\begingroup\cyrillicfont#1\endgroup}
+\NewDocumentCommand{\oitalic}{m}{\begingroup\oitalicfont#1\endgroup}
+\NewDocumentCommand{\armenian}{m}{\begingroup\armenianfont#1\endgroup}
+\NewDocumentCommand{\gothic}{m}{\begingroup\gothicfont#1\endgroup}
+\NewDocumentCommand{\hebrew}{m}{\begingroup\hebrewfont#1\endgroup}
+\NewDocumentCommand{\yiddish}{m}{\begingroup\hebrewfont#1\endgroup}
+\NewDocumentCommand{\sanskrit}{m}{\begingroup\devanagarifont#1\endgroup}
+\NewDocumentCommand{\avestan}{m}{\begingroup\avestanfont#1\endgroup}
+\NewDocumentCommand{\hittite}{m}{\begingroup\hittitefont#1\endgroup}
+\NewDocumentCommand{\opersian}{m}{\begingroup\opersianfont#1\endgroup}
+\NewDocumentCommand{\syriac}{m}{\begingroup\syriacfont#1\endgroup}
+\NewDocumentCommand{\persian}{m}{\begingroup\arabicfont#1\endgroup}
+\NewDocumentCommand{\arab}{m}{\begingroup\arabicfont#1\endgroup}
+\NewDocumentCommand{\mycenaean}{m}{\begingroup\mycenaeanfont#1\endgroup}
+\NewDocumentCommand{\georgian}{m}{\begingroup\georgianfont#1\endgroup}
+\NewDocumentCommand{\punjabi}{m}{\begingroup\punjabifont#1\endgroup}
+\NewDocumentCommand{\pahlavi}{m}{\begingroup\pahlavifont#1\endgroup}
+
+
+%% Phonetics.
+%\newfontfamily{\ipafont}{Charis SIL}
+\newfontfamily{\ipafont}{Brill}
+\newfontfamily{\ipaspecialfont}{Gentium Plus}
+
+%% Miscellaneous symbols.
+\newfontfamily{\symfont}{Apple Symbols}
+\newfontfamily{\mthfont}{Asana Math}
+\newunicodechar{≪}{{\mthfont ≪}}
+\newunicodechar{≫}{{\mthfont ≫}}
+
+%% Slashed zeroes.
+%% Linguists use a slashed zero for the null symbol. Used by crippenmacros.sty.
+\newfontfamily{\zerofont}[Numbers=SlashedZero]{Minion Pro}
+\usepackage{newunicodechar}
+\newunicodechar{∅}{{\nul}}
+
+%%%%
+%%%% Bibliography.
+%%%%
+
+%%% BibLaTeX bibliography style.
+%\usepackage[backend=biber,
+%		style=lsalike,
+%		useprefix=true,
+%		ibidtracker=false,
+%		uniquename=false,
+%		doi,
+%		isbn,
+%		%issn,
+%		scacronym,
+%		jnlcolonpages,
+%		commathesis
+%	]{biblatex}
+%
+%%% Where to find the bibliography file (no extension).
+%\bibliography{erg-and-clause-struct}
+%
+%%% Allow url breaks.
+%\setcounter{biburlnumpenalty}{5000}
+%\setcounter{biburlucpenalty}{9000}
+%\setcounter{biburllcpenalty}{8000}
+
+%%%%
+%%%% Hyperlinks.
+%%%%
+
+%% URL formatting.
+\usepackage{url}
+%% Print URLs in the sans serif font (\sffamily).
+\urlstyle{sf}
+
+%% Personal hyperref configuration.
+\usepackage{hypercrippen}
+\hypersetup{%
+	pdfauthor={James A. Crippen}
+	pdfcopyright={Copyright © 2017 James A. Crippen},
+	pdftitle={A chrestomathy of English placename etymologies},
+	pdfkeywords={etymology, placenames},
+	pdfsubject={English language},
+	bookmarksopenlevel=2}
+\hypersetup{final}
+
+%%%%
+%%%% Diagrams and drawing.
+%%%%
+
+%% TikZ
+\usepackage{tikz}
+\usetikzlibrary{backgrounds}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.symbols}
+\usetikzlibrary{fit}
+
+%% Strikeout.
+\usepackage{tikz-sout}
+
+%%%%
+%%%% Lists and tables.
+%%%%
+
+%% Fancy list environments.
+\usepackage{enumitem}
+%% No leading between items.
+\setenumerate{noitemsep}
+\setitemize{noitemsep}
+%% Make itemize deeper.
+\renewlist{itemize}{itemize}{7}
+%% Change the labels of items.
+\setlist[itemize,1]{label=⁕}
+\setlist[itemize,2]{label=⸭}
+\setlist[itemize,3]{label=⁍}
+\setlist[itemize,4]{label=⁘}
+\setlist[itemize,5]{label=⁜}
+\setlist[itemize,6]{label=☉}
+\setlist[itemize,7]{label=☞}
+%% Ragged right.
+\setlist{before=\raggedright,listparindent=0pt}
+
+%%% Multiple row spanning cells in tables.
+%%%
+%%% Usage: \multirow{2}{*}[-0.5ex]{This text spans two rows}
+%\usepackage{multirow}
+
+%% Big delimiters for multirow in tables.
+%%
+%% Usage: \ldelim<delimiter>{rows}{width/*}[centred text]
+%\usepackage{bigdelim}
+
+%%% Multiple columns in body text.
+%\usepackage{multicol}
+%%% Length of the separation space between columns.
+%\setlength{\columnsep}{0ex}
+%%% Length of the space before and after multicolumns.
+%%% This is identical with the values of aboveexskip and belowexskip for ExPex.
+%\setlength{\multicolsep}{0.5em plus 0.375em minus 0.25em}
+%%\setlength{\multicolsep}{0.5em minus 0.25em}
+%%% Don't align the bottom lines of columns.
+%%% The default is \flushcolumns.
+%\raggedcolumns
+
+%%%%
+%%%% Miscellaneous macrology.
+%%%%
+
+% Strikeouts.
+\usepackage{tikz-sout}[2015/09/14]
+
+%% My macros.
+\usepackage{crippenmacros}[2015/12/16]
+
+%% Change classifier space macro to regular space.
+\let\clspace\space
+
+%% Set up TikZ example arrows.
+\tikzexstylesetup
+\tikzset{exarrows/.style={semithick, arrows = {-Stealth[scale=0.75]}}}
+
+%% Settings for the \gm gloss emphasis macro.
+%%
+%% Bold text.
+\gmboldoff
+%% Foreground colour.
+\gmcoloroff
+%% Background shading.
+\gmbgcoloron
+%% Adjust the two colours.
+\gmcolorset{0.66,0,0}
+\gmbgcolorset{0.925,0.925,0.925}
+
+%% The √ root symbol is printed using the \rt{} command.
+%%
+%% The Brill font doesn’t need its roots kerned.
+\setlength{\rtkern}{0pt}
+%% It also needs a wider underscore.
+\setlength{\uscorewidth}{0.75em}
+
+%% Use pretty brackets for fixme comments.
+\renewcommand*{\dblbrackleft}{⟦}
+\renewcommand*{\dblbrackright}{⟧}
+
+%%%%
+%%%% Hyphenation.
+%%%%
+
+\hyphenation{Ath-a-ba-s-k-an man-u-script Bri-t-ish Co-l-um-bia rel-a-tiv-i-z-a-tion
+	sub-or-d-in-a-tion phe-no-m-en-on mor-ph-o-logy ep-en-the-sis ep-en-the-t-ic}
+
+%% XeTeX magic. Allows line breaking after en- and em-dashes.
+\XeTeXdashbreakstate 0
+
+%%%%
+%%%% Memoir configuration.
+%%%%
+
+\usepackage{memconf-gen}
+
+%% Typeset short pages as ragged bottom when section headings are moved to the next page.
+\raggedbottomsection
+
+%% Relaxed interword spacing and justification.
+\midsloppy
+
+%% Somewhat tighter list spacing. Tightest is \tightlist, normal is \defaultlist.
+\tightlists
+
+%% Number TOC only to paragraph.
+\maxtocdepth{paragraph}
+
+%%%%%%
+%%%%%%
+%%%%%% Dictionary macrology.
+%%%%%%
+%%%%%%
+
+%% Load the calc package for calculating lengths.
+%%
+%% FIXME: Replace with LaTeX3 calculations.
+\usepackage{calc}
+
+%% Entry indentation.
+%%
+%% This is used by the Lemma and Subentry environments later. We could
+%% use \parindent instead but that might be unexpectedly modified elsewhere.
+%%
+%% First the fundamental length of any indentation. This is never modified.
+\newlength{\entryindentationlength}
+\setlength{\entryindentationlength}{1em}
+%% Then an indentation value based on that. This can be changed.
+\newlength{\entryindent}
+\setlength{\entryindent}{\entryindentationlength}
+
+%% Subentry indentation dots.
+%%
+%% This is a dot to print for each nesting of an entry. The number of dots
+%% visually indicates the depth of subentry nesting, thus serving as a
+%% kind of breadcrumb for the reader when a complex lemma spans a
+%% column or page boundary.
+\NewDocumentCommand {\entrydot} {} {·}
+
+%% Length of whitespace between subentry dots.
+%%
+%% This has no impact on the actual indentation. It should be adjusted
+%% empirically to look good with whatever \entrydot looks like.
+\newlength{\entrydepthdotsgap}
+\setlength{\entrydepthdotsgap}{0.5em}
+
+%% Entry indentation calculation.
+%%
+%% This macrology implements nested indentation along with a number
+%% of dots indicating the level of nesting.
+%%
+%% LaTeX3 inside.
+\ExplSyntaxOn
+%% A depth counter.
+\int_zero_new:N \entrydepth
+%% Increase the depth counter.
+\NewDocumentCommand{\incentrydepth} {} {\int_incr:N \entrydepth}
+%% Reset the depth counter.
+\NewDocumentCommand{\resetentrydepth} {} {\int_zero:N \entrydepth}
+%% Print an appropriate number of dots in the margin.
+\NewDocumentCommand{\printentrydepthdots} {}
+	% The \rlap makes this overlap the indentation.
+	{\rlap{% Initialize a temporary loop variable.
+		\int_set_eq:NN {\l_tmpa_int} {\entrydepth}
+		% Loop over the entry depth until zero.
+		\int_do_while:nNnn {\l_tmpa_int} > {\c_zero}
+			% Print a dot and space for each loop.
+			{\entrydot\hspace{\entrydepthdotsgap}
+			 % Decrement the loop variable.
+			 \int_decr:N \l_tmpa_int}}
+		% Suppress a line break by vertically backing up one line.
+		% FIXME: Why is this necessary?
+		\vspace*{-\baselineskip}}
+\ExplSyntaxOff
+
+%% The Lemma environment.
+%%
+%% This is the top level environment for an entry. It is not recursive,
+%% for which instead see the Subentry environment below.
+\NewDocumentEnvironment {Lemma} {}
+	{\par%
+	% Reset the entry depth number.
+	\resetentrydepth%
+	% Hanging indentation.
+	\hangindent=\entryindent%
+	% Hang after first line.
+	\hangafter=1%
+	% Suppress the usual first line indentation.
+	\noindent%
+	% Ignore any initial spaces.
+	\ignorespaces}%
+	{\par\ignorespacesafterend}
+
+%% The Subentry environment.
+%%
+%% This environment occurs either within a Lemma environment or within
+%% another Subentry environment. Unlike the Lemma environment, this one
+%% is recursive.
+\NewDocumentEnvironment {Subentry} {}
+	{\par%
+	% Bump up the entry depth counter.
+	\incentrydepth%
+	% Adjust parindent first so indentation works right.
+	\setlength{\parindent}{\entryindent}
+	% Hang the current entry indentation plus one more.
+	\setlength{\entryindent}{\entryindent+\entryindentationlength}%
+	\hangindent=\entryindent%
+	\hangafter=1%
+	% Print nesting dots.
+	\printentrydepthdots%
+	% There is no final \noindent here unlike the Lemma environment.
+	% This lack of \noindent allows for subhanging.
+	\ignorespaces}%
+	{\par\ignorespacesafterend}
+
+%% The Section environment.
+%%
+%% This environment occurs either within a Lemma environment or within
+%% a Subentry environment. Like the Lemma environment and unlike the
+%% Subentry environment, this Section environment is not recursive.
+%%
+%% In essence this does the same thing as Subentry but without nesting.
+\NewDocumentEnvironment {Section} {}
+	{\par%
+	% Adjust parindent first so indentation works right.
+	\setlength{\parindent}{\entryindent}
+	% Hang the current entry indentation plus one more.
+	\setlength{\entryindent}{\entryindent+\entryindentationlength}%
+	\hangindent=\entryindent%
+	\hangafter=1%
+	% There is no final \noindent here unlike the Lemma environment.
+	% This lack of \noindent allows for subhanging.
+	\ignorespaces}%
+	{\par\ignorespacesafterend}
+
+%% Specialized sections: Also, Etymologies, Definitions, Examples.
+%%
+%% These environments are specialized versions of the Section
+%% environment. They are essentially wrappers with some additional
+%% formatting and text.
+\NewDocumentEnvironment {Also} {}
+	{\begin{Section}Also:}
+	{\end{Section}\ignorespacesafterend}
+\NewDocumentEnvironment {Etymology} {}
+	{\begin{Section}Etymology:}
+	{\end{Section}\ignorespacesafterend}
+\NewDocumentEnvironment {Definitions} {}
+	{\begin{Section}}
+	{\end{Section}\ignorespacesafterend}
+\NewDocumentEnvironment {Examples} {}
+	{\begin{Section}Examples:}
+	{\end{Section}\ignorespacesafterend}
+
+%% The Headword and its associated parts.
+\NewDocumentCommand {\headword} {m} {\textit{#1}}
+\NewDocumentCommand {\gloss} {m} {#1}
+\newlength{\headglossspace}
+\setlength{\headglossspace}{1.5em}
+%% Primary command.
+\NewDocumentCommand {\HeadAndGloss} {m m}
+	{\headword{#1}\hspace*{\headglossspace}\gloss{#2}}
+
+%%%%%%
+%%%%%%
+%%%%%% Document body.
+%%%%%%
+%%%%%%
+
+\begin{document}
+
+\pagestyle{mine}
+
+\title{Analects of English placename etymologies}
+% \href{mailto:jcrippen@gmail.com}{\nolinkurl{jcrippen@gmail.com}}
+\author{James A.~Crippen}
+
+\maketitle
+
+\raggedyright
+
+This document is a collection of common elements in English language placenames along with their etymologies and assorted examples. Only Germanic elements are listed, with Celtic and other elements set aside for future work, although Anglo-Norman and Latin influences are noted. Each element is represented by a common exemplar found in modern English placenames, with other forms listed below it. The etymologies attempt to trace the elements back to Proto-Indo-European and where possible give corresponding forms documented in other Germanic languages as well as some intermediate reconstructions. Many elements involve well known Indo-European lexical items, in which case the etymologies include other comparisons from outside the Germanic family, but these become less reliable the further they are from Germanic. Etymologies are compiled from a wide variety of sources, particularly including the \textit{Oxford English Dictionary}, Donald Ringe’s \textit{A Linguistic History of English} (2006), and many online references (e.g.\ the IELex database and scans of Pokorny’s \textit{Indogermanisches Etymologisches Wörterbuch}). Example placenames are taken primarily from A.D.~Mills’s \textit{A Dictionary of British Placenames} (2011), supplemented by James Rye’s \textit{A Popular Guide to Norfolk Place-Names} (2008) and Allen Mawer’s \textit{The Place-Names of Northumberland and Durham} (1920) among other sources. These sources include both Old English derivations and historically attested forms, and the reader is recommended to them for further study. The same modern name may have multiple etymologies depending on attestation, history, geography, and linguistic interpretations, so individual names often appear under more than one entry.
+
+\clearpage
+\section*{A}
+
+\begin{Lemma}
+\HeadAndGloss{ac}{oak tree}
+\begin{Also}
+	\fm{ack}, \fm{ak}, \fm{age}, \fm{ick}, \fm{oak}, \fm{ox}, \fm{ock}
+\end{Also}
+\begin{Etymology}
+	< OE \fm{āc} ‘oak’ < PGmc \fm[*]{aiks} < PIE \fm[*]{h₂eyǵ}.
+	Compare
+	Scots \fm{aik};
+	OFri \fm{ēk} > WFri \fm{iik};
+	ODu \fm[*]{ēk} > MDu \fm{eic} > Du \fm{eik};
+	OSax \fm{ēk} > MLG \fm{eek} > LGer \fm{eek};
+	OHG \fm{eih} > Ger \fm{Eiche};
+	ON \fm{eik} > Sw \fm{ek}, Dan \fm{eg}, Nor \fm{eik}.
+	Perhaps cognate with
+	AGk \greek{αἰγίλωψ} \fm{aigílōps} ‘Turkey oak (\textit{Q. cerris})’, \greek{κράταιγος} \fm{krátaigos} ‘thorn’,
+		L \fm{aesculus} ‘sessile oak (\textit{Q. petraea})’ Lit \fm{ąžuolas} ‘oak’, Alb \fm{enjë} ‘juniper, yew’.
+	Distinct from diminutive \fm{-ock} in e.g. \fm{hillock}, \fm{bollock}, \fm{bullock}.
+\end{Etymology}
+\begin{Definitions}
+	① Area where oak trees are notable. The stereotypical oak tree of England is the English oak (\textit{Quercus robur}). The oak became a national emblem of England during the English Civil War, but oaks have been of great cultural importance throughout Germanic history and prehistory.
+\end{Definitions}
+\begin{Examples}
+	Acol (<~\fm{āc-holt} ‘oak wood’),
+	Acomb (<~\fm{āc-um} ‘oak-\xx{dat}’),
+	Ackworth (<~\fm{āc-worþ} ‘oak enclosure’),
+	Acton (<~\fm{āc-tūn} ‘oak farm’),
+	Acle (<~\fm{āc-lēah} ‘oak clearing’),
+	Akeld (<~\fm{āc-helde} ‘oak slope’),
+	Aughton (<~\fm{āc-tūn} ‘oak farm’),
+	Braddock (<~\fm{brād-āc} ‘broad oak’),
+	Copdock (<~\fm{coppod-āc} ‘coppiced oak’),
+	Cressage (<~\fm{Crist-āc} ‘Christ oak’),
+	Dethick (<~\fm{dēaþ-āc} ‘death oak’),
+	Eagle (<~\fm{āc-lēah} ‘oak clearing’),
+	Etchilhampton (<~\fm{ǣc-hyll-hǣme-tūn} ‘oak.\xx{gen}-hill-home-farm’),
+	Hennock (<~\fm{hēah-n-āc} ‘high-\xx{dat}-oak’),
+	Matlock (<~\fm{mæðel-āc} ‘meeting oak’),
+	Oakhanger (<~\fm{āc-hangra} ‘oak slope’),
+	Oakley (<~\fm{āc-lēah} ‘oak clearing’),
+	Oxted (<~\fm{āc-stede} ‘oak place’),
+	Radnage (<~\fm{rēad-āc} ‘red oak’),
+	Stevenage (<~\fm{stīþ-an-ǣc} ‘strong-\xx{dat}-oak.\xx{dat}).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{acre}{farm plot}
+\begin{Also}
+	\fm{acre}, \fm{acker}, \fm{ager}, \fm{aker}
+\end{Also}
+\begin{Etymology}
+	< ME \fm{acre}, \fm{aker} < OE \fm{æcer} < PGmc \fm[*]{akraz} < PIE \fm[*]{h₂éǵros} ‘field’
+		(possibly connected to PIE \fm[*]{h₂eǵ} ‘drive’ > L \fm{agō}, 	AGk \greek{ἄγω} \fm{ágō} ‘lead’,
+		Skt \sanskrit{अजति} \fm{ájati} ‘drive’, TochB \fm{āśäṃ} ‘lead’);
+		also from ON \fm{akr} ‘acre’ especially in the Danelaw.
+	Compare
+	OFri \fm{ekker} >  WFri \fm{eker}, SatFri \fm{äkker};
+	ODu \fm{accar}, \fm{ackar} > Du \fm{akker};
+	OHG \fm{ackar} > Ger \fm{Acker};
+	ON \fm{akr} > Sw \fm{åker}, Dan \fm{ager}, Nor \fm{åker}, \fm{aker}, Is \fm{akur};
+	Got \gothic{𐌰𐌺𐍂𐍃} \fm{akrs}.
+	Further compare
+	L \fm{ager} ‘land, field, acre, countryside’ > It \fm{agro} ‘countryside’, Fr \fm{aire} ‘eyrie, eagle’s nest’;
+	AGk \greek{ἀγρός} \fm{agrós} ‘cultivated field’, MyGk \mycenaean{𐀀𐀒𐀫} \fm{a.ko.ro},
+	Arm \armenian{արտ} \fm{art} (also wanderwort OArm \armenian{ագարակ} \fm{agarak}
+	> Geo \georgian{აგარაკი} \fm{agaraki}), Skt \sanskrit{अज्र} \fm{ájra} ‘field, plain’.
+\end{Etymology}
+\begin{Definitions}
+	① A plot of cultivated land.
+	② A definite quantity of land (hence modern \fm{acre}), traditionally the extent of which a yoke of oxen could plow in one day.
+\end{Definitions}
+\begin{Examples}
+	Alsager (<~\fm{Ælles-æcer} ‘Ælle’s farm’), Beanacre (<~\fm{bēan-æcer} ‘bean farm’), Bessacarr (<~\fm{bēos-æcer} ‘bent grass farm’), Fazakerley (<~\fm{fæs-æcer-lēah} ‘fringe farm clearing’), Halnaker (<~\fm{healf-an-æcer} ‘half-\xx{dat} farm’), Muker (<~ON \fm{mjór-akr} ‘narrow farm’), Roseacre (<~ON \fm{hreysi-akr} ‘cairn farm’), Sandiacre (<~\fm{sandig-æcer} ‘sandy farm’), Stainsacre (<~ON \fm{Steinnes-akr} ‘Steinn’s farm’), Whittaker (<~\fm{hwǣte-æcer} ‘wheat farm’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{alder}{alder tree}
+\begin{Also}
+	\fm{al}, \fm{ald}, \fm{aller}, \fm{alre}, \fm{au}, \fm{oller}, \fm{orle}
+\end{Also}
+\begin{Etymology}
+	< ME \fm{alder}, \fm{aller} < OE \fm{alor} < PGmc \fm[*]{aluz}, \fm[*]{alusō} < PIE \fm[*]{h₂élisos}.
+	Compare
+	SatFri \fm{Ällerboom}, Du \fm{els}, Ger \fm{Erle}, Nor \fm{or}, Sw \fm{al}, Got \gothic{𐌰𐌻𐌹𐍃𐌰} \fm{alisa}.
+	Further compare
+	L \fm{alnus}, Lat \fm{alksnis}, Ru \cyrillic{ольха} \fm{ol′xá}, Ukr \cyrillic{вільха} \fm{víl′xa}.
+\end{Etymology}
+\begin{Definitions}
+	① Area where alder trees are notable.
+\end{Definitions}
+\begin{Examples}
+	Albourne (<~\fm{alor-burna} ‘alder stream’), Alderford (<~\fm{alor-ford} ‘alder ford’), Alderholt (<~\fm{alor-holt} ‘alder wood’), Alderley (<~\fm{alor-lēah} ‘alder clearing’), Aldershot (<~\fm{alor-scēat} ‘alder corner’), Alderwasley (<~\fm{alor-wæsse-lēah} ‘alder alluvial clearing’), Aldreth (<~\fm{alor-hȳþ} ‘alder landing’), Aldridge (<~\fm{alor-wīc} ‘alder dairy’), Allerford (<~\fm{alor-ford} ‘alder ford’), Alresford (<~\fm{alr-es-ford} ‘alder-\xx{gen} ford’), Alrewas (<~\fm{alor-wæsse} ‘alder alluvium’), Aubourn (<~\fm{alor-burna} ‘alder stream’), Awre (<~\fm{alor-e} ‘alder-\xx{dat}’), Bicknoller (<~\fm{Bican-alor} ‘Bica’s alder’), Longnor (<~\fm{lang-an-alor} ‘long-\xx{dat} alder’), Ollerton (<~\fm{alor-tūn} ‘alder farm’), Orleton (<~\fm{alor-tūn} ‘alder farm’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{ang}{meadow, pasture}
+\begin{Also}
+	\fm{eng}, \fm{ing-}, \fm{ongar}
+\end{Also}
+\begin{Etymology}
+	< OE \fm{anger} or \fm{ing} < PGmc \fm[*]{angijō} ‘meadow’
+		< PIE \fm[*]{h₂énkos} ‘bend, curve; hollow, glen’ < \fm[*]{h₂énk} ‘bend, bow’;
+		also from ON \fm{eng} ‘meadow’ in the Danelaw.
+	Compare
+	ODu \fm[*]{eng} > MDu \fm{eng}, \fm{enc} > Du \fm{eng};
+	OHG \fm{angar} > MHG \fm{anger};
+	ON \fm{eng} > Dan \fm{eng}, Sw \fm{äng}, Nor \fm{eng}, Is \fm{engi}, Far \fm{ong}.
+	Further compare
+	PIE \fm[*]{h₂énkos} > AGk \greek{ἄγκος} \fm{áŋkos} ‘bend, hollow, glen’, L \fm{ancus} ‘bend’,
+		Skt \sanskrit{अङ्कस्} \fm{áṅkas} ‘curve, bend’.
+\end{Etymology}
+\begin{Definitions}
+	① A meadow or grassland, an uncultivated open field of grass.
+	② A pasture, either an open or enclosed area of grassland on which domestic livestock are let to feed.
+\end{Definitions}
+\begin{Examples}
+	Angram (<~\fm{anger-um} ‘meadow-\xx{dat}’), Chipping Ongar (<~\fm{cēping anger} ‘market meadow’), Ingbirchworth (<~ON \fm{eng} ‘meadow’ + OE \fm{birce-worþ} ‘birch enclosure’), Ingram (<~\fm{anger-hām} ‘meadow homestead’), Kettlesing (<~ON \fm{Ketils-eng} ‘Ketil’s meadow’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{ash}{ash tree}
+\begin{Also}
+	\fm{as}, \fm{ask}, \fm{es}, \fm{esh}, \fm{esk}
+\end{Also}
+\begin{Etymology}
+	< OE \fm{æsc} < PGmc \fm[*]{askaz} < PIE \fm[*]{h₃osk}.
+	Names with \fm{ask-} or \fm{esk-} are often from ON \fm{askr}
+		> Sw \fm{ask}, Dan \fm{ask}, Nor \fm{ask}, Is \fm{askur}, Far \fm{askur}.
+	Compare
+	OFri \fm{ask} > WFri \fm{esk};
+	ODu \fm[*]{ask} > MDu \fm{esk} > Du \fm{es};
+	OHG \fm{ask} > MHG \fm{asch} > Ger \fm{Esche}, Yid \yiddish{אַשבוים} \fm{ashboym}.
+	Further compare
+	PSlv \fm[*]{asenь} > Ru \cyrillic{ясень} \fm{jásen′};
+	PArm \fm[*]{hoskíyā} > Arm \armenian{հացի} \fm{hacʽi};
+	L \fm{ornus}, Wel \fm{onnen}, Lit \fm{úosis}, AGk \greek{ὀξύα} \fm{oxúa} ‘beech’, Alb \fm{ah} ‘beech’.
+\end{Etymology}
+\begin{Definitions}
+	① Area where ash trees are notable. The ash trees are members of the \textit{Fraxinus} family such as the manna ash (\textit{Fraxinus ornus}) and the European ash (\textit{Fraxinus excelsior}), traditionally often coppiced or pollarded in hedgerows for firewood, charcoal, lumber, and woodworking.
+\end{Definitions}
+\begin{Examples}
+	Asby (<~ON \fm{askr-bý} ‘ash village’), Askern (<~ON \fm{askr} ‘ash’ + OE \fm{ærn} ‘house’), Askham (<~ON \fm{askr-um} ‘ash-\xx{dat.pl}’ or OE \fm{-hām} ‘home’), Askwith (<~ON \fm{askr-viþr} ‘ash wood’), Ashbury (<~\fm{æsc-burh} ‘ash manor’), Ashton (<~\fm{æsc-tūn} ‘ash farm’), Escrick (<~\fm{æsc-ric} ‘ash row’), Esher (<~\fm{æsc-æron} ‘ash district’), Eshott (<~\fm{æsc-scēat} ‘ash corner’), Eshton (<~\fm{æsc-tūn} ‘ash farm’), Kippax (<~\fm{Cippa-æsc} or ON \fm{-askr} ‘Cippa’s ash’), Matlask (<~\fm{maðel-æsc} or ON \fm{-askr} ‘meeting ash’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{ast}{east}
+\begin{Also}
+	\fm{ais}, \fm{as}, \fm{aus}, \fm{east}, \fm{es}, \fm{est}, \fm{is}, \fm{ows}, \fm{owst}
+\end{Also}
+\begin{Etymology}
+	< OE \fm{ēast} < PGmc \fm[*]{austrą}, \fm[*]{austraz} < PIE \fm[*]{h₂ews-teros} with \fm[*]{h₂ews} ‘shine’;
+	occasionally from ON \fm{austr}.
+	Compare
+	OFri \fm{āst} > WFri \fm{east}, \fm{oast};
+	ODu \fm{ōst} > Du \fm{oost};
+	MHG \fm{ōst} > Ger \fm{Ost};
+	ON \fm{aust} > Nor \fm{aust}, Sw \fm{öst}, Dan \fm{øst};
+	closely related is
+	PIE \fm[*]{h₂ews-ro} > PGmc \fm[*]{austrǭ} ‘springtime’ > OE \fm{ēostre}, \fm{ēastre} > ModE \fm{easter},
+		OHG \fm{ōstra} > MHG \fm{ostre} > Ger \fm{Ostern}, Kashubian \fm{jastrë}, Polabian \fm{jostrǻi},
+		USorb \fm{jutry}, LSorb \fm{jatšy}.
+	Further compare
+	PIE \fm[*]{h₂ews-ro} > PBS \fm[*]{auśra} ‘dawn’ > Lit \fm{aušrà} (dial.\ \fm{auštrà}),
+		Lat \fm{àustra}, \fm{aũstra},
+		PSlv \fm[*]{ùtro}, \fm[*]{jùtro} (unexpected lack of \fm[*]{s}) ‘morning’ > Ru \cyrillic{утро} \fm{útro},
+		OCS \cyrillic{оутро} \fm{outro}, \cyrillic{ютро} \fm{jutro},
+		Bul \cyrillic{утро} \fm{útro} (dial.\ \cyrillic{йутру} \fm{ĭútru}),
+		Cz \fm{jitro}, Pol \fm{jutro}, USorb \fm{jutro}, LSorb \fm{jutšo}, \fm{witsé};
+	PIE \fm[*]{h₂éwsreh₂} ‘morning air’ > PHel \fm[*]{aúhrā} > AGk \greek{αὔρᾱ} \fm{aúrā} ‘steam; breeze’ 
+		> L \fm{aura} ‘breeze’,
+	PIE \fm[*]{h₂ewsḗr} > PHel \fm[*]{auhḗr}, \fm[*]{āwḗr} > AGk \greek{ᾱ̓ήρ} \fm{āḗr} ‘mist’
+		(Aeolian \greek{αὐήρ} \fm{auḗr}, Doric \greek{ἀβήρ} \fm{abḗr},
+			Homeric \greek{ἠέρ-ος} \fm{ēér-os} (-\xx{gen}), Ionian \greek{ἠήρ} \fm{ēḗr}),
+		\greek{αὔριον} \fm{aúrion} ‘tomorrow’, \greek{ἦρι} \fm{êri} ‘early morning’,
+	PIE \fm[*]{h₂éwsōs} > PHel \fm[*]{āhwōs} > AGk (Attic) \greek{ἔως} \fm{éōs} ‘dawn’
+		(Aeolian \greek{αὔως} \fm{aúōs}, Doric \greek{ᾱ̓ώς} \fm{āṓs}, Boeotian \greek{ᾱ̓́ας} \fm{ā́as},
+		Laconian \greek{ᾱ̓βώρ} \fm{ābṓr} Ionian, Epic \greek{ἠώς} \fm{ēṓs});
+	PIE \fm[*]{h₂éwsōs} > PIt \fm[*]{auzōs} > OL \fm[*]{ausōsā} > L \fm{aurōra} ‘dawn’
+		but also PIE \fm[*]{h₂ews-teros} > PIt \fm[*]{austeros} > L \fm{auster} ‘south’;
+	PIE \fm[*]{h₂wōsrih₂} > PCel \fm[*]{wāsrī} ‘dawn’ > OIr \fm{fáir}, Wel \fm{gwawr};
+	PIE \fm[*]{h₂us-r-} > PII \fm[*]{háwšās} > Av \avestan{𐬎𐬱𐬃} \fm{ušā̊},
+		Skt \sanskrit{उषस्} \fm{uṣás} ‘dawn’, \sanskrit{उसृ} \fm{usṛ́} ‘morning light’,
+		\sanskrit{उच्च्हति} \fm{uccháti} ‘shine, bright’;
+	OArm \armenian{այգ} \fm{ayg} ‘dawn’, perh.\ Hit \fm{au(š)} ‘see, watch’.
+\end{Etymology}
+\begin{Definitions}
+	① Eastern location, area toward the east of some other place.
+\end{Definitions}
+\begin{Examples}
+	Aisthorpe (<~\fm{ēast-þorp} ‘east village’), Ascot (<~\fm{ēast-cot} ‘east cottage’), Astbury (<~\fm{ēast-burh} ‘east fort’), Astcote (<~\fm{ēast-cot} ‘east cottage’), Asthall (<~\fm{ēast-healh} ‘east nook’), Astley (<~\fm{ēast-lēah} ‘east clearing’), Aston (<~\fm{ēast-tūn} ‘east farm’), Astrop (<~\fm{ēast-þrop} ‘east village), Austwick (<~ON \fm{aust} ‘east’ + OE \fm{wīc} ‘dairy’), Boraston (<~\fm{burh-ēast-tūn} ‘fort east farm’), Eston (<~\fm{ēast-tūn} ‘east farm’), Essex (<~\fm{ēast-seaxe} ‘east Saxons’), Isbister (<~ON \fm{aust-bolstaþr} ‘east farm’), Nasty (<~\fm{ēast-hæg} ‘east enclosure’ with ME \fm{atten} ‘at the’), Owston (<~ON \fm{aust} ‘east’ + OE \fm{tūn} ‘farm’), Owstwick (<~ON \fm{aust} ‘east’ + OE \fm{wīc} ‘dairy’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\fm{-ay} see \fm{-ey} ‘island’, \fm{hay} ‘hedge, enclosure’.
+\end{Lemma}
+
+\section*{B}
+
+\begin{Lemma}
+\HeadAndGloss{back}{ridge}
+\begin{Also}
+\fm{bach}, \fm{beach}, \fm{bage}, \fm{beck}
+\end{Also}
+\begin{Etymology}
+	< OE \fm{bæc} ‘back’ < PGmc \fm[*]{baką} < PIE \fm[*]{bʰeg} ‘vault, arch’.
+	Often confused with OE \fm{bæce} ‘brook, stream’ > ME \fm{bache} ‘sandbank’ > ModE \fm{beach}
+		which see.
+	Compare
+	OFri \fm{bek} > WFri \fm{beck};
+	OSax \fm{bak} > LGer \fm{bak};
+	ODu \fm[*]{bak} ‘back, rear’ > MDu \fm{bak} ‘meat from the back of a pig’ >
+		Du \fm{bak} ‘pork’, also in \fm{achterbaks} ‘underhanded’,
+		\fm{bakboord} ‘larboard, left hand side of vessel’;
+	OHG \fm{bah};
+	ON \fm{bak} > Sw \fm{bak}, Dan \fm{bag}, Is \fm{bak}, Far \fm{bak}.
+	Further compare
+	OIr \fm{bongid} ‘strike’,
+	OArm \armenian{բեկանեմ} \fm{bekanem} ‘break’ > Arm \armenian{բեկանել} \fm{bekanel} ‘annul’,
+	Skt \sanskrit{भनक्ति} \fm{bhanákti} ‘break’.
+\end{Etymology}
+\begin{Definitions}
+	① A ridge, a long elevated landform of moderate to large size. 
+\end{Definitions}
+\begin{Examples}
+	Backbarrow (<~\fm{bæc-beorg} ‘ridge hill’), Bacup (<~\fm{bæc-hop} ‘ridge valley’), Bashall Eaves (<~\fm{bæc-scelf efes} ‘ridge shelf edge’), Beckhampton (<~\fm{bæc-hām-tūn} ‘ridge home farm’), Burbage (<~\fm{burh-bece} ‘fort ridge.\xx{dat}’), Debach (<~\fm{dēope-bæc} ‘deep (river name) ridge’), Holbeach (<~\fm{hol-bece} ‘hollow ridge.\xx{dat}’), Pinchbeck (<~\fm{pinca-bæc} ‘finch ridge’), Waterbeach (<~\fm{ūt-wæter-bece} ‘outer water ridge.\xx{dat}’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{barrow}{grove}
+\begin{Also}
+	\fm{bar}, \fm{bear}, \fm{beare}, \fm{beer}, \fm{ber}, \fm{bury}
+\end{Also}
+\begin{Etymology}
+	< ME \fm{berwe} < OE \fm{bearu}, \fm{bearwe}; further etymology unknown.
+	Often confused with OE \fm{beorg} ‘hill’ (see \fm{bury}) and OE \fm{burh} ‘fort, manor’ (see \fm{borough})
+		which come to overlap extensively in ME and ModE.
+\end{Etymology}
+\begin{Definitions}
+	① A grove or shaded area. Aside from placenames, this was used mostly in poetry.
+\end{Definitions}
+\begin{Examples}
+	Adber (<~\fm{Ēata-bearu} ‘Ēata’s grove’), Aylesbeare (<~\fm{Ægeles-bearu} ‘Ægel’s grove’), Barrasford (<~\fm{bearu-ford} ‘grove ford’), Halberton (<~\fm{hæsel-bearu-tūn} ‘hazel grove farm’), Hazelbury (<~\fm{hæsel-bearu} ‘hazel grove’), Loxbeare (<~\fm{Locces-bearu} ‘Loc’s grove’), Rockbeare (<~\fm{hrōc-bearu} ‘rook grove’), Sedgebarrow (<~\fm{Secg-bearu} ‘Secg’s grove’), Shebbear (<~\fm{sceaft-bearu} ‘pole grove’), Timsbury (<~\fm{timber-bearu} ‘timber grove’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{bath}{pond}
+\begin{Etymology}
+	< OE \fm{bæþ} < PGmc \fm[*]{baþą} < PIE \fm[*]{bʰeh₁} ‘to warm’.
+	Compare
+	ODu \fm[*]{baþ} > MDu \fm{bat} > Du \fm{bad};
+	OSax \fm{bað} > LGer \fm{bad};
+	OHG \fm{bad} > Ger \fm{Bad}, Yid \hebrew{באָד} \fm{bod};
+	ON \fm{bað} > Sw \fm{bad}, Dan \fm{bad}, Is \fm{bað}, Far \fm{bað}.
+\end{Etymology}
+\begin{Definitions}
+	① A small body of water, a pool or pond.
+	② A hotspring, often with associated catchment and architecture especially from the Roman occupation of Britain.
+\end{Definitions}
+\begin{Examples}
+	Bath (<~\fm{bæþ} or \fm{bæð-e} ‘bath-\xx{dat}.\xx{sg}’, \fm{bæð-um} ‘bath-\xx{dat}.\xx{pl}’), Batheaston (<~\fm{bæð-ēast-tūn} ‘farm east of Bath’), Bathford (<~\fm{bæþ-ford-e} ‘bath ford-\xx{dat}’), Bathampton (<~\fm{bæþ-hām-tūn} ‘bath home farm’), Baulking (<~\fm{bæþ-lāc-ing} ‘bath playing’, from a stream named \fm{Lācing} ‘playful one’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{beach}{sandbank}
+\begin{Also}
+	\fm{batch}, \fm{beck}
+\end{Also}
+\begin{Etymology}
+	< ME \fm{bache}, \fm{bæcche} ‘beach’ < OE \fm{bæce}, \fm{bece} ‘brook’ < PGmc \fm[*]{bakiz}
+		< PIE \fm[*]{bʰog} ‘flowing water’.
+	Often confused with \fm{beck} ‘brook’ from the same origins; also confused with unrelated
+		\fm{back} ‘ridge’ < OE \fm{bæc} and \fm{beech} ‘beech tree’ < OE \fm{bēce}.
+	See \fm{beck} for comparisons.
+\end{Etymology}
+\begin{Definitions}
+	① The shore along a body of water, especially when it is sandy.
+	② A field near a stream, or a dale along which a stream flows.
+	③ A pebbly, shingled seashore (Sussex, Kent).
+\end{Definitions}
+\begin{Examples}
+	Chesil Beach (<~\fm{cisel-bæce} ‘shingle beach’), Pulverbatch (<~\fm{bæce} ‘beach’ and stream name of unknown origin attested as \fm{Polre-}, \fm{Puluer-}, \fm{Pulre-}). 
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{beck}{brook}
+\begin{Also}
+	\fm{bach}, \fm{bage}, \fm{back}, \fm{beach}, \fm{bec}, \fm{bech}, \fm{beigh}
+\end{Also}
+\begin{Etymology}
+	 OE \fm{bæce}, \fm{bece} ‘brook’ < PGmc \fm[*]{bakiz}
+		< PIE \fm[*]{bʰog} ‘flowing water’; some names may instead be from ON \fm{bekkr},
+		especially in the Danelaw.
+	Often confused with \fm{beach} from the same origins; also confused with unrelated
+		\fm{back} ‘ridge’ < OE \fm{bæc} and \fm{beech} ‘beech tree’ < OE \fm{bēce}.
+	Compare
+	ODu \fm[*]{beki} > MDu \fm{beke} > Du \fm{beek};
+	OSax \fm{beki} > LGer \fm{Bek}, \fm{Beck};
+	OHG \fm{bah} > Ger \fm{Bach};
+	ON \fm{bekkr} > Sw \fm{bäck}, Dan \fm{bæk}, Nor \fm{bekk}, Is \fm{bekkur},
+		Norman Fr \fm{bec}.
+\end{Etymology}
+\begin{Definitions}
+	① A brook, creek, or stream. Compare with \fm{burn} of separate etymology but similar meaning.
+\end{Definitions}
+\begin{Examples}
+	Beachampton (<~\fm{bece-hām-tūn} ‘brook home farm’), Beccles (<~\fm{bece-lǣs} ‘brook pasture’), Beighton (<~\fm{bece-tūn} ‘brook farm’), Colebatch (<~\fm{Colas-bæce} ‘Cola’s brook’), Comberbach (<~\fm{Cumbras-bæce} ‘Cumbra’s brook’), Cotesbach (<~\fm{Cottes-bæce} ‘Cott’s brook’), Evesbatch (<~\fm{Ēsa-bæce} ‘Ēsa’s brook’), Gosbeck (<~\fm{gōs} + ON \fm{bekkr} ‘goose brook’), Haselbech (<~\fm{hæsel-bece} ‘hazel brook’), Wisbech (<~\fm{wisc-bece} ‘marshy brook’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{beech}{beech tree}
+\begin{Also}
+	\fm{bet}, \fm{book}, \fm{box}, \fm{buck}, \fm{bux}
+\end{Also}
+\begin{Etymology}
+	OE \fm{bēce} < PGmc \fm[*]{bōkijǭ} < \fm[*]{bōkō} < PIE \fm[*]{bʰéh₂ǵos} ‘beech’;
+	alternatively < OE \fm{bōc} ‘beech; book’ < PGmc \fm[*]{bōks} <  PIE \fm[*]{bʰéh₂ǵos} ‘beech’.
+	Compare
+	OFri \fm{bōk} > WFri \fm{boek}, SatFri \fm{Bouke};
+	OD \fm[*]{buoka} > MDu \fm{boeke} > Du \fm{boek};
+	OSax \fm{bōkia} > MLG \fm{böke} > LGer \fm{Böke}, \fm{Böök}, Du \fm{beuk};
+	OHG \fm[*]{buohhia}, \fm{buohha} > MHG \fm{buoche} > Ger \fm{Buche}, Lux \fm{Bich}.
+	The related PGmc \fm[*]{bōks} ‘written material’ > OE \fm{boc} > ModE \fm{book};
+	OFri \fm{bōk} > WFri \fm{boek}, SatFri \fm{Bouk}, NFri \fm{buk}, \fm{bök};
+	OSax \fm{bōk} > MLG \fm{bōk} > LGer \fm{Book};
+	ODu \fm[*]{buok} > MDu \fm{boec} > Du \fm{boek}, Fr \fm{bouquin} (with \fm{-kin} \~\ \fm{-kijn} \xx{dim});
+	OHG \fm{buoh} > MHG \fm{buoch} > Ger \fm{Buch}, Lux \fm{Buch}, Yid \hebrew{בוך} \fm{bukh};
+	ON \fm{bók} > Is \fm{bók}, Far \fm{bók}, Nor \fm{bok}, Elf \fm{buok}, Sw \fm{bok}, Dan \fm{bog};
+	Got \gothic{𐌱𐍉𐌺𐌰} \fm{bōka}, \gothic{𐌱𐍉𐌺𐍉𐍃} \fm{bōkōs} influencing PSlv \fm[*]{buky} ‘letter’.
+	Further compare
+	PSlv \fm[*]{buky} ‘beech; letter’ > Ru \cyrillic{бук} \fm{buk} ‘beech’, \cyrillic{буква} \fm{búkva} ‘letter’,
+		OCS \cyrillic{боукы} \fm{buky} ‘beech’, \cyrillic{боукъвь} \fm{bukŭvĭ} ‘letter’,
+		Bul \cyrillic{буква} \fm{búkva}, Cz \fm{bukva}, Pol \fm{bukiew}, USorb \fm{bukow};
+	PHel \fm[*]{pʰāgós} ‘oak’ > AGk \greek{φηγός} \fm{pʰēgós} (Doric \greek{φᾱγός} \fm{pʰāgós});
+	PIt \fm[*]{fāgus} > L \fm{fāgus} > It \fm{faggio}, Ven \fm{fajo}, Fr \fm{fouet}, Occ \fm{fau}, Cat \fm{faig},
+		Sp \fm{haya}, Rom \fm{fag}, Sard \fm{fagu}, Basque \fm{pago};
+	Alb \fm{bung} ‘chestnut, oak’, Arm \armenian{բոխի} \fm{boxi} ‘hornbeam’, Gaul \fm{bagos} ‘beech’.
+\end{Etymology}
+\begin{Definitions}
+	①~Area where beech trees are notable, particularly the European beech (\textit{Fagus sylvatica}). The nuts of the beech, called \fm{mast} (<~OE \fm{mæst} < PGmc \fm[*]{masta}, related to \fm{meat} < OE \fm{mete} ‘food’ < PGmc \fm[*]{matiz}), are an important source of feed for pigs in pasturage. Beech staves were used for rune carvings, and then to the writing itself, so OE \fm{bōc} can refer to either ‘book’ or ‘beech’, but OE \fm{bēce} only refers to the tree.
+\end{Definitions}
+\begin{Examples}
+	Beech Hill (<~\fm{bēce-hyll} ‘beech hill’), Betton (<~\fm{bēce-tūn} ‘beech farm’), Bookham (<~\fm{bōc-hām} ‘book home’), Boughton (<~\fm{bōc-tūn} ‘beech farm’), Boxted (\fm{bōc-stede} ‘beech place’), Buckhurst (<~\fm{bōc-hyrst} ‘beech hill’), Buxted (<~\fm{bōc-stede} ‘beech place’), Highbeach (<~\fm{hēah-bēce} ‘high beech’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{berry}{hill, mountain}
+\begin{Also}
+\fm{bar}, \fm{barrow}, \fm{berg}, \fm{berk}, \fm{bery}, \fm{borough}, \fm{burgh}, \fm{bury}
+\end{Also}
+\begin{Etymology}
+	< ME \fm{berwe}, \fm{bergh} < OE \fm{beorg} < PGmc \fm[*]{bergaz} < PIE \fm[*]{bʰerǵʰ} ‘high’.
+	Often confused with OE \fm{bearu} ‘grove’ (see \fm{barrow}) and OE \fm{burh} ‘fort, manor’
+		(see \fm{borough}) which come to overlap extensively in ME and ModE.
+	Compare
+	OFri \fm{berch} > WFri \fm{berch}, SatFri \fm{bierich}, \fm{bäirch}, NFri \fm{beerg};
+	ODu \fm{berg} > MDu \fm{berch} > Du \fm{berg}, Lim \fm{berg};
+	OSax \fm{berg}, \fm{berag} > MLG \fm{berch} > LGer \fm{barg};
+	OHG \fm{berg} > Ger \fm{Berg}, Lux \fm{Bierg}, Yid \yiddish{באַרג} \fm{barg};
+	ON \fm{bjarg} > Dan \fm{bjerg}, Sw \fm{berg}, Nor \fm{berg}, Is \fm{berg}, \fm{bjarg} ‘rock’, 
+		Far \fm{berg}, \fm{bjarg}, \fm{bjørg}, Elf \fm{bjär};
+	Got \gothic{𐌱𐌰𐌹𐍂𐌲𐍃} \fm{bairgs}.
+	Further compare
+	PCel \fm[*]{brixs} > Ir \fm{brí} ‘hill’, Bryth \fm[*]{breɣ} > Bret \fm{bre}, Wel \fm{bre}, Corn \fm{bre},
+		Gaul \fm{brigā} > VL \fm[*]{brignā} > Sp \fm{breña} ‘rocky terrain’, Pt \fm{brenha},
+		also in Celtic goddess \fm[*]{Brigantī} > Ir \fm{Brighid}, \fm{Brid}, L \fm{Brigantia}
+		> ModE \fm{Bridget};
+	PSlv \fm[*]{bȇrgъ} ‘bank, shore’ > 
+		OES \cyrillic{берегъ} \fm{beregŭ} > Ru \cyrillic{берег} \fm{béreg},
+			Ukr \cyrillic{беріг} \fm{bérih};
+		South Slavic \fm[*]{brěgŭ} > OCS \cyrillic{брѣгъ} \fm{brěgŭ} (> Ru \cyrillic{брѣг} \fm{brěg}), 
+			Bul \cyrillic{бряг} \fm{brjag}, SC \cyrillic{брије̑г} \fm{brijȇg}, \cyrillic{бре̑г} \fm{brȇg},
+			Svn \fm{brẹ̑g};
+		West Slavic \fm[*]{brěgŭ} > Pol \fm{brzeg}, Cz \fm{břeh}, Svk \fm{breh},
+			USorb \fm{brjóh}, LSorb \fm{brjog};
+	OL \fm{forctis} > L \fm{fortis} ‘strong’;
+	Alb \fm{breg}, Hit \hittite{𒈦𒆠𒄿𒀀𒊍𒍣} \fm{parkiya-zi}, \hittite{𒈦𒆪𒍑} \fm{parkuš},
+		OArm \armenian{բարձր} \fm{barjr} ‘high, excellent’ (\armenian{բերձ} \fm{berj} in compounds),
+		TochA \fm{pärkär}, TochB \fm{pärkare} ‘long’;
+	 PII \fm[*]{bhergh} ‘high’ > Skt \sanskrit{बृहत्} \fm{bṛhát} ‘high’, Av \avestan{𐬠𐬆𐬭𐬆𐬰𐬀𐬧𐬝} \fm{bərəzaṇt̰},
+	 	Per \persian{بالا} \fm{bālā} ‘height’.
+\end{Etymology}
+\begin{Definitions}
+	①~Originally a mountain, over time applied to less prominent heights like hills. Still used for a long low hill as Scots \fm{burrow}, northern English dialects \fm{bargh} or \fm{barf}, and southwestern dialects \fm{barrow}.
+	②~In archaeology as \fm{barrow} for grave mounds (cf.\ “barrow-wight” and “barrow mound” in Tolkien’s \textit{Fellowship of the Ring}).
+	③~Heap of mining refuse; rare in placenames.
+\end{Definitions}
+\begin{Examples}
+	Alburgh (<~\fm{eald-beorg} ‘old hill’),
+	Backbarrow (<~\fm{bæc-beorg} ‘ridge hill’),
+	Barholm (<~\fm{beorg-hām} ‘hill home’),
+	Barway (<~\fm{beorg-ēg} ‘hill island’),
+	Bersted (<~\fm{beorg-hām-stede} ‘hill home stead’),
+	Finborough (<~\fm{fīna-beorg} ‘woodpecker hill’),
+	Gawber (<~\fm{galga-beorg} ‘gallows hill’),
+	Limber (<~\fm{lind-beorg} ‘linden hill’),
+	Marlborough (<~\fm{meargealla-beorg} ‘gentian hill’),
+	Rubery (<~\fm{rūh-beorg} ‘rough hill’),
+	Sharperton (<~\fm{scearp-beorg-tūn} ‘steep hill farm’),
+	Shuckburgh (<~\fm{scucca-beorg} ‘haunted hill’),
+	Thrybergh (<~\fm{þrī-beorg} ‘three hills’),
+	Wadborough (<~\fm{wād-beorg} ‘woad hill’),
+	Welbury (<~\fm{wella-beorg} ‘spring hill’),
+	Whinburgh (<~ON \fm{hvin} + OE \fm{beorg} ‘gorse hill’),
+	Woodnesborough (<~\fm{Wōdenes-beorg} ‘Odin’s hill’),
+	Worbarrow Tout (<~\fm{weard-beorg tōte} ‘watch-hill lookout’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{booth}{hut}
+\begin{Etymology}
+	< ME \fm{boothe} < OE \fm{būþ} < ON \fm{búð} ‘hut, shed’
+		< PGmc \fm[*]{būþiz} derived from \fm[*]{būaną} ‘dwell’ (> ON \fm{búa} ‘dwell’)
+		< PIE \fm[*]{bʰuh₂} or \fm[*]{bʰuH} ‘become, grow, appear’.
+	Compare
+	ON \fm{búð} > Is \fm{búð} ‘shop, booth, stall; shed, shack’, Far \fm{búð}, Sw \fm{bod}, Dan \fm{bod};
+	PCel \fm[*]{butā} (<~ON?) > OIr \fm{both} ‘hut, bothy, cabin’ > Ir \fm{both} ‘booth, hut’, Wel \fm{bot} ‘hut’;
+	MHG \fm{buode} ‘tent’ > Ger \fm{Bude} ‘booth, stall’;
+	Pol \fm{buda} ‘doghouse, shed, soccer goal’, Cz \fm{bouda} ‘doghouse, hut, shack’.
+	PIE  \fm[*]{bʰuh₂} or \fm[*]{bʰuH} ‘become, grow, appear’ is the etymon for verbs of existence, e.g.\
+		PGmc \fm[*]{beuną} > OE \fm{bēon} > ModE \fm{be}.
+\end{Etymology}
+\begin{Examples}
+	Boothby (<~ON \fm{búð-bý} ‘hut village’),
+	Boothferry (from \fm{Boothby} with \fm{ferry} < ON \fm{ferja} ‘ferry boat’),
+	Crawshaw Booth (<~\fm{crāwe-sceaga} ‘crow woods’ + ON \fm{búð} ‘hut’),
+	Scorborough (orig.\ \fm{Scogerbud} (1086) < ON \fm{skógr-búð} ‘woods hut’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{bourne}{stream}
+\begin{Also}
+	\fm{borne}, \fm{brin}, \fm{bur-}, \fm{burn}
+\end{Also}
+\begin{Etymology}
+	< ME \fm{burn}, \fm{bourne} < OE \fm{burne}, \fm{burna} ‘spring, fountain; stream, brook’
+		< PGmc \fm[*]{brunō} \~\ \fm[*]{brunnô} < PIE \fm[*]{bʰrun} ‘bubble; spring, fountain’
+		< \fm[*]{bʰrew} ‘bubble, seethe’ < \fm[*]{bʰer} ‘well up’.
+	Compare
+	OFri \fm{burna} > WFri \fm{bearne}, \fm{boarne};
+	OSax \fm{brunno}, \fm{borno} > MLG \fm{borne}, \fm{born} > LGer \fm{Born} > Ger \fm{Born};
+	ODu \fm{brunno}, \fm{burne} > MDu \fm{bronne}, \fm{borne} > Du \fm{bron}, \fm{born};
+	OHG \fm{brunno} > MHG \fm{brunne} > Ger \fm{Brunne}, \fm{Brun};
+	ON \fm{brunnr} > Is \fm{brunnur}, Far \fm{brunnur}, Nor \fm{brønn}, Sw \fm{brunn}, Dan \fm{brønd},
+		Scots \fm{broonie}, \fm{brin};
+	Got \gothic{𐌱𐍂𐌿𐌽𐌽𐌰} \fm{brunna}, Crimean Gothic \fm{brunna}.
+\end{Etymology}
+\begin{Definitions}
+	① A stream or brook, a small watercourse.
+\end{Definitions}
+\begin{Examples}
+	Ashburton (<~\fm{æsc-burna-tūn} ‘ash stream farm’),
+	Bournemouth (<~\fm{burna-mūþa} ‘stream mouth’),
+	Bowburn (<~\fm{boga-burna} ‘bent stream’),
+	Brindle (<~\fm{burna-hyll} ‘stream hill’),
+	Brundish (<~\fm{burna-edisc} ‘stream pasture’),
+	Broxburn (<~\fm{brocces-burna} ‘badger’s stream’),
+	Cheselbourne (<~\fm{cisel-burna} ‘gravel stream’),
+	Enborne (<~\fm{ened-burna} ‘duck stream’),
+	Fairburn (<~\fm{fearn-burna} ‘fern stream’),
+	Holybourne (<~\fm{hālig-burna} ‘holy stream’),
+	Horsmonden (<~\fm{hors-burna-denn} ‘horse stream pasture’),
+	Leyburn (<~\fm{hlēg-burna} ‘shelter stream’),
+	Melbourne (<~\fm{myln-burna} ‘mill stream’ or \fm{middel-} ‘middle’ or \fm{melda-} ‘goosefoot (plant)’),
+	Nutbourne (<~\fm{norþ-burna} ‘north stream’),
+	Osborne (<~\fm{eowestre-burna} ‘sheepfold stream’),
+	Redbourn (<~\fm{hrēod-burna} ‘reed stream’),
+	Shalbourne (<~\fm{sceald-burna} ‘shallow stream’),
+	Shernbourne (<~\fm{scearn-burna} ‘muddy stream’),
+	Sambourne (<~\fm{sand-burna} ‘sandy stream’),
+	Walkerburn (<~\fm{walcere-burna} ‘fuller’s stream’),
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{borough}{fort, manor}
+\begin{Also}
+	\fm{bear}, \fm{boro}, \fm{brough}, \fm{bul-}, \fm{bur-}, \fm{burgh}, \fm{bury}
+\end{Also}
+\begin{Etymology}
+	< ME \fm{boroȝ}, \fm{buruȝ} < \fm{burȝ}  < OE \fm{burh} ‘fortress, large building, manor’
+		< PGmc \fm[*]{burgz} ‘fortification, stronghold’ < PIE \fm[*]{bʰérgʰ} ‘high’; Scots
+		\fm{burgh}, \fm{burch} from the same OE \fm{burh};
+		modern \fm{bury} can be from OE \fm{byrig} ‘fort.\xx{dat}’.
+	Often confused with OE \fm{beorg} ‘mountain’ (see \fm{berry}) and \fm{bearu} ‘grove’ (see \fm{barrow})
+		which come to overlap extensively in ME and ModE.
+	Compare
+	OFri \fm{burch}, \fm{burich} > SatFri \fm{Buurich};
+	OSax \fm{burg} > MLG \fm{borch} > LGer \fm{Borg}, \fm{Börg}, WFri \fm{boarg};
+	ODu \fm{burg} > MDu \fm{borch}, \fm{burch} > Du \fm{burg}, \fm{burcht};
+	Frankish \fm[*]{burg} > VL \fm[*]{burgus} > AN \fm{burc}, OFr \fm{burc}, \fm{bourg} > Fr \fm{bourg},
+		It \fm{borgo}, Cat \fm{burg}, Pt \fm{burgo};
+	OHG \fm{burg} > MHG \fm{burc} > Ger \fm{Burg}, Lux \fm{Buerg};
+	ON \fm{borg} > Is \fm{borg}, Far \fm{borg}, Nor \fm{borg}, Sw \fm{borg}, Dan \fm{borg}, Gut \fm{burg};
+	Got \gothic{𐌱𐌰𐌿𐍂𐌲𐍃} \fm{baurgs}.
+	Further compare a probable PIE wanderwort in
+	AGk \greek{πύργος} \fm{púrgos} ‘watchtower, high house’,
+		OArm \armenian{բուրգն} \fm{burgn} ‘pyramid’,
+		Syr \syriac{ܒܘܪܓܐ} \fm{būrgāʼ} ‘tower’,
+		Urartian \fm{burgana} ‘palace, fortress’.
+\end{Etymology}
+\begin{Definitions}
+	① A stronghold, a fortress or castle, typically postdating Roman occupation (for which see \fm{chester}).
+	② A fortified town or city, one with exterior walls and gates.
+	③ Later applied to unfortified manor houses and other large dwelling places.
+\end{Definitions}
+\begin{Examples}
+	Aconbury (<~\fm{ācweorna-burh} ‘squirrel fort’),
+	Almondbury (<~ON \fm{almenn} + OE \fm{burh} ‘everyone’s fort’),
+	Attenborough (<~\fm{Æddan-burh} ‘Ædda’s fort’),
+	Attleborough (<~\fm{Ætla-burh} ‘Ætla’s fort’),
+	Barlborough (<~\fm{bār-lēah-burh} ‘boar clearing fort’),
+	Bearley (<~\fm{burh-lēah} ‘fort clearing’),
+	Boarhunt (<~\fm{burh-funta} ‘fort spring’),
+	Brobury (<~\fm{brōc-burh} ‘brook fort’),
+	Bulphan (<~\fm{burh-fenn} ‘fort fen’),
+	Bulverhythe (<~\fm{burh-ware-hȳþ} ‘fort dweller’s landing’),
+	Burlton (<~\fm{burh-hyll-tūn} ‘fort hill farm’),
+	Burrill (<~\fm{burh-hyll} ‘fort hill’),
+	Burwarton (<~\fm{burh-weard-tūn} ‘fort keeper’s farm’),
+	Burwash (<~\fm{burh-ersc} ‘fort field’),
+	Bushbury (<~\fm{biscopes-burh} ‘bishop’s fort’),
+	Clarborough (<~\fm{clǣfre-burh} ‘clover fort’),
+	Edinburgh (<~\fm{Eidyne-burh} ‘Eidyn.\xx{dat} fort’),
+	Gainsborough (<~\fm{Gegnes-burh} ‘Gegn’s fort’),
+	Happisburgh (/\ipa{ˈheɪzbʊrə}/ < \fm{Hæpes-burh} ‘Hæp’s fort’),
+	Horbury (<~\fm{horu-burh} ‘muddy fort’),
+	Lesbury (<~\fm{lǣces-burh} ‘leech’s (doctor’s) fort’),
+	Maesbury (<~\fm{mǣres-burh} ‘boundary’s fort’),
+	Middlesbrough (<~\fm{midlest-burh} ‘middlemost fort’),
+	Mobberly (<~\fm{mōt-burh-lēah} ‘meeting fort clearing’),
+	Modbury (<~\fm{mōt-burh} ‘meeting fort’),
+	Mosborough (<~\fm{mōres-burh} ‘marsh’s fort’),
+	Musbury (<~\fm{mūs-burh} ‘mouse fort’),
+	Overbury (<~\fm{uferra-burh} ‘upper fort’),
+	Pendlebury (<~Cel \fm[*]{penn} ‘head’ + OE \fm{hyll-burh} ‘hill fort’),
+	Salisbury (<~L \fm{Sorviodunum} with Cel \fm[*]{dūno} ‘fort’ + OE \fm{burh} ‘fort’,
+		cf. \fm{Old Sarum} from L abbrev.\ \fm{Sar\:ꝸ} or \fm{Saꝝ} ‘Sarum’ misread from \fm{Sarʼs} ‘Saris’.),
+	Scarborough (<~\fm{sceard-burh} ‘gap fort’ or ON \fm{Skarði} pers.\ name),
+	Soulbury (<~\fm{sulh-burh} ‘gully fort’),
+	Wednesbury (<~\fm{Wōdenes-burh} ‘Odin’s fort’),
+	Worsbrough (<~\fm{Wyrces-burh} ‘Wyrc’s fort’),
+	Yatesbury (<~\fm{Gēates-burh} ‘Gēat’s fort’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{box}{box tree}
+\begin{Also}
+	\fm{bex}, \fm{bix}, \fm{bux}
+\end{Also}
+\begin{Etymology}
+	< OE \fm{box}, \fm{byxe} (adj.\ \fm{byxen}) < L \fm{buxus} < AGk \greek{πύξος} \fm{púxos}
+		somehow connected to PIE \fm[*]{bʰéh₂ǵos} ‘beech’ > AGk \greek{φηγός} \fm{pʰēgós} ‘oak’
+			(see \fm{beech});
+		ModE \fm{box} ‘container’ < OE \fm{box} < PGmc \fm[*]{buhsuz} < L \fm{buxis}
+			< AGk \greek{πυξίς} \fm{puxís} ‘container made of box wood’.
+	The origin of AGk \greek{πύξος} \fm{púxos} is unclear; since the box does not grow in Greece
+		the etymon may originally be Italic with L \fm{buxus} either from PIt or reborrowed from AGk.
+	Compare
+	OSax \fm[*]{buhs} > MLG \fm{bus};
+	OHG \fm{buhs} > MHG \fm{buhs} > Ger \fm{Buchs} > Du \fm{buks},
+		Nor \fm{buks}, Sw \fm{bux}, Dan \fm{bux}.
+	Also compare
+	OE \fm{box} ‘boxwood container’ > ModE \fm{box} > Du \fm{box}, Nor \fm{boks}, Norman Fr \fm{bosc};
+	OFri \fm{busse} > WFri \fm{bus}, \fm{bos};
+	OSax, ODu \fm[*]{buhsa} > MLG, MDu \fm{busse} ‘box, tube’ > Du \fm{bus} ‘box’,
+		Is \fm{byssa} ‘gun’, Nor \fm{bøsse} ‘shotgun’
+		(cf.\ Du \fm{haak-bus} ‘hook tube’, Ger \fm{Hakenbüchse} >
+			Fr \fm{arquebuse} > ModE \fm{arquebus} ‘matchlock gun’);
+	OHG \fm{buhsa} ‘boxwood container’ > MHG \fm{bühse} > Ger \fm{Büchse}, Lux \fm{Béchs}.
+\end{Etymology}
+\begin{Definitions}
+	① Area where box trees are notable, usually referring to the European box (\fm{Buxus sempervirens}). This small tree grows slowly and so produces very hard wood suitable for furniture, cabinetry, tools, and weapon handles.
+\end{Definitions}
+\begin{Examples}
+	Bexhill (<~\fm{byxe-lēah} ‘box clearing’),
+	Bexington (<~\fm{byxen-tūn} ‘box farm’),
+	Bexley (<~\fm{byxe-lēah} ‘box clearing’),
+	Bix (<~\fm{byxe} ‘box tree’),
+	Boxgrove (<~\fm{byxe-grāf} ‘box grove’),
+	Boxford (<~\fm{box-ford} ‘box ford’),
+	Bushey (<~\fm{byxe-hæg} ‘box hedge’),
+	Buxted (<~\fm{box-stede} ‘box place’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{by}{village}
+\begin{Also}
+	\fm{bi-}, \fm{bie}
+\end{Also}
+\begin{Etymology}
+	< ON \fm{bý} ‘village’ < \fm{býr} < \fm{búa} ‘reside, settle’ < PGmc \fm[*]{būaną} <
+		PIE \fm[*]{bʰuh₂} or \fm[*]{bʰuH} ‘become, grow, appear’; see also \fm{booth}; in some cases
+		the ON \fm{bý} replaced an earlier OE \fm{burh} or \fm{byrig}, for which see \fm{borough}.
+\end{Etymology}
+\begin{Examples}
+	Aislaby (<~ON \fm{Ásulfr-bý} ‘Ásulfr’s village’),
+	Barnoldby le Beck (<~ON \fm{Bjǫrnulfr-bý} ‘Bjǫrnulfr’s village’ + AN \fm{le} ‘at the’ + ON \fm{bekkr} ‘stream’),
+	Bicker (<~ON \fm{bý-kjarr} ‘village marsh’),
+	Coningsby (<~ON \fm{konungr-bý} ‘king’s village’),
+	Corby (<~ON \fm{Kori-bý} ‘Kori’s village’),
+	Crosby (<~ON \fm{krossa-bý} ‘cross village’),
+	Derby (<~ON \fm{djúr-bý} ‘animal village’),
+	Formby (<~ON \fm{forn-bý} ‘old village’),
+	Grimsby (<~ON \fm{Grímrs-bý} ‘Grímr’s village’),
+	Helsby (<~ON \fm{hjallr-bý} ‘ledge village’),
+	Kirby (<~ON \fm{kirkju-bý} ‘church village’ or \fm{Kærirs-} ‘Kærir’s’),
+	Langwathby (<~ON \fm{langr-vað-bý} ‘long ford village’),
+	Lockerbie (<~ON \fm{Locarda-bý} ‘Locard’s village’),
+	Rugby (<~OE \fm{Hrōca} + ON \fm{bý} ‘Hrōca’s village’),
+	Selby (<~ON \fm{selja-bý} ‘willow village’),
+	Swinderby (<~ON \fm{svin-djúr-bý} ‘pig animal farm’),
+	Waitby (<~ON \fm{vetr-bý}),
+	Wetherby (<~ON \fm{veðr-bý} ‘wether (sheep) village’),
+	Whitby (<~OE \fm{hwīt} + ON \fm{bý} ‘white village’).
+\end{Examples}
+\end{Lemma}
+
+\section*{C}
+
+\begin{Lemma}
+\HeadAndGloss{cheap}{trade, market}
+\begin{Also}
+	\fm{chap}, \fm{chep}, \fm{chip}, \fm{chop}, \fm{kep}
+\end{Also}
+\begin{Etymology}
+		< OE \fm{cēap} ‘buy, sell’, \fm{cēapian} ‘bargain, trade’, \fm{cīepan} ‘sell’ <
+		PGmc \fm[*]{kaupōną}, \fm[*]{kaupijaną} ‘buy, purchase’ < L \fm{caupō} ‘innkeeper, tradesman’
+		perh.\ from PHel, cf.\ AGk \greek{κᾰ́πηλος} \fm{kắpēlos} ‘huckster, salesman’, ult.\ perh.\ from
+		PIE \fm[*]{kʷreyh₂} ‘buy’.
+	Compare
+	OFri \fm{kāpia} > WFri \fm{keapje},  Du \fm{kapen} ‘hijack, seize’ > ModE \fm{cop};
+	ODu \fm{kōpon} > MDu \fm{copen} > Du \fm{kopen};
+	OSax \fm[*]{kōpōn} > MLG \fm{kôpen} > LGer \fm{kopen};
+	OHG \fm{koufōn} > MHG \fm{koufen} > Ger \fm{kaufen}, Yid \hebrew{קויפֿן} \fm{koyfn};
+	ON \fm{kaupa} > Is \fm{kaupa}, Far \fm{keypa} (<~\fm[*]{kaupijaną}), Nor \fm{kjøpe}, Sw \fm{köpe},
+		Dan \fm{købe}, Scots \fm{cowp}, \fm{coup};
+	Got \gothic{𐌺𐌰𐌿𐍀𐍉𐌽} \fm{kaupōn};
+	Fin \fm{kaupata}.
+	Further compare PIE \fm[*]{kʷreyh₂} > \fm[*]{kʷri-né-h₂ti} >
+		PSlv \fm[*]{krьnǫti} > OCS \cyrillic{крьнути} \fm{krĭnuti}, Ru \cyrillic{кренуть} \fm{krenut′};
+		PCel \fm[*]{kʷrinati} > OIr \fm{crenaid}, Cor \fm{prena}, Bre \fm{prenañ}, Wel \fm{prynu};
+		AGk \greek{ἐπριάμην} \fm{epriámēn} ‘I buy’
+			(suppl.\ of \greek{ὠνέομαι} \fm{ōnéomai} ‘buy, purchase’);
+		Skt \sanskrit{क्रीणाति} \fm{krīṇā́ti}, \sanskrit{क्री} \fm{krī} ‘buy’,
+		TochB \fm{käry} ‘buy’, \fm{karyor} ‘buying’,
+		Per \persian{خریدن} \fm{xaridan} ‘buy, purchase’.
+	Remotely, also cf.\ Hit \hittite{𒆸𒀊𒈦} \fm{ḫappar} ‘purchase, price’,
+		AGk \greek{ἀφνειός} \fm{aphneiós} ‘rich, wealthy’ < PIE \fm[*]{h₃ep} ‘work; ability’.
+\end{Etymology}
+\begin{Definitions}
+	① A marketplace or trading post, a location where fairs are held.
+\end{Definitions}
+\begin{Examples}
+	Chapmanslade (<~\fm{cēap-man-slæd} ‘market-man valley’), Chepstow (<~\fm{cēap-stōw} ‘market assembly’), Chipstead (<~\fm{cēap-stede} ‘market place’), Chopwell (<~\fm{cēap-wella} ‘market well’), Kepwick (<~\fm{cēap-wīc} ‘market district’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{chester}{Roman fort}
+\begin{Also}
+	\fm{caster}, \fm{castle}, \fm{cester}, \fm{chesh-}, \fm{-xeter}
+\end{Also}
+\begin{Etymology}
+	< ME \fm{chestre} < OE \fm{ceaster} < \fm[*]{cæstra}
+			< L \fm{castra} ‘encampment, fortification’ < \fm{castrum} ‘fort, castle’
+			< PIE \fm[*]{ḱes} ‘cut off, separate’; occasionally confused with \fm{castle}
+			< AN \fm{castel} < L \fm{castellum} ‘fortress’ dim.\ of \fm{castrum}.
+	Compare
+	L \fm{castra}, \fm{castrum} > Sp \fm{castro}, Pt \fm{castro}, Rom \fm{castru},
+		MGk \greek{κάστρον} \fm{kástron} > Gk \greek{κάστρο} \fm{kástro},
+		Alb \fm{kastër},
+		Arabic \hspace*{-0.5ex}\arab{قَصْر} \fm{qaṣr} (pl.\ \hspace*{-0.5ex}\arab{قُصُور}‎ \fm{quṣūr}) >
+			Per \hspace*{-0.5ex}\persian{قصر} \fm{qasr} > Azeri \fm{qəsr},
+				Tajik \cyrillic{қаср} \fm{qasr}, Uzbek \fm{qasr};
+		Arabic \hspace*{-0.5ex}\arab{اَلقَصْر} \fm{al-qaṣr} > Cat \fm{alcàsser}, Galician \fm{alcázar},
+			Pt \fm{alcacér}, Sp \fm{alcazár}, Berber \fm{aɣasru};
+	PIt \fm[*]{kastrom} ‘knife’ > L \fm{castrō} ‘prune, amputate, castrate’;
+	PIt \fm[*]{kazēō} > L \fm{careō} ‘lack, separate, deprive’ > \fm{cariēs} ‘rot, corruption’ >
+		ModE \fm{caries} ‘dental cavity’.
+\end{Etymology}
+\begin{Definitions}
+	① The site of a Roman fortress or garrison. Names often preserve a Latin placename which derives originally from a Celtic source, although the identification of specific names varies among researchers.
+\end{Definitions}
+\begin{Examples}
+	Bewcastle (<~ON \fm{búþ} ‘hut’ + OE \fm{ceaster} ‘fort’),
+	Brancaster (<~L \fm{Branodunum} (<? Cel ‘crow fort’) + OE \fm{ceaster} ‘fort’),
+	Castleford (<~\fm{ceaster-ford} ‘fort ford’),
+	Cheshire (<~\fm{ceaster-scīre} ‘Chester shire’),
+	Cheshunt (<~\fm{ceaster-funta} ‘fort spring’),
+	Chesterfield (<~\fm{ceaster-feld} ‘fort field’),
+	Chesterton (<~\fm{ceaster-tūn} ‘fort farm’),
+	Chichester (<~\fm{Cissa-ceaster} ‘Cissa’s fort’),
+	Colchester (<~L \fm{colonia} ‘colony’ or Cel river name \fm{Colne} + OE \fm{ceaster} ‘fort’),
+	Craster (<~\fm{crāwe-ceaster} ‘crow fort’),
+	Dorcester (<~L \fm{Durnovaria} (<~Bryth \fm[*]{durn} ‘fist’, cf.\ \fm{Durotriges}) + OE \fm{ceaster}),
+	Exeter (<~\fm{Escan-ceaster} ‘Escan fort’ < L \fm{Isca} ‘Exe river’ prob.\ from PCel \fm[*]{udenskyos} ‘water’, cf.\ OIr \fm{uisce}, ScGae \fm{uisge} > ModE \fm{whiskey}),
+	Gloucester (<~\fm{Glowe-ceaster} ‘Glowe fort’ < L \fm{Glevum} < Cel),
+	Godmanchester (<~\fm{Godmund-ceaster} ‘Godmund’s fort’),
+	Hincaster (<~\fm{hen-caester} ‘hen fort’),
+	Leicester (<~\fm{Ligora-ceaster} ‘Ligora fort’ < Cel river name, cf. \fm{Loire} < L \fm{Liger} < Gaul \fm{liga} ‘silt’ < PIE \fm[*]{legʰ} ‘lay’),
+	Lanchester (<~\fm{lange-ceaster} ‘long fort’, reanal.\ of L \fm{Longovicium} < PCel \fm[*]{longo} ‘ship’),
+	Manchester (<~\fm{Manne-ceaster} ‘Manne fort’ < L \fm{Mamucium}, \fm{Mancunium} < PCel \fm[*]{mamm} ‘breast-like hill’ or \fm{mamma} ‘mother’),
+	Papcastle (<~ON \fm{papi} + OE \fm{ceaster} ‘hermit’s fort’),
+	Ribchester (<~\fm{Ribel-ceaster} ‘Ribble fort’ < \fm{ripel} ‘tearing, rippling’),
+	Rochester (<~\fm{rūh-ceaster} ‘rough fort’ or \fm{Hrofi-ceaster} ‘Hrofi fort’ < L \fm{Durobrivis} < Cel),
+	Silchester (<~\fm{siele-ceaster} ‘willow fort’ or L \fm{Calleva} < Cel),
+	Winchester (<~\fm{Wintan-ceaster} ‘Wintan’s fort’ < L \fm{Venta} < Cel),
+	Woodchester (<~\fm{wudu-ceaster} ‘wood fort’),
+	Worcester (<~\fm{Wigran-ceaster} ‘Wigran fort’ < Cel \fm{Weogora} tribe),
+	Wroxeter (<~\fm{Wrecin-ceaster} ‘Wrecin fort’ < L \fm{Uriconio} < PCel \fm[*]{Wirico}).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{chipping}{market}
+\begin{Etymology}
+	< OE \fm{cēping} ‘buying and selling; marketplace’ <
+		OE \fm{cēap} ‘buy, sell’ + \fm{-ing} \xx{nmz}; see \fm{cheap} for details.
+\end{Etymology}
+\begin{Definitions}
+	① A marketplace or trading post, a location where fairs are held.
+\end{Definitions}
+\begin{Examples}
+	Chipping Barnet (<~\fm{cēping bærnet} ‘market of burned clearing’), Chipping Campden (<~\fm{cēping camp-denu} ‘market of battlefield valley’), Chipping Norton (<~\fm{cēping norþ-tūn} ‘market of north farm’), Chipping Sodbury (\fm{cēping Soppa-burh} ‘market of Soppa’s fort’), Chipping Warden (<~\fm{cēping weard-dūn} ‘market of lookout hill’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{cot}{cottage}
+\begin{Also}
+	\fm{coat}, \fm{cote}, \fm{cott}, \fm{court}
+\end{Also}
+\begin{Examples}
+	Alverdiscot (/\ipa{ˈældɪskɔt}/ < \fm{Ælfrēdes-cot} ‘Ælfrēd’s cottage’),
+	Armscote (<~\fm{Ēadmundes-cot} ‘Ēadmund’s cottage’),
+	Ascot (<~\fm{ēast-cot} ‘east cottage’),
+	Bevercotes (<~\fm{beofor-cot} ‘beaver cottage’),
+	Caldecott (<~\fm{calde-cot} ‘cold cottage’),
+	Charlecote (<~\fm{ceorle-cot} ‘peasant’s cottage’),
+	Coatham (<~\fm{cot-hām} ‘cottage home’),
+	Cotton (<~\fm{cot-tūn} ‘cottage farm’),
+	Cullercoats (<~\fm{culfre-cot} ‘dove cottage’),
+	Didcot (<~\fm{Duddas-cot} ‘Dudda’s cottage’),
+	Felcourt (<~\fm{feld-cot} ‘field cottage’),
+	Gawcott (<~\fm{gafol-cot} ‘rental cottage’),
+	Heathcote (<~\fm{hǣþ-cot} ‘heath cottage’),
+	Luffincott (<~\fm{Luhha-ingas-cott} ‘Luhha’s people’s cottage’),
+	Morcott (<~\fm{mōr-cot} ‘marsh cottage’),
+	Picklescott (<~\fm{Pīcels-cot} ‘Pīcel’s cottage’),
+	Prescott (<~\fm{prēost-cot} ‘priest cottage’),
+	Radcot (<~\fm{hrēod-cot} ‘reed-thatched cottage’),
+	Salcott (<~\fm{sealt-cot} ‘salt cottage’),
+	Somercotes (<~\fm{sumor-cot} ‘summer cottage’),
+	Swadlincote (<~\fm{Sweartling-cot} ‘Sweartling’s cottage’ or ON \fm{Svartlingr})
+	Wainscot (<~\fm{waines-cot} ‘wagon’s cottage’),
+	Whatcote (<~\fm{hwǣte-cot} ‘wheat cottage’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{croft}{farm, enclosure}
+\begin{Etymology}
+	< OE \fm{croft} ‘enclosed field’ < PGmc \fm[*]{kruftaz} ‘hill; curve’, probably from
+		PIE \fm[*]{grewb} ‘bend, curve, arch’ but few other cognates are known.
+	Compare
+	MDu \fm{kroft}, \fm{krocht} ‘high and dry land, field on downs’, MLG \fm{kroch}.
+\end{Etymology}
+\begin{Definitions}
+	① A plot of land usually adjacent to a house or homestead which is fenced and used for pasture or crops.
+	② A small agricultural landholding worked by a peasant tenant, a \fm{crofter}. This meaning is common
+		in the highlands and islands of Scotland.
+\end{Definitions}
+\begin{Examples}
+	Ancroft (<~\fm{āna-croft} ‘lonely farm’), Carcroft (<~ON \fm{kjarr} + OE \fm{croft} ‘marsh farm’), Crofton (<~\fm{croft-tūn} ‘enclosure farm’), Molescroft (<~\fm{Mūles-croft} ‘Mūl’s farm’), Ruckcroft (<~ON \fm{rugr} + OE \fm{croft} ‘rye farm’), Scarcroft (<~\fm{sceard-croft} ‘gap farm’), Seacroft (<~\fm{sǣ-croft} ‘marsh farm’), Silecroft (<~ON \fm{selja} + OE \fm{croft} ‘willow farm’), Thurcroft (<~ON \fm{Þórir} + OE \fm{croft} ‘Þórir’s farm’).
+\end{Examples}
+\end{Lemma}
+
+\section*{D}
+
+\begin{Lemma}
+\HeadAndGloss{dale}{valley}
+\begin{Also}
+	\fm{dal}, \fm{deal}
+\end{Also}
+\begin{Etymology}
+	< OE \fm{dæl} (pl.\ \fm{dalu}) < PGmc \fm[*]{dalą} < PIE \fm[*]{dʰol} or \fm[*]{dʰel} ‘arch, curve, cavity’;
+		often confused with and from the same source as \fm{dell} ‘small valley’ (which see) < ME \fm{delle}
+		< OE \fm{dell} < PGmc \fm[*]{daljō} ‘hollow’ diminutive of \fm[*]{dalą} with \fm[*]{-ijō} from the same
+		PIE \fm[*]{dʰel} or \fm[*]{dʰol}; many names may be from ON \fm{dalr} ‘valley’ and converted to
+		OE \fm{dæl} over time.
+	Replaced by ModE \fm{valley} < AN \fm{valey} < OFr \fm{valee} < L \fm{vallēs}, \fm{vallis}
+		< PIE \fm[*]{wel} ‘turn, wind, roll’ > ModE \fm{wall}.
+	Compare
+	OFri \fm{del} > SatFri \fm{Doal}, NFri \fm{del}, \fm{dol};
+	OSax \fm{dal} > MLG \fm{dal} > LGer \fm{Dal}, \fm{Daal};
+	ODu \fm{dal} > MDu \fm{dal} > Du \fm{dal};
+	OHG \fm{tal} > MHG \fm{tal} > Ger \fm{Thal}, \fm{Tal}, Lux \fm{Dall}, Yid \hebrew{טאָל} \fm{tol};
+	Got \gothic{𐌳𐌰𐌻} \fm{dal};
+	PGmc \fm[*]{dalaz} > Got \gothic{𐌳𐌰𐌻𐍃} \fm{dals}, ON \fm{dalr} >
+		Is \fm{dalur}, Far \fm{dalur}, Nor \fm{dal}, Sw \fm{dal}, Dan \fm{dal}.
+	Further compare
+	PCel \fm[*]{dolā} > Wel \fm{dol} ‘valley’;
+	PSlv \fm[*]{dolъ} > OCS \cyrillic{долъ} \fm{dolŭ}, Bul \cyrillic{дол} \fm{dol}, Cz \fm{důl}, Pol \fm{dół},
+		USorb, LSorb \fm{doł}, Ru \cyrillic{дол} \fm{dol}, Ukr \cyrillic{діл} \fm{dil}.
+	Pokorny also suggests
+	AGk \greek{θόλος} \fm{thólos} ‘dome, vault; sky’ (cf. \greek{τρούλος} \fm{troúlos} ‘dome’),
+		\greek{θαλάμη} \fm{thalámē} ‘lair, den’, 
+		\greek{θάλαμος} \fm{thálamos} ‘inner chamber, bedroom’
+			(> L \fm{thalamus} > ModE \fm{thalamus} ‘forebrain structure’),
+		and \greek{ὀφθαλμός} \fm{ophthalmós} ‘eye’ < *\greek{ὀπσ-θαλμός} \fm[*]{ops-thalmós} ‘eye-hole’.
+\end{Etymology}
+\begin{Definitions}
+	① A valley of any kind.
+\end{Definitions}
+\begin{Examples}
+	Botesdale (<~\fm{Bōtwulfes-dæl} ‘Bōtwulf’s valley’),
+	Cundall (<~\fm{cūna-dæl} ‘cow.\xx{gen}.\xx{pl} valley’),
+	Dalham (<~\fm{dæl-hām} ‘valley homestead’),
+	Dalton (<~\fm{dæl-tūn} ‘valley farm’),
+	Dalwood (<~\fm{dæl-wudu} ‘valley wood’),
+	Deal (<~\fm{dæl-e} ‘valley-\xx{dat}’),
+	Deepdale (<~\fm{dēop-dæl} ‘deep valley’),
+	Garsdale (<~ON \fm{Garðr} + OE \fm{-es-dæl} ‘Garðr’s valley’),
+	Grassendale (<~\fm{gærsing-dæl} ‘grazing valley’),
+	Grindale (<~\fm{grēne-dæl} ‘green valley’),
+	Knaresdale (/\ipa{ˈnazdəl}/ < ON \fm{Knǫrr} + OE \fm{-es-dæl} ‘Knǫrr’s valley’),
+	Liddesdale (<~\fm{hlȳdes-dæl} ‘loud (river)’s valley’),
+	Ragdale (<~\fm{hraca-dæl} ‘narrow valley’),
+	Silverdale (<~\fm{seolfor-dæl} ‘silver valley’),
+	Withersdale Street (<~\fm{wæþres-dæl strǣt} ‘wether’s (sheep) valley road’),
+	Woodale (<~\fm{wulf-dæl} ‘wolf valley’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{dell}{small valley}
+\begin{Also}
+	\fm{del}, \fm{-dle}
+\end{Also}
+\begin{Etymology}
+	< ME \fm{delle} < OE \fm{dell} < PGmc \fm[*]{daljō} ‘hollow’ < PGmc \fm[*]{dalą} ‘valley’ +
+		\fm[*]{-ijō} diminutive < PIE \fm[*]{dʰol} or \fm[*]{dʰel} ‘arch, curve, cavity;
+		rarely distinguished from \fm{dale} ‘valley’ (which see) < OE \fm{dæl}
+		from the same PGmc \fm[*]{dalą}.
+	Compare
+	OFri \fm[*]{delle} > WFri \fm{delle}, NFri \fm{dalle};
+	OSax \fm[*]{dellia} > MLG \fm{delle} > LGer \fm{Delle};
+	ODu \fm[*]{della} > MDu \fm{delle};
+	ODu \fm[*]{duola} > MDu \fm{doele} ‘ditch, pit’ > Du \fm{doel} ‘shooting target; goal’;
+	OHG \fm[*]{tella} > MHG \fm{telle} > Ger \fm{Telle} ‘ravine, gully’ (\fm{Delle} < LGer);
+	ON \fm{dœl}, \fm{dól} > Is \fm{dæl}, Nor \fm{døl};
+	Got \gothic{-𐌳𐌰𐌻𐌾𐌰} \fm{-dalja}.
+\end{Etymology}
+\begin{Definitions}
+	① A small valley, particularly a small but deep natural depression, typically eroded by a stream.
+\end{Definitions}
+\begin{Examples}
+	Arundel (<~\fm{hārhūne-dell} ‘horehound (plant) valley’),
+	Rivendell (<~\fm{rifon-dell} ‘split valley’ from Tolkien),
+	Thrundel (<~\fm{Þurwines-dell} ‘Þurwine’s valley’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{den}{valley}
+\begin{Also}
+	\fm{dean}, \fm{dene}, \fm{dine}, \fm{don}, \fm{ton}
+\end{Also}
+\begin{Etymology}
+	< OE \fm{denu} ‘valley’ (acc.\ \fm{dene}) < PGmc \fm[*]{danją} < PIE \fm[*]{dʰen} ‘flat surface’;
+		related to OE \fm{denn} > ModE \fm{den} ‘lair of wild animal’;
+		the form \fm{-don} is sometimes confused in ME and ModE with \fm{-ton} < OE \fm{tūn} ‘farm’
+		and with \fm{-don} < OE \fm{dūn} ‘hill’, which see.
+	Compare
+	PGmc \fm[*]{danjō} ‘flat area, floor’ > 
+		OFri \fm{dann} ‘threshing floor’ > SatFri \fm{Dan} ‘garden bed’;
+		MLG \fm{danne}, \fm{denne} ‘threshing floor; small valley’ > LGer \fm{Denn};
+		MDu \fm{denne}, \fm{den} ‘burrow, den; cave; attic’ > Du \fm{den} ‘ship’s deck, threshing floor’;
+		OHG \fm{tenni} > MHG \fm{tenne} > Ger \fm{Tenne} ‘threshing floor’.
+	Further compare
+	PIE \fm[*]{dʰénr̥} ‘flat of hand, palm’ > AGk \greek{θέναρ} \fm{thénar} ‘palm, flat of foot; top of altar’,
+		\greek{ὀπισθέναρ} \fm{opisthénar} (<~*\greek{ὀπισθοθέναρ} \fm[*]{opisthothénar}) ‘back of hand’,
+		Skt \sanskrit{धनुस्} \fm{dhánuṣ}, \sanskrit{धन्वन्} \fm{dhánvan} ‘dry land, beach, desert’,
+		OHG \fm{tener} ‘back of hand’;
+	Lit \fm{dẽnis}, Lat \fm{denis} ‘deck of small boat’ perhaps from Germanic.
+\end{Etymology}
+\begin{Definitions}
+	① A valley of any kind, although flat bottomed valleys are implied by the etymology.
+	② A flat area, a floor. Rare in placenames.
+\end{Definitions}
+\begin{Examples}
+	Addlestone ( < \fm{Ættels-denu} ‘Ættel’s valley’),
+	Aydon (<~\fm{haga-denu} ‘hay valley’),
+	Blackden Heath (<~\fm{blæc-denu} ‘black valley’ with \fm{hǣþ} ‘heath’ added later),
+	Bradden (<~\fm{brād-denu} ‘broad valley’),
+	Bramdean (<~\fm{brōm-denu} ‘broom (plant) valley’),
+	Chiseldon (<~\fm{cisel-denu} ‘gravel valley’),
+	Depden (<~\fm{dēop-denu} ‘deep valley’),
+	Dipton (<~\fm{dēop-denu} ‘deep valley’),
+	Essendine (<~\fm{Ēsan-denu} ‘Ēsa’s valley’),
+	Holden (<~\fm{hol-denu} ‘hollow valley),
+	Hallington (<~\fm{hālig-denu} ‘holy valley’),
+	Hampden (<~\fm{ham-denu} ‘enclosure valley’),
+	Haslingden (<~\fm{hæslen-denu} ‘hazel valley’),
+	Hatherden (<~\fm{haguþorn-denu} ‘hawthorn valley’),
+	Hellidon (<~\fm{hālig-denu} ‘holy valley’),
+	Ipsden (<~\fm{yppe-denu} ‘upper valley’),
+	Marsden (<~\fm{mercels-denu} ‘boundary valley’),
+	Mitcheldean (<~\fm{micel-denu} ‘great valley’),
+	Quendon (<~\fm{cwenena-denu} ‘women’s valley’),
+	Shadingfield (<~\fm{scēad-denu-feld} ‘boundary valley field’),
+	Sheldon (<~\fm{scylfe-denu} ‘shelf valley’),
+	Whissendine (<~\fm{Hwicca-inga-denu} ‘Hwicca’s people’s valley’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{don}{hill}
+\begin{Also}
+	\fm{den}, \fm{down}, \fm{dune}, \fm{ton}
+\end{Also}
+\begin{Etymology}
+	< ME \fm{doun} < OE \fm{dūn} ‘hill’ < PGmc \fm[*]{dūnaz}, \fm[*]{dūnǫ}
+		< PCel \fm[*]{dūnom} ‘hill, fort on a hill’
+		< PIE \fm[*]{dʰuHnom} < PIE \fm[*]{dʰewh₂} ‘finish, come full circle’;
+		closely related to and occasionally confused with \fm{-ton}, \fm{town}
+			< OE \fm{tūn} ‘enclosure, farm’ which see;
+		the preposition \fm{down} derives from OE \fm{adūne} < \fm{of dūne} ‘off the hill’.
+	Compare
+	ODu \fm{dūna} > MDu \fm{dūne} ‘sandhill’ > Du \fm{duin}, LGer \fm{Düne}, Ger \fm{Düne};
+	Frankish \fm[*]{dūne} > OFr \fm{dune} ‘sandhill’ > Fr \fm{dune};
+	MLG \fm{dûne} ‘sandhill’.
+	Further compare
+	PCel \fm[*]{dūnom} ‘hill, hillfort’ > Ir \fm{dún}, Wel \fm{din}, Gaul \fm{dunum}, L \fm{-dūnum}.
+\end{Etymology}
+\begin{Definitions}
+	① A hill of any kind, particularly one which is fenced.
+	② As \fm{down}, a chalk hill in southern England.
+	③ As \fm{downs}, sandy hills near the sea with shallow turf usually used for sheep grazing.
+\end{Definitions}
+\begin{Examples}
+	Baildon (<~\fm{bǣgel-dūn} ‘circle hill’),
+	Earlston (<~\fm{Earciles-dūn} ‘Earcil’s hill’),
+	Earsdon (<~\fm{Ēanrǣdes-dūn} ‘Ēanrǣd’s hill’),
+	Dordon (<~\fm{dēor-dūn} ‘deer hill’),
+	Dunwich (<~\fm{dūn-wīc} ‘hill town’ or ‘hill dairy’),
+	Garsington (<~\fm{gærsen-dūn} ‘grassy hill’),
+	Hadlow Down (<~\fm{hǣþ-lēah dūn} ‘heather clearing hill’),
+	Harbledown (<~\fm{Herebeald-dūn} ‘Herebeald’s hill’),
+	Hatherton (<~\fm{haguþorn-dūn} ‘hawthorne hill’),
+	Huntington (<~\fm{hunting-dūn} ‘hunting hill’ or \fm{huntena-dūn} ‘hunters’ hill’),
+	Longstone (<~\fm{lang-dūn} ‘long hill’),
+	Luddesdown (<~\fm{Hlūdes-dūn} ‘Hlūd’s hill’),
+	Malden (<~\fm{mǣl-dūn} ‘crucifix hill’),
+	Meddon (<~\fm{mǣd-dūn} ‘meadow hill’),
+	Merrington (<~\fm{myrge-dūn} ‘merry hill’),
+	Parndon (<~\fm{peren-dūn} ‘pear hill’),
+	Portsdown (<~\fm{portes-dūn} ‘harbour’s hill’),
+	Roydon (<~\fm{rygen-dūn} ‘rye hill’),
+	Sheldon (<~\fm{scelf-dūn} ‘shelf hill’),
+	Stottesdon (<~\fm{stōdes-dūn} ‘horse herd’s hill’),
+	Swindon (<~\fm{swīn-dūn} ‘pig hill’),
+	Wilden (<~\fm{Wifelan-dūn} ‘Wifela’s hill’),
+	Wimbledon (<~\fm{Wynnmann-dūn} ‘Wynnmann’s hill’).
+\end{Examples}
+\end{Lemma}
+
+\section*{E}
+
+\begin{Lemma}
+\HeadAndGloss{-ey}{island}
+\begin{Also}
+	\fm{-a}, \fm{-ay}, \fm{i-}, \fm{-y}, \fm{-ye}
+\end{Also}
+\begin{Etymology}
+	< OE \fm{īg}, \fm{īeg} ‘island’ < PGmc \fm[*]{awjō} ‘island, floodplain, meadow’ < \fm[*]{agwjō}
+		< PIE \fm[*]{h₂ekʷeh₂} ‘water’;
+		many names are instead from ON \fm{ey} ‘island’ which also strongly influenced OE names;
+		later replaced by the compound OE \fm{īg} \~\ \fm{īeg} + \fm{land} >
+			ME \fm{yland}, \fm{iland} > ModE \fm{island}
+			(the \fm{-s-} spelling is introduced from \fm{isle} < AN \& OFr \fm{isle} < L \fm{insula}).
+	Compare
+	OFri \fm{ā} > SatFri \fm{Äi};
+	OSax \fm{ōia} > MLG \fm{ō};
+	ODu \fm{ōi}, \fm[*]{owe} > MDu \fm{ooy}, \fm{ouwe} > Du \fm{ooibos} ‘river forest’,
+		\fm{landouw} ‘forest clearing’;
+	OHG \fm{ouwa} > Ger \fm{Au}, \fm{Aue};
+	ON \fm{ey} > Is \fm{ey}, Far \fm{oyggj}, \fm{oy}, Nor \fm{øy}, Sw \fm{ö}, Dan \fm{ø}.
+	Related is
+	PIE \fm[*]{h₂ekʷeh₂} > PGmc \fm[*]{ahwo} ‘water; stream, river’ > OE \fm{ēa}, \fm{ǣ} ‘stream, river’
+		(see \fm{ea}; cf.\ \fm{eddy} < OE \fm{ed} ‘turning’ + \fm{ēa});
+		OFr \fm{ā}, \fm{ē} > WFri \fm{ie}, SatFri \fm{Äi}, NFri \fm{ia};
+		OSax \fm{aha};
+		ODu \fm[*]{ā} > MDu \fm{a}, \fm{ae}, \fm{aa} > Du \fm{a}, \fm{aa};
+		OHG \fm{aha} > Ger (dial.)\ \fm{Ach}, \fm{Ache};
+		ON \fm{á}, \fm{ǫ́} > Is \fm{á}, Far \fm{á}, Nor \fm{å}, Sw \fm{å}, Dan \fm{å};
+		Got \gothic{𐌰𐍈𐌰} \fm{aƕa}.
+	Also derived PGmc \fm[*]{skaþô} ‘damage’
+		(> ModE \fm{scathe}; PIE \fm[*]{(s)kēt} ‘harm’ >
+			AGk \greek{ἀσκηθής} \fm{askēthḗs} ‘intact, unharmed’)
+		+ \fm[*]{awjō} > \fm[*]{Skaðinawjō} > L \fm{Scandinavia},
+		OE \fm{Sceðenīg}, OHG \fm{Sconaowe}, ON \fm{Skáney} > OE \fm{Sconeg}, Is \fm{Skánn},
+			Far \fm{Skáni}, Nor/Sw/Dan \fm{Skåne}.
+	Further compare  PIE \fm[*]{h₂ekʷeh₂} > PIt \fm[*]{akʷā} ‘water’ > Osc \oitalic{𐌀𐌀𐌐𐌀} \fm{aapa},
+		L \fm{aqua} > Sp \fm{agua},
+			Cat \fm{aigua}, Occ \fm{aiga}, Rom \fm{apă}, Sardinian \fm{abba},
+			OFr \fm{aigue} > MFr \fm{eaue} > Fr \fm{eau};
+		PIE \fm[*]{h₂ep} ‘water’ > Hit \hittite{𒄩𒉺𒀀} \fm{ḫa.pa.a} ‘toward the river’,
+			PBS \fm[*]{wapa} ‘brook, stream’ > OPr \fm{ape}, Lat \fm{upe}, Lit \fm{ùpė},
+				OCS \cyrillic{вапа} \fm{vapa} ‘swamp’;
+			PCel \fm[*]{abū} > OIr \fm{aub} > Ir \fm{abhainn}, Manx \fm{awin}
+				(PIE \fm[*]{h₂ep-h₃on} > PCel \fm[*]{abonā} > Wel \fm{afon}, Corn \fm{avon}, Bre \fm{avon});
+			PII \fm[*]{Hap} > Skt \sanskrit{अप्} \fm{ap}, Av \avestan{𐬀𐬞} \fm{ap},
+				Bactrian \greek{αββο} \fm{abbo}, Old Persian \opersian{𐎠𐎱𐎡𐎹𐎠} \fm{a.pi.ya.a} >
+					Per \persian{آب} \fm{âb}, Tajik \cyrillic{об} \fm{ob};
+			OL \fm{abnis} > L \fm{amnis} ‘flowing’, TochA \fm{āp}, TochB \fm{āp}.
+\end{Etymology}
+\begin{Definitions}
+	① An island, a space completely surrounded by water.
+	② In older use, land that is partly surrounded by water (i.e.\ a peninsula), or that is only surrounded during floods or high tides.
+	③ A dry hill that is surrounded by marsh or tidal estuary.
+\end{Definitions}
+\begin{Examples}
+	(\textbf{English})
+	Bardsea (<~\fm{Beornrǣds-īeg} ‘Beornrǣd’s island’),
+	Bulford (<~\fm{bulut-īeg-ford} ‘horehound (plant) island ford’),
+	Cholsey (<~\fm{Cēols-īeg} ‘Cēol’s island’),
+	Dauntsey (<~\fm{Dōmgeats-īeg} ‘Dōmgeat’s island’),
+	Hartland (<~\fm{heorot-īeg-land} ‘hard island land’),
+	Ifold (<~\fm{īeg-fold} ‘island enclosure’),
+	Iford (<~\fm{īeg-ford} ‘island ford’),
+	Lindsey (<~\fm{Lindēs-īeg} ‘Lindēs (tribe) island’)
+	Rye (<~ME \fm{atter} ‘at the’ + \fm{ia} < OE \fm{īeg} ‘island’);
+	(\textbf{Norse})
+	Bressay (<~ON \fm{breiðr-ey} ‘broad island’),
+	Dalkey (<~ON \fm{dalkr-ey} ‘thorn island’),
+	Fair Isle (<~ON \fm{fár-ey} ‘sheep island’),
+	Fara (<~ON \fm{fær-ey} ‘sheep island’),
+	Flotta (<~ON \fm{flatr-ey} ‘flat island’),
+	Foula (<~ON \fm{fugl-ey} ‘bird island’),
+	Fridarey (<~ON \fm{friðr-ey} ‘peaceful island’),
+	Gairsay (<~ON \fm{Gareks-ey} ‘Garek’s island’),
+	Handa (<~ON \fm{sand-ey} ‘sand island’),
+	Hoy (<~ON \fm{hó-ey} ‘high island’),
+	Jura (<~ON \fm{dýr-ey} ‘deer island’),
+	Jersey (<~ON \fm{Geirrs-ey} ‘Geirr’s island’),
+	Lundy (<~ON \fm{lundi-ey} ‘puffin island’),
+	Mingulay (<~ON \fm{mikill-ey} ‘great island’),
+	Rona (<~ON \fm{hraun-ey} ‘rough island’),
+	Rousey (<~ON \fm{Hrólfrs-ey} ‘Hrólfr’s island’),
+	Sanday (<~ON \fm{sand-ey} ‘sand island’),
+	Scomer (<~ON \fm{skálm-ey} ‘cloven island’),
+	Shapinsay (<~ON \fm{Hjalpandis-ey} ‘Hjalpand’s island’),
+	Soay (<~ON \fm{sauðr-ey} ‘sheep island’),
+	Stroma (<~ON \fm{straumr-ey} ‘current island’).
+\end{Examples}
+\end{Lemma}
+
+\section*{F}
+
+\begin{Lemma}
+\HeadAndGloss{ferry}{ferry, crossing}
+\begin{Etymology}
+	< ME \fm{feri-}, \fm{ferrie}, \fm{ferye} < OE \fm{ferie}, \fm{feri} < ON \fm{ferja}
+		< PGmc \fm[*]{farjǭ} ‘ferry boat’ < \fm[*]{farjaną} ‘travel or carry by boat’
+		< PIE \fm[*]{per} ‘carry forth’
+		probably related to homophonous \fm[*]{per} ‘go over, cross’ (see \fm{firth})
+		and perhaps \fm[*]{per} ‘try, dare, risk’;
+		influenced by the OE verb \fm{ferian} ‘carry, convey, be versed in, depart’
+		> ME \fm{ferein} > ModE \fm{ferry} ‘carry, transport; travel by ferry’.
+	Compare
+	PGmc \fm[*]{farjǭ} ‘ferry’ >
+		MDu \fm{vere} > Du \fm{veer};
+		MLG \fm{vere};
+		OHG \fm[*]{fera} > MHG \fm{vere} > Ger \fm{Fähre}, Lux \fm{Fuer};
+		ON \fm{ferja} > Is \fm{ferja}, Far \fm{ferja}, Nor \fm{ferje}, Sw \fm{färja}.
+	Also compare
+	PGmc \fm[*]{farjaną} ‘travel or carry by boat’ >
+		OFri \fm{feria};
+		OSax \fm{ferian} ‘sail, travel’ > MLG \fm{vēren} ‘cross by boat’;
+		ODu \fm[*]{ferien} > MDu \fm{fere} > Du \fm{veren};
+		OHG \fm[*]{ferian} > MHG \fm{verren}, \fm{vern} ‘travel by boat’ > Ger \fm{fähren} ‘row boat’;
+		ON \fm{ferja} ‘carry by boat’ > Is \fm{ferja}, Far \fm{ferja}, Sw \fm{färja}, Dan \fm{færge};
+		Got \gothic{𐍆𐌰𐍂𐌾𐌰𐌽} \fm{farjan}.
+	There are many further connections such as \fm{far}, \fm{fare}, \fm{fear}, \fm{first}, \fm{firth} (q.v.), \fm{for},
+		\fm{ford} (q.v.), \fm{forth}, \fm{from} all ultimately from PIE \fm[*]{per}. 
+\end{Etymology}
+\begin{Definitions}
+	① A crossing where a ferry boat is regularly used, typically on a wide or deep part of a river.
+\end{Definitions}
+\begin{Examples}
+	Boothferry (<~ON \fm{búð-bý} ‘hut village’ + OE \fm{ferie} ‘ferry’),
+	Briton Ferry (<~\fm{brycg-tūn} ‘bridge farm’ + ModE \fm{ferry}),
+	Ferrybridge (<~ON \fm{ferja} ‘ferry’ + OE \fm{brycg} ‘bridge’),
+	Longferry (<~\fm{lang-ferie} ‘long ferry’),
+	North Ferriby (<~\fm{ferja-bý} ‘ferry village’),
+	Owston Ferry (<~ON \fm{austr} ‘east’ + \fm{tūn} ‘farm’ + \fm{ferie} ‘ferry’),
+	Stokeferry (<~\fm{stoc} ‘outlying settlement’ + ON \fm{ferja} ‘ferry’).
+\end{Examples}
+\end{Lemma}
+
+%\begin{Lemma}
+%\HeadAndGloss{field}{field, farm}
+%\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{firth}{fjord, inlet}
+\begin{Also}
+	\fm{-art}, \fm{ford}, \fm{forth}, \fm{frith}
+\end{Also}
+\begin{Etymology}
+	< ON \fm{fjǫrðr} ‘fjord’ < PGmc \fm[*]{ferþuz} ‘inlet, fjord’
+		< \fm[*]{feraną} ‘cross’ + \fm[*]{-þuz} \xx{nmz}
+		< PIE \fm[*]{pértus} ‘crossing’ < \fm[*]{per} ‘go over, cross’ + \fm[*]{-tus} \xx{nmz};
+		occasionally metathesized to \fm{frith} and then confused with \fm{frith} ‘woodland’ which see;
+		often confused with \fm{ford} which see;
+		also ModE \fm{fjord} < Nor \fm{fjord} < ON \fm{fjǫrðr} but this is only used for
+			placenames outside of Britain.
+	Compare
+	ON \fm{fjǫrðr} > Is \fm{fjörður}, Far \fm{fjørður}, Nor \fm{fjord}, Sw \fm{fjärd}, \fm{fjord}, Dan \fm{fjord}.
+	Further compare
+	PGmc \fm[*]{furduz} ‘ford’ > OE \fm{ford} > ModE \fm{ford} which see for more details.
+\end{Etymology}
+\begin{Definitions}
+	① An inlet of the sea, a fjord (though not necessarily deep).
+\end{Definitions}
+\begin{Examples}
+	Carlingford (< ON \fm{kerling-fjǫrðr} ‘old woman (a mountain) fjord’),
+	Knoydart (< ON \fm{Knut-fjǫrðr} ‘Knut’s fjord’),
+	Milford Haven (< ON \fm{melr-fjǫrðr} ‘sandy fjord’),
+	Moidart (< ON \fm{Mundi-fjǫrðr} ‘Mundi’s fjord’),
+	Pentland Firth (< ON \fm{Petta-land fjǫrðr} ‘Pict land fjord’),
+	Seaforth (< ON \fm{sǽr-fjǫrðr} ‘sea fjord’),
+	Solway Firth (<~ON \fm{súla-vað} \fm{fjǫrðr} ‘pillar-ford fjord’),
+	Strangford (< ON \fm{strangr-fjǫrðr} ‘strong fjord’),
+	Waterford (< ON \fm{veðer-fjǫrðr} ‘wether (sheep) fjord’),
+	Wexford (< OIr \fm{escir} + ON \fm{fjǫrðr} ‘sandbank fjord’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{ford}{ford, crossing}
+\begin{Etymology}
+	< OE \fm{ford} < PGmc \fm[*]{furduz} < PIE \fm[*]{pr̥téws} oblique of \fm[*]{pértus}
+		< \fm[*]{per} ‘go over, cross’ + \fm[*]{-tus} \xx{nmz};
+		confused with \fm{firth} < ON \fm{fjǫrðr} which see.
+	Compare
+	OFri \fm{forda} > WFri \fm{furde};
+	OSax \fm{ford} > MLG \fm{furd}, \fm{vōrde}, \fm{vōrt} > LGer \fm{Föörd};
+	ODu \fm[*]{forda} > MDu \fm{vorde}, \fm{voorde}, \fm{vort} > Du \fm{voord}, \fm{voorde};
+	OHG \fm{furt} > MHG \fm{vurt} > Ger \fm{Furt}.
+	Further compare
+	PIE \fm[*]{pértus} ‘crossing’ >
+		PCel \fm[*]{ɸritus} ‘ford’ > Bryth \fm[*]{rɨd} > Bret \fm{red}, Corn \fm{rys}, Wel \fm{rhyd};
+		Iranian \fm[*]{pr̥tu} ‘bridge’ > Av \avestan{𐬞𐬆𐬭𐬆𐬙𐬎} \fm{pərətu},
+			Kurdish \arab{پرد} \fm{pird}, MPer \pahlavi{𐭯𐭥𐭧𐭫𐭩} \fm{puhli} > Per \:\persian{پل} \!\fm{pol}
+			> Hindustani \:\arab{پل} \!\sanskrit{पुल} \fm{pul};
+		L \fm{portus} ‘harbour, port’ > Fr \fm{port}, It \fm{porto}, Sp \fm{puerto}.
+	Further compare
+	AGk \greek{πόρος} \fm{póros} ‘passage, journey’, \greek{πείρω} \fm{peírō} ‘pierce’,
+	L \fm{porta} ‘gate, door’, \fm{portō} ‘carry, bear’,
+	Skt \sanskrit{पिपर्ति} \fm{píparti} ‘bring across’.
+\end{Etymology}
+\begin{Definitions}
+\end{Definitions}
+\begin{Examples}
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{foss}{ditch}
+\begin{Also}
+	\fm{fos}
+\end{Also}
+\begin{Etymology}
+	< ME \fm{foss}, \fm{fosse} < OE \fm{foss} < L \fm{fossa} ‘ditch, trench’ < \fm{fodiō} ‘excavate’
+		< PIE \fm[*]{bʰedʰ} ‘pierce; dig’;
+		reinforced by AN \fm{fos}, \fm{foos}, MFr \fm{fosse};
+		confused sometimes with \fm{force} ‘waterfall’ < ON \fm{fors}, which see.
+\end{Etymology}
+\begin{Definitions}
+	① An artificially excavated ditch or trench, often but not exclusively associated with Roman occupation.
+	Such trenches may be defensive or for land drainage.
+\end{Definitions}
+\begin{Examples}
+	Catfoss (< \fm{cata-foss} ‘cat’s ditch’),
+	Fangfoss (< ON \fm{fang} + OE \fm{foss} ‘fishing ditch’),
+	Fosham (< \fm{foss-ham} ‘ditch enclosure’),
+	Fosse Way (< \fm{foss weg} ‘ditch path’),
+	Wilberfoss (< \fm{Wilburh-foss} ‘Wilburh’s ditch’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{force}{waterfall}
+\begin{Also}
+	\fm{foss}
+\end{Also}
+\begin{Etymology}
+	< OE \fm{fors}, \fm{foss} < ON \fm{fors}, \fm{foss} ‘waterfall’ < PGmc \fm[*]{fursaz}
+		< PIE \fm[*]{pŕ̥sos} < \fm[*]{pers} ‘drizzle, sprinkle, splash’;
+		also found in Scots dial.\ \fm{fossack} ‘sea trout (\textit{Salmo trutta})’
+			with diminutive \fm{-ack} < OE \fm{-oc} < PGmc \fm[*]{-ukaz}.
+	Compare
+	ON \fm{fors}, \fm{foss} > Is \fm{foss}, Far \fm{fossur}, Nor \fm{foss}, Sw \fm{foss}, Dan \fm{fors},
+		\fm{fos}, MLG \fm{vorsch}.
+	Further compare
+	Sanskrit \sanskrit{पृषत्} \fm{pṛ́ṣat} ‘sprinkled, speckled’,
+	Av \avestan{𐬞𐬀𐬭𐬱𐬎𐬌𐬌𐬀} \fm{paršuya} ‘from the water’,
+	Lit \fm{purkšti} ‘shower’,
+	PSlv \fm[*]{porxъ} > OCS \cyrillic{прахъ} \fm{praxŭ} ‘dust’,
+	TochA, TochB \fm{pärs} ‘spray’.
+\end{Etymology}
+\begin{Definitions}
+	① A waterfall, cataract, or rapids, particularly where a river becomes impassable.
+\end{Definitions}
+\begin{Examples}
+	Hellgill Force (<~\fm{hell-gil} + ON \fm{fors} ‘bright-valley waterfall’),
+	Skellwith Force (<~ON \fm{skjalla-vað} \fm{fors} ‘clashing-ford waterfall’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{frith}{woodland}
+\begin{Also}
+	\fm{-bright}, \fm{fir}, \fm{firth}
+\end{Also}
+\begin{Etymology}
+	< ME \fm{frith}, \fm{firth} < OE \fm{fyrhþ} ‘forest, game preserve’ < \fm{fyrhðe}
+		< PGmc \fm[*]{furhiþą} or \fm[*]{furhiþō} ‘forest, woodland’ collective of \fm[*]{furhō} ‘fir, pine’
+		< PIE \fm[*]{perkʷus} ‘oak’; sometimes confused with \fm{firth} ‘fjord’ < ON \fm{fjǫrðr} which see.
+	Compare
+	PGmc \fm[*]{furhiþą} ‘forest, woodland’ (collective of \fm[*]{furhō} ‘fir, pine’, see below) >
+		OSax \fm[*]{forhist} > MLG \fm{vorst};
+		OHG \fm{foreht}, \fm{forst} > MHG \fm{vorst} > Ger \fm{Forst};
+		Frankish \fm[*]{forhist} >
+			ODu \fm{forest} > MDu \fm{forest}, \fm{vorst} > Du \fm{vorst},
+			L \fm{foresta} > It/Sp \fm{foresta}, Fr \fm{forêt}, ModE \fm{forest}.
+	Also compare
+	PGmc \fm[*]{furhō} ‘fir, pine’ >
+		OE \fm{fyrh}, \fm{furh} > ME \fm{firre} > ModE \fm{fir};
+		OSax \fm{furho} > MLG \fm{vūre} > LGer \fm{Fuhr};
+		ODu \fm[*]{fuhr}, \fm[*]{furīn} > MDu \fm{vure}, \fm{vurin} >
+			Du \fm{vuren} ‘Norway spruce (\textit{Picea abies})’;
+		OHG \fm{furh}, \fm{furuh} > Ger \fm{Föhre};
+		ON \fm{fura} > Sw \fm{fura}, \fm{furu}, Dan \fm{fyr};
+	PGmc \fm[*]{furhija} > ON \fm{fýri} ‘conifer forest’;
+	PGmc \fm[*]{fergunją} > OE \fm{firgen}, \fm{fyrgen} ‘mountain woodland’,
+		Got \gothic{𐍆𐌰𐌹𐍂𐌲𐌿𐌽𐌹} \fm{faírguni} ‘mountain’,
+		OHG \fm{Fergunna} ‘Virngrund forest’.
+	Further compare
+	PIE \fm[*]{perkʷus} ‘oak’ > L \fm{quercus}, Celtiberian \fm{Querqueni} tribe,
+		Skt \sanskrit{प्रकती} \fm{parkatī} ‘fig’,
+		Punjabi \punjabi{ਪਰਗਾਇ} \fm{pargāi} ‘holly oak (\textit{Quercus baloot})’;
+	PCel \fm[*]{perkuniā} > \fm[*]{erkunia} > L \fm{Hercynia} ‘Rhine forest’.
+\end{Etymology}
+\begin{Definitions}
+	① A forest, particularly one with sparse or thin growth.
+	② A game preserve, a forest set aside for hunting by the aristocracy.
+\end{Definitions}
+\begin{Examples}
+	Firbeck (<~\fm{fyrhþ} + ON \fm{bekkr} ‘forest stream’),
+	Fritham (<~\fm{fyrhþ-hamm} ‘forest enclosure’),
+	Frithville (<~\fm{fyrhþ} + AN \fm{ville} ‘village’),
+	Holmfirth (<~\fm{Holmes-fyrhþ} ‘Holme’s forest’),
+	Pirbright (<~\fm{pirige-fyrhþ} ‘pear forest’).
+\end{Examples}
+\end{Lemma}
+
+\section*{G}
+
+\begin{Lemma}
+\HeadAndGloss{garth}{enclosure}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{gate}{road}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{gill}{valley}
+\begin{Also}
+	\fm{gil}, \fm{ghyll}, \fm{gyll}
+\end{Also}
+\begin{Etymology}
+	< ME \fm{gille}, \fm{gylle} < OE \fm{gil} < ON \fm{gil} < PGmc \fm[*]{gilją} < PIE \fm[*]{ǵʰēy-} ‘yawn, gape’.
+	Compare Is \fm{gil}, OHG \fm[*]{gil} > MHG \fm{gil}.
+	Also compare PGmc \fm[*]{gailō} > ON \fm{geil} > Is \fm{geil}, Far \fm{geil} ‘gap, crevice, chasm, ravine’.
+\end{Etymology}
+\begin{Definitions}
+	① A ravine, gully, or other narrow valley that is often associated with a stream called a \fm{beck} (q.v.).
+\end{Definitions}
+\begin{Examples}
+	Aisgill (<~ON \fm{Ási-gil} ‘Ási’s gill’),
+	Arkle Beck (<~ON \fm{Árkil-gil} ‘Árkil’s gill’ + \fm{bekkr} ‘stream’),
+	Cowgill (<~ON \fm{kyr-gil} ‘cow ravine’),
+	Dungeon Ghyll (<~ON \fm{dyngija} + \fm{gil} ‘bower ravine’),
+	Hellgill Force (<~\fm{hell-gil} + ON \fm{fors} ‘bright-valley waterfall’),
+	Halton Gill (<~\fm{healh-tūn} + \fm{gil} ‘corner-farm valley’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{grove}{grove, thicket}
+\begin{Also}
+	\fm{graf}, \fm{grave}, \fm{greave}
+\end{Also}
+\begin{Etymology}
+	< OE \fm{grāf}, \fm{grǣfe}, \fm{grǣfa}; further etymology unknown.
+	May be confused with ON \fm{græf} ‘pit, trench, grave’ < PGmc \fm[*]{grabą}, \fm[*]{grabō}
+		< PIE \fm[*]{gʰrābʰ} ‘dig, scratch, scrape’,
+		but the \fm{grāf}, \fm{grǣfe} ‘grove’ etymon is more common in placenames.
+	Compare PGmc \fm[*]{grainiz} > ON \fm{grein} ‘branch, bough’ > Is \fm{grein} ‘branch; article’,
+		Nor \fm{grein}, \fm{gren} ‘branch’.
+\end{Etymology}
+\begin{Definitions}
+	① A cluster of trees, anything from a copse or thicket to a small woods, but generally not applied to larger forests.
+\end{Definitions}
+\begin{Examples}
+	Boxgrove (<~\fm{box-grāf} ‘box tree grove’),
+	Bygrave (<~\fm{bī-grāf-an} ‘trench grove-\xx{dat}’),
+	Chilgrove (<~\fm{Ceola-grāf} ‘Ceola’s grove’),
+	Cosgrove (<~\fm{Cōfes-grāf} ‘Cof’s grove’),
+	Cotgrave (<~\fm{Cotta-grāf} ‘Cott’s grove’),
+	Filgrave (<~\fm{Fygla-grāf} ‘Fygla’s grove’),
+	Gargrave (<~\fm{gāra-grāf} ‘spear grove’, also ON \fm{geiri} ‘spear‘),
+	Graffham (<~\fm{grāf-hām} ‘grove home’),
+	Grafton (<~\fm{grāf-tūn} ‘grove farm’),
+	Graveley (<~\fm{grǣfe-lēah} ‘grove clearing’),
+	Gravesend (<~\fm{grǣfes-ende} ‘grove’s end.\xx{dat}’),
+	Grayshott (<~\fm{grāf-scēat} ‘grove corner’),
+	Hargrave (<~\fm{hār-grǣfe} ‘boundary grove’),
+	Hazelgrove (<~\fm{hæsel-grāfa} ‘hazel grove’),
+	Llangrove (<~\fm{lang-grāf} ‘long grove’),
+	Moylgrove (<~\fm{Matildes-grāf} ‘Matilda’s grove’),
+	Musgrave (<~\fm{mūs-grǣfe} ‘mouse grove’),
+	Notgrove (<~\fm{næt-grāf} ‘wet grove’),
+	Orgreave (<~\fm{ord-grǣfe} ‘pointed grove’),
+	Palgrave (<~\fm{pāl-grāf} ‘pole grove’, also < \fm{Paga-grāf} ‘Paga’s grove’),
+	Redgrave (<~\fm{rēad-grāf} ‘red grove’ or \fm{hrēod-grāf} ‘reedy grove’),
+	Staplegrove (<~\fm{stapol-grāf} ‘post grove’),
+	Sulgrave (<~\fm{sulh-grāf} ‘gully grove’),
+	Walgrave (<~\fm{ēald-grāf} ‘old grove’),
+	Whitgreave (<~\fm{hwīt-grǣfe} ‘white grove’),
+	Youlgreave (<~\fm{geolu-grǣfe} ‘yellow grove’).
+\end{Examples}
+\end{Lemma}
+
+\section*{H}
+
+\begin{Lemma}
+\HeadAndGloss{ham}{home, homestead}
+\begin{Also}
+	\fm{hamp}, \fm{holm}, \fm{holme}, \fm{home}
+\end{Also}
+\begin{Etymology}
+	ME \fm{home}, \fm{hoom}, \fm{hom}, Scots \fm{hame} < OE \fm{hām} ‘home’
+		< PGmc \fm[*]{haimaz}
+		< PIE \fm[*]{ḱóymos} ‘village’, \fm[*]{tḱóymos} ‘dwelling’
+		< \fm[*]{tḱey} ‘settle’ + \fm[*]{-mos} \xx{nmz} < \fm[*]{teḱ} ‘beget, birth’, \fm[*]{tetḱ} ‘produce, hew’.
+	Sometimes confused with or influenced by OE \fm{holm} ‘sea, ocean’
+		< ON \fm{holmi}, \fm{holmr} ‘islet’ (cf.\ Sw \fm{Stock-holm} ‘log islet’)
+		< PGmc \fm[*]{hulmaz} ‘mound, rise’
+		< PIE \fm[*]{kelH} ‘rise; tall’
+		(cf.\ L \fm{columen} ‘column’, \fm{collis} ‘hill’,
+		PGmc \fm[*]{hulliz} > OE \fm{hyll} > ModE \fm{hill}).
+	Compare
+		OFri \fm{hēm} > WFri \fm{hiem} ‘yard’;
+		ODu \fm{heim} > Du \fm{heem} ‘homestead, dwelling’;
+		OHG \fm{heima} ‘abode’ > Ger \fm{heim} ‘native country’;
+		ON \fm{heimr} ‘dwelling’ > Sw \fm{hem}, Dan \fm{hjem};
+		Got \gothic{𐌷𐌰𐌹𐌼𐍃} \fm{haims} ‘village’.
+	The PIE root \fm[*]{tḱey} ‘settle’ is rich in derivations, e.g.\
+		PIE \fm[*]{ḱeymoy} ‘settle’ > AGk \greek{κεῖμαι} \fm{keîmai} ‘lie down’;
+		PIE \fm[*]{ḱoyno} ‘lair, cradle’ > L \fm{cunae} ‘cradle, nest’,
+			AGk \greek{κοίτη} \fm{koítē} ‘bed’;
+		PIE \fm[*]{ḱéytis} > MyGk \mycenaean{𐀑𐀴𐀋𐀯} \fm{ki.ti.je.si},
+			AGk \greek{κτίζω} \fm{kíizō} ‘found, build, create’,
+			\greek{κτίσις} \fm{ktisis} ‘founding, creation’.
+	Further compare
+		PIt \fm[*]{keiwis} > L \fm{cīvis} ‘citizen’;
+		AGk \greek{κώμη} \fm{kṓmē} ‘village’;
+		Ir \fm{cóim}, Wel \fm{cu} ‘beloved, dear’;
+		PIE \fm[*]{ḱoy-m-} > PBS \fm[*]{śoi-m-} > 
+			PSlv \fm[*]{sěmьja} > Ru \cyrillic{сѣмья} \fm{sěm′ja} ‘family’,
+			Lit \fm{šeima} ‘family, kin’, \fm{šeĩmas} ‘nest, offspring’,
+			Lat \fm{sàime} ‘household’, OPr \fm{seimīns};
+		Skt \sanskrit{क्षेति} \fm{kṣéti} ‘inhabit, dwell, abide’,
+			\sanskrit{क्षेम} \fm{kṣéma} ‘basis, foundation’;		
+		Av \avestan{𐬱𐬀𐬌𐬌𐬀𐬥𐬀} \fm{šaiiana} ‘residence’ >
+			OArm \armenian{շէն} \fm{šēn} ‘village, inhabited place’,
+			Syr \syriac{ܫܝܢܐ} \fm{šaināʼ}.
+\end{Etymology}
+\begin{Definitions}
+		① A homestead, extended to apply to a town, village, or manor.
+\end{Definitions}
+\begin{Examples}
+	Asterton (<~\fm{ēast-hām-tūn} ‘east home farm’), Barholm (<~\fm{beorg-hām} ‘hill home’), Bothenhampton (<~\fm{boþm-hām-tūn} ‘bottom home farm’), Bramham (<~\fm{brōm-hām} ‘broom (plant) home’), Dunham (<~\fm{dūn-hām} ‘hill home’), Greetham (<~\fm{grēot-hām} ‘gravel home’), Gresham (<~\fm{græs-hām} ‘grass home’), Haugham (<~\fm{hēah-hām} ‘high home’), Hexham (<~\fm{hagulstades-hām} ‘warrior’s home’, or perh.\ pers.\ name), Horham (<~\fm{horu-hām} ‘muddy home’), Hubberholme (<~\fm{Hūnburh-hām} ‘Hūnburh’s home’), Leckhampton (<~\fm{lēac-hām-tūn} ‘leek home farm’), Mapledurham (<~\fm{mapuldor-hām}), Mileham (<~\fm{myln-hām} ‘mill home’), Marholm (<~\fm{mere-hām} ‘pond home’), Northamptonshire (<~\fm{norþ-hām-tūn-scīre} ‘north home farm district’), Nuthampstead (<~\fm{hnutu-hām-stede} ‘nut homestead’), Odiham (<~\fm{wudig-hām} ‘woody home’), Offham (<~\fm{wōh-hām} ‘crooked home’), Smailholm (<~\fm{smæl-hām} ‘small home’), Totham (<~\fm{tōt-hām} ‘lookout home’), Quidhampton (<~\fm{cwēad-hām-tūn} ‘muck home farm’), Waltham (<~\fm{wēald-hām} ‘forest home’), Willisham Tye (<~\fm{Wīglafs-hām tēag} ‘Wīglaf’s home common’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{ham}{enclosure}
+\begin{Etymology}
+	< OE \fm{ham} ‘enclosure, plot, pasture, meadow’ < PGmc \fm[*]{hammaz}.
+	Compare
+	OF \fm{ham}, \fm{hem} > WF \fm{ham} ‘meadow’, NF \fm{hamm}, SatFri \fm{ham}, \fm{hamm};
+	OSax \fm{hamm} > LGer \fm{hamm} ‘meadow’.
+	Further etymology is unclear.
+\end{Etymology}
+\begin{Definitions}
+		① A plot of ground, often enclosed by a fence and used as pasture for livestock. Still used as an independent noun \fm{ham} ‘pasture, meadow’ in parts of southern England.
+\end{Definitions}
+\begin{Examples}
+	Attested forms are difficult if not impossible to differentiate linguistically from \fm{ham} ‘homestead’, which see. The local history of a place may specifically distinguish \fm{ham} ‘enclosure, pasture’.
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{hay}{hedge, enclosure}
+\begin{Also}
+	\fm{-ay}, \fm{-ey}, \fm{hain}, \fm{haugh}, \fm{haw}, \fm{heck}, \fm{heach}, \fm{hedge}, \fm{hey}, \fm{hitch}
+\end{Also}
+\begin{Etymology}
+	\fm{hedge} < ME \fm{hegge} < OE \fm{hecg}, \fm{hecc} < PGmc \fm[*]{hagjō} < PIE \fm[*]{kagʰ-yo}
+		< \fm[*]{kagʰ} ‘catch, grasp’;
+	\fm{haw} < ME \fm{hawe} < OE \fm{haga}, \fm{hæge} < PGmc \fm[*]{hagō} < PIE \fm[*]{kagʰ-om}
+		< \fm[*]{kagʰ};
+	\fm{hay} < ME \fm{hay}, \fm{hey} < OE \fm{haga}, \fm{hæge} but influenced by Fr \fm{haie} ‘hedge’
+		< Frankish \fm[*]{hagja} ‘enclosure, yard’ < PGmc \fm[*]{hagjō};
+	also confused with ME \fm{hay}, \fm{hey} ‘hay, grass’, for which see other \fm{hay}.
+	For \fm{hedge} ≪ PGmc \fm[*]{hagjō} compare
+		ODu \fm{hegge} > MDu \fm{hegghe} > Du \fm{heg};
+		MLG \fm{hēge} > LGer \fm{Hegg};
+		OHG \fm{heggja} > MHG \fm{hecke}, \fm{hegge} > Lux \fm{Ho},
+			Ger \fm{Heck} > Is \fm{hekk}, Sw \fm{häck}, Dan \fm{hæk}.
+	For \fm{haw} ≪ PGmc \fm[*]{hagō} compare
+		ODu \fm[*]{hago} > MDu \fm{haghe} > Du \fm{haag};
+		OSax \fm{hago};
+		OHG \fm{hag} > MHG \fm{hag} > Ger \fm{Hag};
+		ON \fm{hagi} > Is \fm{hagi}, Far \fm{hagi}, Nor \fm{hage}, Sw \fm{hage}, Dan \fm{have}.	
+	For PIE \fm[*]{kagʰ} ‘catch, grasp’ further compare
+		PCel \fm[*]{kagyom} > MWel \fm{kay} ‘hedge, enclosure’ > Wel \fm{cae} ‘field’; 
+		PCel \fm[*]{kagyom} > Gaul \fm{cagiíum} ‘enclosure’ > OFr \fm{kay} > Fr \fm{quai}, ModE \fm{quay};
+		PCel \fm[*]{kageti} > Wel \fm{cau} ‘close, shut, heal’;
+		PIt \fm[*]{koxom} ‘hole, tie, junction’ > L \fm{cohum} ‘strap between plow and yoke’;
+		perhaps
+		Alb \fm{kam} ‘have, hold’,
+		Ru \cyrillic{кош} \fm{koš} ‘tent’, \cyrillic{кошара} \fm{košára} ‘sheepfold’,
+		Skt \sanskrit{कक्ष} \fm{kakṣa} ‘curtain wall’.
+\end{Etymology}
+\begin{Definitions}
+	① Area of land enclosed by a hedge or fence.
+\end{Definitions}
+\begin{Examples}
+	Cathays (<~\fm{catt-haga} ‘cat enclosure’), Cheslyn Hay (<~\fm{cest-hlinc hæga} ‘coffin ridge enclosure’), Easthaugh (<~\fm{ēast-haga} ‘east enclosure’), Gamlingay (<~\fm{Gamela-ing-haga} ‘Gamela’s people’s enclosure’), Hainford (<~\fm{hæga-n-ford} ‘enclosure-\xx{dat} ford’), Haringey (<~\fm{Hæringes-hæga} ‘Hæring’s enclosure’), Haworth (<~\fm{haga-worþ} ‘hedge enclosure’), Heacham (<~\fm{hecg-hām} ‘hedge home’), Heathays (<~\fm{hǣþ-haga} ‘heath enclosure’), Heckfield (<~\fm{hecc-feld} ‘enclosure field’), Heywood (<~\fm{haga-wudu} ‘enclosure wood’), Hitcham (<~\fm{hecg-hām} ‘hedge home’), Hornsey (<~\fm{Hæringes-hæga} ‘Hæring’s enclosure’), Idridgehay (<~\fm{Ēadrīc-haga} ‘Ēadrīc’s enclosure’), Oxhey (<~\fm{oxa-ange-hæga} ‘ox meadow enclosure’), Roundhay (<~AN \fm{rond} + OE \fm{haga} ‘round enclosure’) Streethay (<~\fm{strǣt-haga} ‘road enclosure’), Wolvey (<~\fm{wulf-haga} ‘wolf enclosure’), Woodhay (<~\fm{wīd-an-haga} ‘wide-\xx{dat} enclosure’), Nappa (<~\fm{hnæapp-haga} ‘bowl enclosure’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{hay}{hay, dried grass}
+\begin{Also}
+	\fm{ha}, \fm{hai}, \fm{hey}, \fm{hi}, \fm{high}
+\end{Also}
+\begin{Etymology}
+	< OE \fm{hīg}, \fm{hēg} < \fm{hīeg} < PGmc \fm[*]{hawją} ‘hay’;
+		sometimes via ON \fm{hey} ‘hay’;
+		probably derived from PGmc \fm[*]{hawwaną} ‘hew, cut down’
+		< PIE \fm[*]{kow} \~\ \fm[*]{keh₂u} ‘beat, hew, forge’.
+	Often confused with \fm{hay} ‘hedge, enclosure’, which see;
+		early attestations and local history differentiate names with \fm{hay} ‘dried grass’.
+	Compare
+	OF \fm{hā}, \fm{hē} > WFri \fm{hea}, SatFri \fm{Ho}, NFri \fm{hau};
+	ODu \fm{houwi}, \fm{houwe} > MDu \fm{houwe}, \fm{hoj} > Du \fm{hooi};
+	OSax \fm{hōi}, \fm{hōgi} > MLG \fm{hoy}, \fm{hey} > LGer \fm{Hei}, \fm{Heu};
+	OHG \fm{houwi}, \fm{hou}, \fm{hewi} > MHG \fm{höuwe}, \fm{höu}, \fm{hewi} > Ger \fm{Heu};
+	ON \fm{hey} > Is \fm{hey}, Far \fm{hoyggj}, Nor \fm{høj}, Sw \fm{hö}, Dan \fm{hø}, Gut \fm{hoy};
+	Got \gothic{𐌷𐌰𐍅𐌹} \fm{hawi}.
+\end{Etymology}
+\begin{Examples}
+	Blennerhasset (<~Cel \fm[*]{blain} ‘summit’ + ON \fm{hey-sǽtr} ‘hay shieling (hut)’), Clayhiddon (<~\fm{clǣg hīeg-dūn} ‘clay hay hill’), Hayfield (<~\fm{hēg-feld} ‘hay field’), Hailey (<~\fm{hēg-lēah} ‘hay clearing’), Hayton (<~\fm{hēg-tūn} ‘hay farm’), Heydon (<~\fm{hēg-denu} ‘hay valley’), Heyford (<~\fm{hēg-ford} ‘hay ford’), Highway (<~\fm{hīg-weg} ‘hay road’), Northiam (<~\fm{norþ hīg-hamm} ‘north hay enclosure’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{hope}{enclosure, valley}
+\begin{Also}
+	\fm{hop}, \fm{-op}, \fm{-up}
+\end{Also}
+\begin{Etymology}
+	< ME \fm{hope} < OE \fm{hōp} ‘circular object’ < PGer \fm[*]{hōpą} ‘bend, bow, arch; ring, hoop’
+		< PIE \fm[*]{kāb-om} ‘bend, bow, arch, vault’; this is a doublet with OE \fm{hōp} ‘inlet, bay’,
+		for which see the other entry for \fm{hope}; closely related is OE \fm{hōp} > ME \fm{hoop}
+		> ModE \fm{hoop}, Scots \fm{hupe}, \fm{huip}.
+	Compare
+	OFri \fm{hōp} > WFri \fm{hoep}, SatFri \fm{hôp}, NFri \fm{hop};
+	ODu \fm[*]{hōp} > MDu \fm{hoop}, \fm{hoep} > Du \fm{hoep}.
+	Further compare Lit \fm{kabė} ‘hook’, OCS \cyrillic{кѫпъ} \fm{kǫpŭ} ‘hill’;
+	ModE \fm{camp} < OE \fm{camp} ‘battlefield’ < PGmc \fm[*]{kampaz}, \fm[*]{kampą}
+		< L \fm{campus} < PIE \fm[*]{kamp} ‘bend, crooked’.
+\end{Etymology}
+\begin{Definitions}
+	① A small enclosed valley branching from a larger valley, a hollow, cirque,
+		or cwm (<~Wel \fm{cwm} ‘valley’ < PCel \fm[*]{kumbā} < PIE \fm[*]{ḱumbʰ} ‘lie down’,
+		cf.\ Bret \fm{komm} ‘trough’, Ir \fm{com} ‘chest cavity’, Fr \fm{combe} ‘valley’ < Gaul \fm[*]{cumba},
+		Du \fm{kom} ‘bowl’, L \fm{incumbere} ‘lie down’, Skt \sanskrit{कुम्भ} \fm{kumbha} ‘pot, jug’);
+		this meaning is found mostly in northern England and Scotland.
+	② A piece of enclosed land, e.g. in the midst of fens or marshes; this probably derives from the
+		older sense of OE \fm{hōp}
+\end{Definitions}
+\begin{Examples}
+	Bradnop (<~\fm{brād-an-hōp} ‘broad-\xx{dat} valley’), Cassop (<~\fm{catt-ēa-hōp} ‘cat stream valley’), Eccup (<~\fm{Ecca-hōp} ‘Ecca’s enclosure’), Fownhope (<~\fm{fāg-an-hōp} ‘colour-\xx{dat} valley’), Glossop (<~\fm{Glottas-hōp} ‘Glott’s enclosure’), Hassop (<~\fm{hægtesse-hōp} ‘witch’s valley’), Hopwas (<~\fm{hōp-wæsse} ‘valley marsh’), Hopwood (<~\fm{hōp-wudu} ‘enclosure wood’), Oxenhope (<~\fm{oxna-hōp} ‘ox.\xx{gen}.\xx{pl} valley’), Presthope (<~\fm{prēost-hōp} ‘priest’s valley’), Ryhope (<~\fm{hrēof-hōp} ‘rough valley’), Staindrop (<~\fm{stǣnra-hōp} ‘stone.\xx{adj}.\xx{gen} valley’), Stanhope (<~\fm{stān-hōp} ‘stone valley’), Swinhope (<~\fm{swīn-hōp} ‘pig enclosure’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{hope}{inlet, bay}
+\begin{Etymology}
+	< OE \fm{hōp} < ON \fm{hóp} ‘bay’ < PGmc \fm{hōpą} ‘bow, curve, arch; ring, hoop’
+		< PIE \fm[*]{kāb-om} ‘bend, bow, arch, vault’;
+		this is a doublet with OE \fm{hōp} ‘enclosure’, for which see the other entry for \fm{hope}.
+	Compare
+	ON \fm{hóp} > Is \fm{hóp}, Dan \fm{hop}, WFri \fm{hop}.
+\end{Etymology}
+\begin{Definitions}
+	① An inlet, a small bay, or a haven, especially one which is cut off from the ocean by low tide.
+\end{Definitions}
+\begin{Examples}
+	Hopekirk (<~ON \fm{hóp-kirkja} ‘bay church’), Saint Margaret’s Hope (<~\fm{Sanct Margarete hōp} ‘Saint Margaret’s bay’), Stanford le Hope (<~\fm{stān-ford} ‘stone ford’ + AN \fm{le} ‘(at) the’ + \fm{hōp} ‘bay’), Tilbury Hope (<~\fm{Tila-byrig hōp} ‘Tila’s fort.\xx{dat} bay’), Wolfshope (<~\fm{wulfes-hōp} ‘wolf’s bay’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{hurst}{wooded hill}
+\begin{Also}
+	\fm{hearst}, \fm{herst}, \fm{hirst}
+\end{Also}
+\begin{Etymology}
+	< OE \fm{hyrst} < PGer \fm[*]{hurstiz} ‘bush, thicket’ < \fm[*]{kʷr̥stis} < PIE \fm[*]{kʷres-} ‘bush, thicket’.
+	Compare
+	ODu \fm[*]{hurst} > MDu \fm{horst} > Du \fm{horst};
+	OSax \fm{hurst} > MLG \fm{horst};
+	OHG \fm{hurst} > MHG \fm{hurst} > Ger \fm{Horst}.
+	Possibly related to OIs \fm{hrjóstr} ‘rocky place’,
+		Nor \fm{rust}, \fm{ryst} ‘thicket of krummholz on a mountain’, Far \fm{rust} ‘ridge’.
+\end{Etymology}
+\begin{Definitions}
+	① A wooded hill, an elevated grove of trees.
+	② A sandy hill, knoll, or bank; by extension a sandbank or sandy ford in a river.
+\end{Definitions}
+\begin{Examples}
+	Coneyhurst (<~AN \fm{conis} ‘rabbit + OE \fm{hyrst} ‘woodhill’), Herstmonceux (\fm{hyrst} of Monceux family), Hirst Courtney (<~\fm{hyrst} of Courtney family), Hurstpierpoint (<~\fm{hyrst} of Robert de Pierpoint), Old Hurst (<~\fm{wald-hyrst} ‘forest woodhill’).
+\end{Examples}
+\end{Lemma}
+
+\section*{K}
+
+\begin{Lemma}
+\HeadAndGloss{keld}{spring}
+\begin{Etymology}
+	< ON \fm{kelda} ‘well, spring’ < PGmc \fm[*]{kaltijō} < \fm[*]{kalaną} ‘cold’ < PIE \fm[*]{gel} ‘cold’;
+		direct cognates in non-Nordic languages are unknown, but the related \fm{cold} is well attested.
+	Compare
+	ON \fm{kelda} > Is \fm{kelda} ‘bog, swamp’, Far \fm{kelda} ‘spring; swamp; source, fontanelle, ice hole’,
+		Sw \fm{källa} ‘source’, 
+\end{Etymology}
+\begin{Definitions}
+	① A well or natural spring.
+	② A deep, smooth flowing part of a river.
+\end{Definitions}
+\end{Lemma}
+
+\section*{L}
+
+\begin{Lemma}
+\HeadAndGloss{land}{land, area}
+\begin{Also}
+	\fm{lond}
+\end{Also}
+\begin{Etymology}
+	ME \fm{land}, \fm{lond} < OE \fm{land}, \fm{lond} < PGmc \fm[*]{landą} < PIE \fm[*]{lendʰ} ‘land, heath’;
+		also via ON \fm{land}.
+	Compare
+	OFri \fm{land}, \fm{lond} > WFri \fm{lân}, SatFri \fm{Lound}, NFri \fm{lon}, \fm{løn};
+	OSax \fm{land} > MLG \fm{lant} > LGer \fm{Land};
+	OD \fm{lant} > MDu \fm{lant} > Du \fm{land}, Lim \fm{landj};
+	OHG \fm{lant} > MHG \fm{lant} > Ger \fm{Land}, Lux \fm{Land},
+		Yid \hebrew{לאַנד} \fm{land}, Pol \fm{ląd};
+	ON \fm{land} > Is \fm{land}, Far \fm{land}, Nor \fm{land}, Sw \fm{land}, Dan \fm{land}, Elf \fm{land},
+		Scan \fm{lann};
+	Got \gothic{𐌻𐌰𐌽𐌳} \fm{land}.
+	Further compare
+		PGmc \fm[*]{landą} > PCel \fm[*]{landā} > Corn \fm{lan}, Wel \fm{llan} ‘enclosure’,
+			Bret \fm{lann} ‘heath’,
+			OIr \fm{land} ‘land, enclosure’ > Ir \fm{lann}, Manx \fm{lann}, ScGae \fm{lann};
+		PSlv \fm[*]{lenda} ‘heath, wasteland’ > OCS \cyrillic{лѧдо} \fm{lędo},
+			SC \cyrillic{лѐдина} \fm{lèdina} ‘untilled land’;
+		OPr \fm{lindan} ‘valley’,
+		Alb \fm{lëndinë} ‘heath, grassland’.
+\end{Etymology}
+\begin{Definitions}
+	① A plot of land, especially one which is owned and farmed.
+\end{Definitions}
+\begin{Examples}
+	Barkisland (<~ON \fm{Barkris-land} ‘Barkr’s land’), Burland (<~\fm{būr-land} ‘peasant land’), Coupland (<~ON \fm{kaupa-land} ‘purchase land’), Crowland (<~\fm{crūw-land} ‘riverbend land’), Elland (<~\fm{ēa-land} ‘river land’), Faulkland (<~\fm{folc-land} ‘folk-held land’), Greetland (<~ON \fm{grjót-land} ‘rocky land’), Hulland (<~\fm{hōh-land} ‘hillspur land’), Landwade (<~\fm{land-wæd} ‘land ford’), Lawkland (<~ON \fm{laukr-land} ‘leek land’), Leyland (<~\fm{lǣge-land} ‘untilled land’), Litherland (<~ON \fm{hlíþ-ar-land} ‘slope-\xx{gen} land’), Marland (<~\fm{mere-land} ‘lake land’), Newland (<~\fm{nīwe-land} ‘new land’), Pentland Firth (<~ON \fm{Pett-land-fjǫrþr} ‘Pict land fjord’) Ringland (<~\fm{Rȳmi-inga-land} ‘Rȳmi’s people’s land’), Rusland (<~ON \fm{Hrólfars-land} ‘Hrólf’s land’) Soyland (<~\fm{sōh-land} ‘bog land’), Stainland (<~ON \fm{steinn-land} ‘stone land’), Swarland (<~\fm{swǣr-land} ‘oppressive land’), Swilland (<~\fm{swīn-land} ‘pig land’), Thurgoland (<~ON \fm{Þorgeir-land} ‘Thorgeir’s land’), Thurstonland (<~ON \fm{Þorsteinn-land} ‘Thorsteinn’s land’), Tolland (<~OE \fm{tā-land} ‘toe (narrow strip) land’), Willand (<~\fm{wilde-land} ‘wild land’), Yaverland (<~\fm{eofor-land} ‘boar land’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{land}{grove, thicket}
+\begin{Also}
+	\fm{lond}, \fm{lound}, \fm{lund}
+\end{Also}
+\begin{Etymology}
+	< ON \fm{lundr} ‘small grove’ of uncertain etymology, but
+		probably related to PGmc \fm[*]{landą} ‘land’ < PIE \fm[*]{lendʰ} ‘land, heath’ whence
+		ModE \fm{land} ‘land’, which see.
+	Compare
+	Sw \fm{lund}, Dan \fm{lund}, Nor \fm{lund}.
+\end{Etymology}
+\begin{Examples}
+	Hasland (<~ON \fm{hasl-lundr} ‘hazel grove’), Londonthorpe (<~ON \fm{lundar-þorp} ‘grove.\xx{gen} village’) Lound (<~ON \fm{lundr} ‘grove’), Lumby (<~ON \fm{lundr-bý} ‘grove farm’), Lund (<~ON \fm{lundr} ‘grove’), Morland (<~\fm{mór-lundr} ‘marsh grove’), Natland (<~ON \fm{nata-lundr} ‘nettle grove’), Plumland (<~OE \fm{plūme} + ON \fm{lundr} ‘plum grove’), Rowland (<~ON \fm{rá-lundr} ‘boundary grove’), Rockland (<~ON \fm{hrókr-lundr} ‘rook grove’), Shirland (<~OE \fm{scīr} + ON \fm{lundr} ‘bright grove’), Snelland (<~ON \fm{Snjallr-lundr} ‘Snjallr’s grove’), Swanland (<~ON \fm{Sveinn-lundr} ‘Sveinn’s grove’), Swithland (<~ON \fm{sviþa-lundr} ‘burnt grove’), Timberland (<~OE \fm{timber} or ON \fm{timbær} + ON \fm{lundr} ‘timber grove’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{law}{hill}
+\begin{Also}
+	\fm{low}
+\end{Also}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{lea}{clearing}
+\begin{Also}
+	\fm{leigh}, \fm{ley}
+\end{Also}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{ling}{heather}
+\begin{Also}
+	\fm{lyng}
+\end{Also}
+\end{Lemma}
+
+\section*{M}
+
+\begin{Lemma}
+\HeadAndGloss{mere}{lake}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{moss}{swamp}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{mouth}{delta}
+\end{Lemma}
+
+\section*{N}
+
+\begin{Lemma}
+\HeadAndGloss{ness}{headland, cape, promontory}
+\begin{Also}
+	\fm{nass}, \fm{naze}, \fm{nes}, \fm{nis}, \fm{nish}, \fm{noss}, \fm{-ns-}
+\end{Also}
+\begin{Etymology}
+	< ME \fm{nasse}, \fm{ness}, \fm{naisse}, \fm{niss} < OE \fm{næs} < PGmc \fm[*]{nasaz}, 
+		apparently a variant of PGmc \fm[*]{nusō} \~\ \fm[*]{nasō} ‘nose’; also from ON \fm{nes} ‘headland’.
+	Compare
+	OE \fm{nasu}, \fm{naso}, \fm{nase} > ME \fm{nease}, \fm{nace} > 
+		ModE \fm{nase}, \fm{naise} ‘nose’ (dial.);
+	ME \fm{neose}, \fm{nese} > ModE \fm{nese} ‘nose; headland’ (dial.);
+	MLG \fm{nes}, MDu \fm{nesse} > Du \fm{nes} ‘tongue of land beyond a dike’;
+	ON \fm{nes} ‘headland, cape, promontory’ > Is \fm{nes}, Sw \fm{näs}, Dan \fm{næs}.
+	Further compare
+	PIE \fm[*]{néh₂s} ‘nose, nostril’ >
+		PGmc \fm[*]{nusō} \~\ \fm{nasō} ‘nose’ > OE \fm{nosu} > ME \fm{nose} ModE \fm{nose},
+			OFri \fm{nosi}, \fm{nose}, \fm{nase} > WFri \fm{noas}, SatFri \fm{Noose},
+				NFri \fm{nös}, \fm{naas},
+			ODu \fm[*]{nosa} \~\ \fm[*]{nasa} > MDu \fm{nose}, \fm{nuese}, \fm{nese} > Du \fm{neus},
+			MLG \fm{nōse}, \fm{noese},
+			OHG \fm{nasa} > MHG \fm{nase} > Ger \fm{Nase} (> Esp \fm{nazo}), Lux \fm{Nues},
+				Yid \hebrew{נאָז} \fm{noz},
+			ON \fm{nǫs} > Is \fm{nös}, Far \fm{nøs}, Sw \fm{nos}, \fm{näsa}, Dan \fm{næse},
+				Nor \fm{nos}, \fm{nase}, \fm{nese};
+	PIE \fm[*]{néh₂s} >
+		PSlv \fm[*]{nȏsъ} > OCS \cyrillic{носъ} \fm{nosŭ}, SC \cyrillic{нȏс} \fm{nȏs}, Pol \fm{nos},
+			USorb \fm{nós}, LSorb \fm{nos}, Ru \cyrillic{нос} \fm{nos}, Ukr \cyrillic{ніс} \fm{nis};
+	PIE \fm[*]{néh₂s} >
+		Lat \fm{nass}, Lit \fm{nósis}, OPr \fm{nozy}, L \fm{nāsus}, \fm{nāris} ‘nostrils’,
+		AGk \greek{ῥῑ́ς} \fm{rhī́s}, \greek{ῥῖνες} \fm{rhînes} ‘nostrils’,
+		Skt \sanskrit{नासा} \fm{nā́sā} > Pali \sanskrit{नासा} \fm{nāsā}, Av \avestan{𐬥𐬂𐬢𐬵𐬀} \fm{nåŋha}.
+\end{Etymology}
+\begin{Definitions}
+	① A headland, cape, spit, or promontory, an extension of land out into the water.
+\end{Definitions}
+\begin{Examples}
+	Bowness-on-Windermere (<~\fm{bula-næs an} + ON \fm{Vinandar} + OE \fm{mere} ‘bull cape on Vinandr’s lake’), Brimness (<~ON \fm{brim-nes} ‘surf cape’), Claines (<~\fm{clǣg-næs} ‘clay cape’), Crossens (<~ON \fm{krossa-nes} ‘cross cape’), Durness (<~ON \fm{dýr-nes} ‘deer cape’), Foulness (<~\fm{fugol-næs} ‘bird cape’), Grinsdale (<~\fm{grēne-næs} + ON \fm{dalr} ‘green cape valley’), Grutness (<~ON \fm{grjót-nes} ‘gravel cape’), Hackness (<~\fm{haca-næs} ‘hook cape’), Holderness (<~\fm{hǫldar-nes} ‘yeoman’s cape’), Kirkness (<~ON \fm{kirkja-nes} ‘church cape’), Levens (<~\fm{Lēofan-næs} ‘Lēofa’s cape’), Lowestoft Ness (<~ON \fm{Hloþvérs-toft nes} ‘Hloþvér’s homestead cape’), Minginish (<~ON \fm{megin-nes} ‘great cape’), Nazeing (<~\fm{næs-inga} ‘cape people’), Nesbit (<~\fm{næs-byht} ‘headland bend’), Neston (<~\fm{næs-tūn} ‘cape farm’), Noss Mayo (<~\fm{næs} + AN \fm{Matheu} ‘cape of Matheu’), Sheerness (<~\fm{scīr-næs} ‘bright cape’ or \fm{scear-næs} ‘ploughshare cape’), Shoeburyness (<~\fm{scēo-byrig-næs} ‘shelter fort.\xx{dat} cape’), Stenness (<~ON \fm{steinn-nes} ‘stone cape’), Vaternish (<~ON \fm{vatn-nes} ‘water cape’), Widness (<~\fm{wīd-næs} ‘wide cape’).
+\end{Examples}
+\end{Lemma}
+
+\section*{P}
+
+\begin{Lemma}
+\HeadAndGloss{pool}{harbour}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{port}{harbour}
+\end{Lemma}
+
+\section*{Q}
+
+\begin{Lemma}
+\HeadAndGloss{quern}{millstone}
+\begin{Also}
+	\fm{kerne}, \fm{quar}, \fm{quarn}, \fm{quarring}, \fm{quorn}, \fm{whar}, \fm{wharn}, \fm{whor}
+\end{Also}
+\begin{Etymology}
+	< ME \fm{quern}, \fm{cwerne} < OE \fm{cweorn} < PGmc \fm[*]{kwernūz}, \fm[*]{kwernō}
+		< PIE \fm[*]{gʷérh₂nus} ‘millstone’ < \fm[*]{gʷérh₂} ‘heavy’.
+	Compare
+	OFri \fm{quern} > NFri \fm{quern};
+	ODu \fm[*]{kwerna} > MDu \fm{querne}, \fm{quaerne}, \fm{queerne} > Du \fm{kweern};
+	OSax \fm{kwern}, \fm{quern} > MLG \fm{quern};
+	OHG \fm{chwirna}, \fm{kwirn}, \fm{quirn}, \fm{churn} < MHG \fm{kurn}, \fm{kürn}, \fm{churne};
+	ON \fm{kvern} > Is \fm{kvörn}, Far \fm{kvørn}, Nor \fm{kvern}, Sw \fm{kvarn}, Dan \fm{kværn},
+		Elf \fm{kwenn}, Scan \fm{kværn}, Gut \fm{kvänn}, Jamtish \fm{kvæðn};
+	Got \gothic{𐌰𐍃𐌹𐌻𐌿𐌵𐌰𐌹𐍂𐌽𐌿𐍃} \fm{asiluqaírnus} ‘millstone’ with \gothic{𐌰𐍃𐌹𐌻𐌿𐍃} \fm{asilus} ‘donkey’.
+	Further compare
+	PBS \fm[*]{girnū} > Lat \fm{gìrna} ‘millstone’, Lit \fm{dzir̃nus}, OPr \fm{girnoywis},
+	PSlv \fm[*]{žьrny} > OCS \cyrillic{жръны} \fm{žrŭny}, \cyrillic{жръновъ} \fm{žrŭnovŭ},
+		Bul \cyrillic{же́рка} \fm{žérka}, SC \cyrillic{жрвањ} \fm{žrvanj}, Slov \fm{žrnev}, Cz \fm{žernov},
+		Pol \fm{żarnów}, Ru \cyrillic{жёрнов} \fm{žërnov}, Ukr \cyrillic{жо́рна} \fm{žórna};
+	PCel \fm[*]{brāwan} > Wel \fm{breuan}, Bre \fm{breo}, Corn \fm{brou},
+		OIr \fm{bráu} > Ir \fm{bró}, ScGae \fm{brà}, Manx \fm{braain};
+	Arm \armenian{երկան} \fm{erkan},
+	Skt \sanskrit{ग्रावन्}\! \fm{grā́van} ‘stone for pressing Soma juice’.
+\end{Etymology}
+\begin{Definitions}
+	① Having to do with millstones, either as a place where millstones can be quarried or a mill where millstones are used.	
+\end{Definitions}
+\begin{Examples}
+	Kerne Bridge (<~\fm{cweorn brycg} ‘millstone bridge’),
+	Quarley (<~\fm{cweorn-lēah} ‘millstone clearing’),
+	Quarrington (<~\fm{cweorn-dūn} ‘millstone hill’),
+	Quernmore (<~\fm{cweorn-mōr} ‘millstone marsh’),
+	Quorndon (<~\fm{cweorn-dūn} ‘millstone hill’),
+	Wharncliffe Side (<~\fm{cweorn-clif-sīde} ‘millstone cliff side’),
+	Whorlton (<~\fm{cweorn-ing-tūn} ‘millstone farm’).
+\end{Examples}
+\end{Lemma}
+
+\section*{R}
+
+\begin{Lemma}
+\HeadAndGloss{reach}{stretch, extent}
+\begin{Etymology}
+	< n.\ of OE \fm{rǣcan} < PGmc \fm[*]{raikijaną}, \fm[*]{rakjaną} < PIE \fm[*]{(h₃)reyǵ} ‘reach, stretch out’;
+		probably related to \fm{rick} and \fm{ridge}, which see.
+	Compare
+	OFri \fm{rēka} > WFri \fm{reke}, \fm{rikke}, SatFri \fm{räkke}, NFri \fm{reke};
+	OSax \fm[*]{rēkian} > MLG \fm{reken} > LGer \fm{recken};
+	ODu \fm[*]{reiken} > MDu \fm{reiken}, \fm{reken} > Du \fm{reiken};
+	OHG \fm{reihhen} > MHG \fm{reichen} > Ger \fm{reichen};
+	ON \fm{rekja} > Nor \fm{rekkja}, Sw \fm{räcka}, Dan \fm{række}.
+	Further compare
+	OIr \fm{rigid} ‘stretch’, L \fm{rigeō} ‘stiff; upright’, Lit \fm{réižti} ‘stretch, tighten’.	
+\end{Etymology}
+\begin{Definitions}
+	① An extended portion of land, typically elevated; cf.\ \fm{ridge}.
+	② A straight length of a stream or river between bends; a part of a canal.
+\end{Definitions}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{rick}{ridge, ditch}
+\begin{Also}
+	\fm{reigh}, \fm{rigg}, \fm{ris}
+\end{Also}
+\begin{Etymology}
+	< ME \fm{rick}, \fm{riche} < OE \fm{ric}; prob.\ same origin as \fm{reach} or \fm{ridge}, which see;
+		persists in dialectal \fm{ricket} ‘narrow gutter or channel’ in Lancashire and Yorkshire.
+	Compare
+	ON \fm{reik} ‘parting of hair’ > Nor \fm{reik} ‘stripe, furrow, groove’,
+		Sw \fm{rek}, (Gotland) \fm{raik} ‘parting of hair’;
+	OHG \fm{ric} ‘narrow road, pass’. Some names attested with OE \fm{ric} have shifted to
+		\fm{ridge} < OE \fm{hrycg}, for which see \fm{ridge}.
+\end{Etymology}
+\begin{Definitions}
+	① A strip or piece of land, usually elevated.
+	② A ditch or trench, perhaps because of the embankment of waste dirt from digging the ditch.
+\end{Definitions}
+\begin{Examples}
+	Askrigg (<~ON \fm{askr} ‘ash’ + OE \fm{ric} ‘ridge’),
+	Chatteris (<~\fm{Ceata-ric} ‘Ceata’s ridge’),
+	Escrick (<~ON \fm{eski} ‘ash.\xx{dat}’ + OE \fm{ric} ‘ridge’),
+	Kimmeridge (<~\fm{cȳme-ric} ‘convenient ridge’ or pers.\ name \fm{Cȳma}),
+	Lindrick (<~\fm{lind-ric} ‘linden ridge’),
+	Marrick (<~ON \fm{marr} ‘marsh’ or OE \fm{mǣre} ‘boundary’ + \fm{ric} ‘ridge’),
+	Midridge (<~\fm{midel-ric} ‘middle ridge’),
+	Puckeridge (<~\fm{pūca-ric} ‘goblin ridge’),
+	Richeham (<~\fm{ric-hām} ‘ridge homestead’),
+	Reighton (<~\fm{ric-tūn} ‘ridge farm’),
+	Rastrick (<~ON \fm{rǫst} ‘rest’ + OE \fm{ric} ‘ridge’),
+	Skitterick (<~ON \fm{skite} ‘trickle; shit’ + OE \fm{ric} ‘ditch’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{ridge}{ridge}
+\begin{Also}
+	\fm{bridge}, \fm{rudge}, \fm{ruge}
+\end{Also}
+\begin{Etymology}
+	< ME \fm{rygge}, \fm{rig}, \fm{ryg}, \fm{rigge} < OE \fm{hrycg} ‘back, spine, ridge’
+		< PGmc \fm[*]{hrugjaz} ‘back’ probably from PIE \fm[*]{(s)kre-uk} < \fm[*]{(s)ker} ‘turn, bend’.
+	Compare
+	OFri \fm{hreg} > WFri \fm{rêch}, SatFri \fm{Rääch}, NFri \fm{reg};
+	OSax \fm{hruggi} > MLG \fm{rügge} > LGer \fm{Rügge}, \fm{Rügg};
+	MDu \fm{rugge} > Du \fm{rug};
+	OHG \fm{rucki} > MHG \fm{rucke} > Ger \fm{Rücken}, Lux \fm{Réck}, Yid \hebrew{רוקן} \fm{rukn};
+	ON \fm{hryggr} > Is \fm{hryggur}, Far \fm{ryggur}, Nor \fm{rygg}, Sw \fm{rygg}, Dan \fm{ryg}.
+	Further compare
+	PIE \fm[*]{(s)kre-uk} > L \fm{crux} ‘cross’,
+		PIE \fm[*]{(s)kr̥-wós} > PIt \fm[*]{korwos} > L \fm{curvus} ‘bent, crooked, curved’,
+		PIE \fm[*]{(s)kr̥-kr̥-} (redup.)\ > PIt \fm[*]{karkros} > L \fm{carcer} ‘prison; starting gate’,
+			PIt \fm[*]{kankros} (dissim.)\ > L \fm{cancer} ‘crab; tumor; lattice’;
+	PIE \fm[*]{(s)kr̥-tós} > AGk \greek{κυρτός} \fm{kurtós} ‘convex’,
+		PIE \fm[*]{(s)ker-ew-} > AGk \greek{κορωνός} \fm{korōnós} ‘bent, crooked’,
+			\greek{κορώνη} \fm{korṓne} ‘seabird; curved thing; apophysis’ > L \fm{corōna} ‘crown’,
+		PIE \fm[*]{(s)ker-k-} > AGk \greek{κίρκος} \fm{kírkos} ‘circle; racecourse’ > L \fm{circus} ‘racecourse’;
+	PAlb \fm[*]{karnutja} > Alb \fm{kërrus} ‘bend back’.
+\end{Etymology}
+\begin{Definitions}
+	① An extended length of elevated land; a chain of hills.
+\end{Definitions}
+\begin{Examples}
+	Awbridge (<~\fm{abbod-hrycg} ‘abbot ridge’),
+	Chartridge (<~\fm{Cearda-hrycg} ‘Cearda’s ridge’),
+	Coldridge (<~\fm{col-hrycg} ‘charcoal ridge’),
+	Curdridge (<~\fm{Cūþrǣdes-hrycg} ‘Cūþrǣd’s ridge’),
+	Dorridge (<~\fm{dēor-hrycg} ‘deer ridge’),
+	Eastriggs (<~\fm{ēast-hrycg} ‘east ridge’),
+	Elmbridge (<~\fm{elm-an-hrycg} ‘elm-\xx{gen} ridge’),
+	Eridge (<~\fm{earn-es-hrycg} ‘eagle-\xx{gen} ridge’),
+	Foulridge (<~\fm{fola-hrycg} ‘foal ridge’),
+	Hawkridge (<~\fm{hafoc-hrycg} ‘hawk ridge’),
+	Henstridge (<~\fm{hengest-hrycg} ‘stallion ridge’),
+	Latteridge (<~\fm{lād-hrycg} ‘leading ridge’),
+	Lindridge (<~\fm{lind-hrycg} ‘linden ridge’),
+	Longridge (<~\fm{lang-hrycg} ‘long ridge’),
+	Melkridge (<~\fm{meolc-hrycg} ‘milk ridge’),
+	Puckeridge (<~\fm{puca-hrycg} ‘goblin ridge’),
+	Rudge (<~\fm{hrycg-e} ‘ridge-\xx{dat}’),
+	Rudgwick (<~\fm{hrycg-wīc} ‘ridge village’),
+	Rugeley (<~\fm{hrycg-lēah} ‘ridge clearing’),
+	Sandridge (<~\fm{sand-hrycg} ‘sand ridge’),
+	Storridge (<~\fm{stān-hrycg} ‘stone ridge’),
+	Tandridge (<~\fm{tended-hrycg} ‘signal fire ridge’),
+	Totteridge (<~\fm{Tāta-hrycg} ‘Tāta’s ridge’),
+	Waldridge (<~\fm{wall-hrycg} ‘wall ridge’).
+\end{Examples}
+\end{Lemma}
+
+\section*{S}
+
+\begin{Lemma}
+\HeadAndGloss{shaw}{woods}
+\begin{Etymology}
+	< ME \fm{schawe}, \fm{schaȝe} < OE \fm{sceaga}, \fm{scaga} < PGmc \fm[*]{skōgaz}, though
+		the OE \fm{scaga} form could also be from ON \fm{skógr} ‘wood’ (see below);
+		of unclear etymology with little attestation outside of English and North Germanic,
+		but probably related to PGmc \fm[*]{skaggiją}, \fm[*]{skagją} ‘protrusion; beard’ >
+		OE \fm{sceacga} > ModE \fm{shag}, perhaps originally from PIE \fm[*]{(s)keg}
+		‘jump, skip, move quickly’.
+	Compare
+	NFri \fm{skage} ‘far edge of cultivated land’;
+	PGmc \fm[*]{skōgaz} > ON \fm{skógr} ‘wood’ > Is \fm{skógur}, Far \fm{skógur}, \fm{skógvur},
+		Nor \fm{skog}, Sw \fm{skog}, Dan \fm{skov};
+	PGmc \fm[*]{skaggiją}, \fm[*]{skagją} ‘protrusion; beard’ > ON \fm{skegg} ‘beard’ >
+			Sw \fm{skägg}, Nor \fm{skjegg}, Dan \fm{skæg},
+			ModE \fm{skeg} ‘stern fin of a boat or surfboard; stump of a branch’;
+	ON \fm{skage} ‘promontory’, \fm{skaga} ‘protrude’ > Is \fm{skaga} ‘protrude’;
+	OHG \fm{scahho} ‘promontory’;
+	Dan \fm{Skagen} ‘town on north cape of Jutland’ (ModE \fm{The Scaw}),
+		\fm{Skagerrak} ‘strait between North Sea and Kattegat’
+		(with \fm{rak} ‘strait’ < PGmc \fm[*]{rakjaną} ‘stretch, straighten’,
+		\fm[*]{raikijaną} ‘stretch out, reach’ > OE \fm{rǣcan} > ModE \fm{reach}).
+\end{Etymology}
+\begin{Definitions}
+	① A small wood or thicket, a copse or grove of trees, particularly one at the border of an agricultural field.
+		Still used as an independent word in some English dialects, and in old poetry in
+		compounds like \fm{woodshaw}.
+	② The tops of root vegetables like carrots and turnips, likened to a miniature grove of trees.
+		This usage is primarily found in Scotland and is not normally applicable in placenames.
+\end{Definitions}
+\begin{Examples}
+	Appleshaw (<~\fm{æppel-sceaga} ‘apple woods’),
+	Audenshaw (<~\fm{Aldwine-sceaga} ‘Aldwine’s woods’),
+	Birkenshaw (<~\fm{bircen-sceaga} ‘birch woods’),
+	Bradshaw (<~\fm{brād-sceaga} ‘broad woods’),
+	Bramshaw (<~\fm{brǣmel-sceaga} or \fm{brēmel-} ‘bramble woods’, also \fm{brōm-sceaga} ‘broom woods’),
+	Crawshaw Booth (<~\fm{crāwe-sceaga} ‘crow woods’ + ON \fm{búð} ‘hut’),
+	Denshaw (<~\fm{denu-sceaga} ‘valley woods’),
+	Dunnockshaw (<~\fm{dunnoc-sceaga} ‘sparrow woods’),
+	Oakenshaw (<~\fm{ācen-sceaga} ‘oaken woods’),
+	Ottershaw (<~\fm{oter-sceaga} ‘otter woods’),
+	Renishaw (<~AN \fm{Reynald} + OE \fm{-es} \xx{gen} + \fm{sceaga} ‘Reynold’s woods’),
+	Wishaw (<~\fm{wiht-sceaga} ‘bent woods’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{ship}{sheep}
+\begin{Also}
+	\fm{ship}
+\end{Also}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{shot}{corner}
+\begin{Also}
+	\fm{side}
+\end{Also}
+\begin{Etymology}
+	< OE \fm{scēat} ‘corner, angle; nook; lap’ < PGmc \fm[*]{skautaz} ‘corner; wedge; flap, fold; lap’
+		< PIE \fm[*]{(s)kewd} ‘throw, shoot, pursue, rush’;
+		also as OE \fm{scēat} > ModE \fm{sheet} referring to cloth or paper, and
+		in sailing \fm{sheet} (obs.\ \fm{shoot}) refers to the rope attached to the lower corner (\fm{clew})
+		of a sail.
+	Compare
+	OFri \fm{skat} > NFri \fm{skut} ‘fold of garment; lap; coattail’, WFri \fm{skoat} ‘sheet, sail; lap’;
+	MDu \fm{scoot} > Du \fm{schoot} ‘wedge’;
+	MLG \fm{schōte} > LGer \fm{Schote} ‘sheet rope of sail’;
+	OHG \fm{scōz} > MHG \fm{schōz} > Ger \fm{Schoß} ‘fold of garment; lap’;
+	ON \fm{skaut} > Dan \fm{skød} ‘lap; skirt’, Is \fm{skaut} ‘lap; hood; electrode’;
+	Got \gothic{𐍃𐌺𐌰𐌿𐍄𐌰} \fm{skauta} ‘projecting edge, fringe’.
+\end{Etymology}
+\begin{Definitions}
+	① A corner of a larger area.
+	② A clump or bunch of trees.
+\end{Definitions}
+\begin{Examples}
+	Aldershot (<~\fm{alor-scēat} ‘alder clump’), Bagshot (<~\fm{bagga-scēat} ‘badger corner’), Bebside (<~\fm{Bibba-scēat} ‘Bibba’s corner’), Bramshott (<~\fm{brǣmel-scēat} ‘bramble clump’), Empshott (<~\fm{imbe-scēat} ‘bee corner’), Eshott (<~\fm{æsc-scēat} ‘ash clump’), Evershot (<~\fm{eofor-scēat} ‘boar corner’), Ewshot (<~\fm{īw-scēat} ‘yew clump’), Grayshott (<~\fm{grāf-scēat} ‘grove corner’), Oxshott (<~\fm{Ocga-scēat} ‘Ocga’s corner’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{stan}{stone}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{staple}{post}
+\begin{Also}
+	\fm{stable}, \fm{stal}, \fm{stapl-}
+\end{Also}
+\begin{Etymology}
+	< OE \fm{stapol} ‘post, pillar’ < PGmc \fm[*]{stapulaz} ‘post, pillar; foundation’
+		< PIE \fm[*]{stebʰ} ‘post, stem’.
+	ME \fm{staple} is also influenced by AN \fm{estaple} ‘market, trading post’ (see etymology below).
+	Compare
+	OFri \fm{stapul} > WFri \fm{steapel}, SatFri \fm{Stoapel};
+	OSax \fm{stapol} > MLG \fm{stapel} ‘pile, stack’ > LGer \fm{Stapel}, Ger \fm{Stapel},
+		Yid \hebrew{שטאַפּל} \fm{shtapl};
+	ODu \fm{stapal} > MDu \fm{stapel} ‘pile, stack’ > Du \fm{stapel};
+	OHG \fm{stapfal} > Ger \fm{Staffel} ‘season; squadron’;
+	ON \fm{stöpull} > Is \fm{stöpull}, Far \fm{støpul}, Sw \fm{stapel} ‘stack; dock’,
+		Dan \fm{stabel}, \fm{stavl} ‘stack’ > Is \fm{stafli}.
+	Also
+	PGmc \fm[*]{stapulaz} ≫ L \fm{stapula} ‘market, trading post’
+		> OFr \fm{estaple} > AN \fm{estaple}, MFr \fm{estappe} ‘warehouse’
+		> Fr \fm{étape} ‘stage of journey’
+		> Du \fm{etappe}, Ger \fm{Etappe}, Geo \georgian{ეტაპი} \fm{etʼapʼi}.
+\end{Etymology}
+\begin{Definitions}
+	① A site marked by a post or pillar.
+	② A trading post or market for the exchange of goods. This sense developed in ME from the influence
+		of AN and OFr \fm{estaple} ‘trading post’.
+\end{Definitions}
+\begin{Examples}
+	Barnstaple (<~\fm{beard-an-stapol} ‘battleaxe post’), Dunstable (<~\fm{Dunnas-stapol} ‘Dunna’s pole’), Stalbridge (<~\fm{stapol-brycg} ‘post bridge’), Stapleford (<~\fm{stapol-ford} ‘post ford’), Staplegrove (<~\fm{stapol-grāf} ‘post grove’), Staplehurst (<~\fm{stapol-hyrst} ‘post woodhill’), Stapleton (<~\fm{stapol-tūn} ‘post farm’), Stapley (<~\fm{stapol-lēah} ‘post clearing’), Staploe (<~\fm{stapol-hōh} ‘post hillspur’), Whitstable (<~\fm{hwīt-stapol} ‘white post’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{stead}{farm}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{ster}{farm}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{stoke}{second settlement}
+\begin{Also}
+	\fm{stock}
+\end{Also}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{stow}{assembly}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{strath}{wide valley}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{street}{Roman road}
+\begin{Also}
+	\fm{streat}
+\end{Also}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{swin}{swine, pigs}
+\end{Lemma}
+
+\section*{T}
+
+\begin{Lemma}
+\HeadAndGloss{tarn}{lake}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{thorpe}{village}
+\begin{Also}
+	\fm{thorp}, \fm{throp}
+\end{Also}
+\begin{Etymology}
+	< ME \fm{thorp}, \fm{throp} < OE \fm{þorp}, \fm{þrop} ‘village’ < PGmc \fm[*]{þurpą} ‘village, settlement’
+		< PIE \fm[*]{tr̥b-om} < \fm[*]{treb} ‘room, dwelling’; also from ON \fm{þorp} ‘village’,
+		especially with ON personal names.
+	Compare
+	OFri \fm{thorp}, \fm{terp} > WFri \fm{terp}, SatFri \fm{Täärp}, NFri \fm{torp}, \fm{terp};
+	OSax \fm{thorp} > MLG \fm{dorp} > LGer \fm{Dörp}, Plautdietsch \fm{Darp}, WFri \fm{doarp}
+		(doublet with \fm{terp} < OFri);
+	Frankish \fm[*]{thorp}, \fm[*]{throp} > ODu \fm[*]{thorp} > Du \fm{dorp} > ModE \fm{dorp};
+	OHG \fm{dorf} > Ger \fm{Dorf}, Lux \fm{Duerf}, Yid \hebrew{דאָרף} \fm{dorf};
+	ON \fm{þorp} > Is \fm{þorp}, Far \fm{torpur}, Nor \fm{torp}, Sw \fm{torp}, Dan \fm{torp}, Gut \fm{torp};
+	Got \gothic{𐌸𐌰𐌿𐍂𐍀} \fm{þaurp};
+	Frankish \fm[*]{thorp}, \fm[*]{throp} > OFr \fm{trope}, \fm{trupe} >
+			Fr \fm{troupe}, \fm{troupeau}, \fm{trop} > ModE \fm{troop}, \fm{troupe},
+			Du \fm{troep}, Ger \fm{Truppe}, Sw \fm{trupp};
+		also OFr \fm{trope}, \fm{trupe}, \fm{tropel} > Sp \fm{tropel}, Pt \fm{tropel}, ML \fm{troppus} >
+			Cat \fm{tropa}, Occ \fm{trop}, It \fm{truppa}, Sp \fm{tropa}, Pt \fm{tropa}.
+	Further compare PIE \fm[*]{treb} ‘room, dwelling’ > \fm[*]{treb-eh₂} >
+			PCel \fm[*]{trebā} > Bryth \fm[*]{treβ} > Bret \fm{trev}, Wel \fm{tref}, \fm{tre},
+			also PCel \fm[*]{trebā} > OIr \fm{treb} > Ir \fm{treabh};
+		L \fm{trabs} ‘trunk, timber; beam, rafter, roof’ > \fm{taberna} ‘tavern, shop’;
+		Lit \fm{trōbà} ‘farmhouse’.
+\end{Etymology}
+\begin{Definitions}
+\end{Definitions}
+\begin{Examples}
+	Addlethorpe (<~\fm{Eardwulfes-þorp} ‘Eardwulf’s village’), Aisthorpe (<~\fm{ēast-þorp} ‘east village’), Ashwellthorpe (<~\fm{æsc-wella-þorp} ‘ash spring village’), Belmesthorpe (<~\fm{Beornhelmes-þorp} ‘Beornhelm’s village’), Burnham Thorpe (<~\fm{burna-hām þorp} ‘stream home village’), Cleethorpes (<~\fm{clǣge-þorp} ‘clay village’), Coneysthorpe (<~ON \fm{konungs-þorp} ‘king’s village’), Copmanthorpe (<~ON \fm{kaup-manna-þorp} ‘merchant’s (buy-man.\xx{gen}) village’), Eathorpe (<~\fm{ēa-þorp} ‘river village’), Friesthorpe (<~ON \fm{Frísa-þorp} ‘Frisian’s village’), Gaytonthorpe (<~\fm{Gǣgas-tūn-þorp} ‘Gǣga’s farm village’), Ingoldisthorpe (<~ON \fm{Ingjaldras-þorp} ‘Ingjald’s village’), Ixworth Thorpe (<~\fm{Gycsa-worþ þorp} ‘Gycsa’s enclosure village’), Kingsthorpe (<~\fm{cyninges-þorp} ‘king’s village’), Londonthorpe (<~ON \fm{lundr-þorp} ‘grove village’), Milnthorpe (<~\fm{myln-þorp} ‘mill village’), Osgathorpe (<~ON \fm{Ásgautr-þorp} ‘Ásgautr’s village’), Newthorpe (<~\fm{nīwe-þorp} ‘new village’), Rothersthorpe (<~\fm{rǣderes-þorp} ‘counsellor’s village’), Scunthorpe (<~ON \fm{Skúna-þorp} ‘Skuna’s village’), Yaddlethorpe (<~\fm{Ēadwulfes-þorp} ‘Ēadwulf’s village’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{thwaite}{clearing}
+\begin{Also}
+	\fm{foot}, \fm{thaite}
+\end{Also}
+\begin{Etymology}
+	< ON \fm{þveit} ‘paddock, cleared forest land’.
+	Of uncertain etymology, but various comparanda are found in some Germanic languages, e.g.\
+		OE \fm{þwītan} ‘cut off’ > ME \fm{thwitel}, \fm{whittel} ‘large knife’
+			> ModE \fm{whittle} ‘cut wood with a knife’;
+		ON \fm{þveita} ‘hurl, fling’;
+		MDu \fm{duit} ‘⅛ stiver (coin)’, MLG \fm{doyt} > Du \fm{duit} ‘bit, small amount’,
+			ModE \fm{doit}, Dan \fm{døjt}, Ger \fm{Deut}.
+\end{Etymology}
+\begin{Definitions}
+	① A piece of ground, especially cleared from a forest or reclaimed from waste for use in agriculture or housing.
+\end{Definitions}
+\begin{Examples}
+Allithwaite (<~ON \fm{Eilífr-þveit} ‘Eilífr’s clearing’), Brackenthwaite (<~ON \fm{brækni-þveit} ‘bracken clearing’), Braithwaite (<~ON \fm{breiþr-þveit} ‘broad clearing’), Branthwaite (<~OE \fm{brām} ‘broom (plant)’ + ON \fm{þveit}), Calthwaite (<~ON \fm{kalfr-þveit} ‘calf clearing’), Curthwaite (<~ON \fm{kirkja-þveit} ‘church clearing’), Haverthwaite (<~ON \fm{hafri-þveit} ‘oat clearing’), Huthwaite (<~OE \fm{hōh} ‘hillspur’ + ON \fm{þveit}), Langthwaite (<~ON \fm{langr-þveit} ‘long clearing’), Morfoot (<~ON \fm{mór-þveit} ‘marsh clearing’), Satterthwaite (<~ON \fm{sǽtr-þveit} ‘shieling (hut) clearing’), Seathwaite (<~ON \fm{sef-þveit} ‘sedge clearing’ or \fm{sǽr-þveit} ‘lake clearing’), Slaithwaite (<~ON \fm{slag-þveit} ‘logged clearing’), Southwaite (<~OE \fm{þōh} ‘clay’ + ON \fm{þveit}), Swinithwaite (<~ON \fm{sviþningr-þveit} ‘burned clearing’), Yockenthwaite (<~OIr \fm{Eogan} + ON \fm{þveit} ‘Eogan’s clearing’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{toft}{homestead, curtilage}
+\begin{Etymology}
+	OE \fm{toft} < ON \fm{toft}, \fm{topt} < PGmc \fm[*]{tumfet} < PIE \fm[*]{dm̥-pedom} ‘floor’
+		< \fm[*]{dem} ‘build’ + \fm[*]{ped} ‘foot’.
+	Further compare PIE \fm[*]{dem} ‘build’ with
+	PIE \fm[*]{dém-n̥ti} > PGmc \fm[*]{temaną} ‘fit’ > OE \fm{teman} > ModE \fm{teem},
+		OFri \fm{tima} > WFri \fm{betamen} ‘befit’,
+		OSax \fm{teman}, Du \fm{betamen}, OHG \fm{zeman} > Ger \fm{ziemen},
+		Got \gothic{𐍄𐌹𐌼𐌰𐌽} \fm{timan};
+	PIE \fm[*]{dm̥-tis} > PGmc \fm[*]{tumþiz} ‘association, guild’ > OHG \fm{zumft} > Ger \fm{Zunft};
+	PIE \fm[*]{dem-ro} > PGmc \fm[*]{timrą} ‘building, timber’ > ModE \fm{timber}, WFri \fm{timmer},
+		Du \fm{timmer}, Ger \fm{Zimmer}, ON \fm{timbr} > Is \fm{timbur}, Sw \fm{timmer}, Dan \fm{tømmer};
+	PIE \fm[*]{dṓm} ‘house’ > PSlv \fm[*]{domъ}, AGk \greek{δόμος} \fm{dómos},
+		L \fm{domus}, Arm \armenian{տուն} \fm{tun}, Skt \sanskrit{दम} \fm{dáma},
+		Av \avestan{𐬛𐬄𐬨} \fm{dąm}, Alb \fm{dhomë} ‘room, chamber’.
+\end{Etymology}
+\begin{Definitions}
+	① A homestead, a house along with its various outbuildings (stable, barn, etc.). Paired with
+		\fm{croft} (which see) as \fm{toft and croft} to denote the whole landholding of the
+		homestead and its associated pasture and tillage.
+	② A curtilage (also \fm{courtlege} < AN \fm{curtilege} < OFr \fm{cortilege} < L \fm{curtilagium}),
+		a courtyard attached to a house and together with it forming an enclosure.
+	③ Extended to apply to the land owned by the householder of the homestead.
+	④ A knoll or hillock suitable for the site of a homestead.
+\end{Definitions}
+\begin{Examples}
+	Blacktoft (<~\fm{blæc-toft} ‘black (dark) homestead’), Bratoft (<~ON \fm{breiþr-toft} ‘broad homestead’), Bircham Tofts (<~\fm{brēc-hām toft} ‘broken (ground) farm homestead’), Eastoft (<~ON \fm{eski-toft} ‘ash.\xx{dat} homestead’), Hardstoft (<~ON \fm{Hjǫrtars-toft} ‘Hjǫrtr’s homestead’), Lowestoft (<~ON \fm{Hloþvérs-toft} ‘Hloþvér’s homestead’), Wigtoft (<~ON \fm{vík-toft} ‘creek/bay homestead’), Willitoft (<~\fm{willig-toft} ‘willow homestead’), Yelvertoft (<~\fm{Geldfriðar-toft} ‘Geldfriþ’s homestead’ or \fm{gēol-ford-toft} ‘pool ford homestead’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{ton}{farm, enclosure}
+\begin{Etymology}
+	< OE \fm{tūn} ‘enclosure’ < PGmc \fm[*]{tūną} ‘fence’ < PCel \fm[*]{dūnom} ‘hill, fort on a hill’
+		< PIE \fm[*]{dʰuHnom} < PIE \fm[*]{dʰewh₂} ‘finish, come full circle’;
+		closely related to \fm{-don}, \fm{down} < OE \fm{dūn} ‘hill’ which see.
+	Compare
+	OFri \fm{tūn} > WFri \fm{tun};
+	OSax \fm{tūn};
+	ODu \fm{tun} > Du \fm{tuin} ‘garden’;
+	OHG \fm{zūn};
+	ON \fm{tún} ‘fenced area, enclosure; field around a dwelling’ > Is \fm{tún} ‘hayfield’,
+		Far \fm{tún} ‘forecourt; way between houses, street’,
+		Dan \fm{tun} ‘fenced area’, Nor \fm{tun}, Sw \fm{ton}, \fm{tun}.
+	Further compare
+	PGmc \fm[*]{tūną} > PSlv \fm[*]{tynъ} ‘fence’ > Ru \cyrillic{тын} \fm{tyn} ‘fence, esp.\ wattle’,
+		Ukr \cyrillic{тин} \fm{tyn}, SC \fm{tin}, Cz \fm{týn}, Pol \fm{tyn}.
+\end{Etymology}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{twistle}{river fork}
+\begin{Also}
+	\fm{twhistle}
+\end{Also}
+\begin{Etymology}
+	< ME \fm{twisel} < OE \fm{twisla} < PGmc \fm[*]{twisilą} ‘fork, split, bifurcation’
+		< PIE \fm[*]{dwis} ‘twice, in two’.
+	Compare
+	ModE \fm{twizzle} ‘twist, stir’, AmE \fm{swizzle} ‘mixed drink; stir, mix up’;
+	PGmc \fm[*]{twisilą} > OHG \fm{zwisila} > MHG \fm{zwisel} > Ger \fm{Zwiesel},
+		ON \fm{kvisl} > Is \fm{kvísl} ‘fork in river; forked implement, pitchfork’;
+	ON \fm{kvistr} ‘branch’ > Nor \fm{kvist} ‘twig, stick’,
+		Sw \fm{kvist}, Dan \fm{kvist};
+	ON \fm{kvista} ‘branch out’, \fm{kvistlingr} ‘sapling’, \fm{kvistóttr} ‘twisted, gnarled (wood)’,
+		\fm{kvist-skæðr} ‘twist-scathing (sun epithet)’.
+\end{Etymology}
+\begin{Definitions}
+	① Fork in a river, merging or splitting of two streams.
+\end{Definitions}
+\begin{Examples}
+	Entwistle (<~\fm{henna-twisla} ‘hen fork’),
+	Haltwhistle (<~AN \fm{haut} ‘high’ + OE \fm{twisla} ‘fork’),
+	Oswaldtwistle (<~\fm{Ōswald-twisla} ‘Oswald’s fork’),
+	Tintwistle (<~\fm{þengel-twisla} ‘prince’s fork’).
+\end{Examples}
+\end{Lemma}
+
+\section*{W}
+
+\begin{Lemma}
+\fm{weald} see \fm{wold} ‘forest, woodland’
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{wick}{village, dairy}
+\begin{Also}
+	\fm{week}, \fm{wich}, \fm{wig}, \fm{wigh}, \fm{wych}, \fm{wycke}
+\end{Also}
+\begin{Etymology}
+	< OE \fm{wīc} < L \fm{vīcus} ‘house-row, city quarter; village’ < PIE \fm[*]{wéyḱs} ‘village; household’
+		< \fm[*]{wéyḱ} ‘settle’; homophonous and confused with OE \fm{wīc} ‘bay, inlet’ < ON \fm{vík},
+		for which see the other \fm{wick} entry.
+	The Latin etymon \fm{vīcus} apparently replaced PIE \fm[*]{wéyḱs} > PGmc \fm[*]{wīhsą} >
+		Got \gothic{𐍅𐌴𐌹𐌷𐍃} \fm{weihs} in other Germanic languages as final \fm{-s} is lost.
+	Compare
+	OFri \fm{wīk} > WFri \fm{wyk};
+	OSax \fm{wīk} > MLG \fm{wîk} > LGer \fm{-wiek} 
+		in e.g.\ \fm{Brunswiek} (ModE \fm{Brunswick}, Ger \fm{Braunschweig});
+	ODu \fm{wīk} > MDu \fm{wijck} > Du \fm{wijk} ‘neighbourhood’;
+	OHG \fm{wīh} > MHG \fm{wīch} > Ger \fm{weich-} in e.g.\ \fm{Weichbild} ‘city precinct’.
+	Further compare 
+	PIE \fm[*]{wéyḱs} ‘village; household’ >
+		PBS \fm[*]{weisís} > Lat \fm{vìesis} ‘guest’, Lit \fm{váišinti} ‘visit’, \fm{viešė́ti} ‘stay in’,
+			PSlv \fm[*]{vьsь} ‘village’ > OCS \cyrillic{вьсь} \fm{vĭsĭ}, SC \cyrillic{вас} \fm{vas},
+			Cz \fm{ves}, Pol \fm{wieś}, LSorb \fm{wjas}, USorb \fm{wjes}, Ru \cyrillic{весь} \fm{ves′};
+		AGk \greek{οἶκος} \fm{oîkos} ‘household’ > L > ModE \fm{eco-};
+		Skt \sanskrit{विश्} \fm{víś} ‘village, people’, \sanskrit{वेश} \fm{veśa} ‘house’,
+		Av \avestan{𐬬𐬍𐬯} \fm{vīs} ‘village, clan’, TochB \fm{īke} ‘place, location’.
+	Also PIE \fm[*]{wéyḱs} + \fm[*]{pótis} ‘master’ > \fm[*]{weyḱ-potis} ‘village chief’ >
+		Skt \sanskrit{विश्पति} \fm{víśpáti} ‘village chief’, Av \avestan{𐬬𐬍𐬯𐬞𐬀𐬌𐬙𐬌} \fm{vīspaiti} ‘clan chief’,
+		TochA \fm{wikpots} ‘clan chief’, Lit \fm{viēšpats} ‘house master’,
+		OPr \fm{waispattin} ‘house mistress’ (fem.\ \fm{-in}),
+		perh.\ PAlb \fm[*]{dzwāpt} > Alb \fm{zot} ‘lord, master’.
+\end{Etymology}
+\begin{Definitions}
+	① A town or village. Originally denoting larger settlements (e.g.\ Canterbury), this usage is preserved through the 19th century in some dialects as a term for smaller villages, i.e.\ hamlets.
+	② A farm or dairy. Applied in OE to farms in general, but by ME specifically used for dairies and now dialectal.
+\end{Definitions}
+\begin{Examples}
+	Aldwych (<~\fm{ealde-wīc} ‘old village’),
+	Austwick (<~ON \fm{austr} + OE \fm{wīc} ‘east farm’),
+	Blatherwycke (<~\fm{blǣdre-wīc} ‘bladder (plant) farm’),
+	Chiswick (<~\fm{cīese-wīc} ‘cheese farm’),
+	Cowick (<~\fm{cū-wīc} ‘cow farm’),
+	Gatwick (<~\fm{gāt-wīc} ‘goat dairy’),
+	Greenwich (<~\fm{grēne-wīc} ‘green village’),
+	Hammerwich (<~\fm{hamor-wīc} ‘hammer farm’),
+	Hardwick (<~\fm{heord-wīc} ‘herd dairy’),
+	Harwich (<~\fm{here-wīc} ‘army (Vikings) camp’),
+	Hawick (<~\fm{haga-wīc} ‘enclosed farm’),
+	Hedderwick (<~\fm{hǣddre-wīc} ‘heather farm’),
+	Hinwick (<~\fm{henn-wīc} ‘hen farm’),
+	Middlewich (<~\fm{midlest-wīc} ‘middlemost farm’),
+	Milwich (<~\fm{myln-wīc} ‘mill farm’),
+	Northwick (<~\fm{norþ-wīc} ‘north farm’),
+	Northwich (<~\fm{norþ-wīc} ‘north farm’),
+	Pancrasweek (<~\fm{Sanct Pancras wīc} ‘St.\ Pancras village’),
+	Papplewick (<~\fm{papol-wīc} ‘pebble farm’),
+	Prestwich (<~\fm{prēost-wīc} ‘priest village’),
+	Rotherwick (<~\fm{hrȳðer-wīc} ‘cattle farm’),
+	Sheldwich (<~\fm{sceld-wīc} ‘shelter farm’),
+	Warwick (<~\fm{waroð-wīc} ‘meadowbank farm’),
+	Wickmere (<~\fm{wīc-mere} ‘dairy pool’),
+	Wighton (<~\fm{wīc-tūn} ‘village farm’),
+	Wigtown (<~\fm{wīc-tūn} ‘village farm’),
+	Wychbold (<~\fm{wīc-bold} ‘village dwelling’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{wick}{bay, inlet}
+\begin{Also}
+	\fm{vick}, \fm{wich}, \fm{wig}
+\end{Also}
+\begin{Etymology}
+	< OE \fm{wīc} < ON \fm{vík} ‘bay, inlet’ < PGmc \fm[*]{wīko} ‘bend’.
+	Confused with OE \fm{wīc} ‘village, farm, dairy’ < L \fm{vīcus} ‘house-row, city quarter; village’, for
+		which see the other \fm{wich} entry.
+	Placenames are mostly ON although some are OE or a mix of the two.
+	Compare
+	ON \fm{vík} > Is \fm{vík}, Far \fm{vík}, Nor \fm{vik}, Sw \fm{vik};
+	ON \fm{reyk-ja-vík} ‘smoke-\xx{gen}.\xx{pl}-bay’ > Is \fm{Reykjavík},
+	ON \fm{vík-ing-r} ‘bay-people-\xx{nom}’ > \fm{víkingr} > OE \fm{wīcing}, OFr \fm{witsing},
+		ModE \fm{Viking} (reborrowed).
+\end{Etymology}
+\begin{Definitions}
+	① A small bay or inlet.
+	② A creek in the BrE sense, a recess in the coastline with a tidal estuary.
+\end{Definitions}
+\begin{Examples}
+	Brodick (<~ON \fm{breiðr-vík} ‘broad bay’),
+	Burwick (<~ON \fm{barð-vík} ‘edge bay’),
+	Greenwich (<~\fm{grēne-wīc} ‘green bay’)
+	Helvick (<~ON \fm{hjalli-vík} ‘ledge bay’),
+	Hillswick (<~ON \fm{Hildir-vík} ‘Hildir’s bay’),
+	Lerwick (<~ON \fm{leir-vík} ‘mud bay’),
+	Lowick (<~ON \fm{lauf-vík} ‘leafy bay’),
+	Norwick (<~ON \fm{norþ-vík} ‘north bay’),
+	Runswick (<~ON \fm{Reinns-vík} ‘Reinn’s bay’),
+	Sandwich (<~\fm{sand-wīc} ‘sandy bay’)
+	Sandwick (<~ON \fm{sand-vík} ‘sandy bay’),
+	Shandwick (<~ON \fm{sand-vík} ‘sandy bay’),
+	Uig (<~ScGae \fm{ùig} < ON \fm{vík} ‘bay’),
+	Wigtoft (<~ON \fm{vík-toft} ‘bay homestead’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{with}{ford}
+\begin{Also}
+	\fm{wass}, \fm{wath}, \fm{wathe}, \fm{way}, \fm{weth}, \fm{worth}
+\end{Also}
+\begin{Etymology}
+	< ME \fm{wath}, \fm{weth} < OE \fm{wæþ} or ON \fm{vað} < PGmc \fm[*]{waðą}
+		< PIE \fm[*]{wadʰom} ‘ford’ < \fm[*]{weh₂dʰ-} ‘proceed; pass, traverse’.
+	Compare OFri \fm[*]{wed} > Fri \fm{waad};  
+		ODu \fm{wad} > MDu \fm{wat} > Du \fm{wad};
+		Frankish \fm[*]{wad} > OFr \fm{gué} > Fr \fm{gué}, It \fm{guado};
+		OSax \fm[*]{wad} > MLG \fm{wat};
+		OHG \fm{wat} > Ger \fm{Wate}, \fm{Watt};
+		ON \fm{vað} > Is, Far \fm{vað}, Nor, Swe, Dan \fm{vad};
+		Got \gothic{𐍅𐌰𐌳} \fm{wad}.
+	Further compare L \fm{vadum} ‘ford, shallow’ < PIt \fm[*]{waðom};
+		L \fm{vādō} < PIt \fm[*]{wāðō} ‘go, walk’;
+		OArm \armenian{գամ} \fm{gam} ‘come, arrive’.
+\end{Etymology}
+\begin{Definitions}
+	① A ford or crossing along a river or stream where the water is shallow.
+\end{Definitions}
+\begin{Examples}
+	Flawith (<~ON \fm{flagð-vað} ‘witch-ford’ or \fm{flaþa-vað} ‘meadow-ford’),
+	Langwathby (<~ON \fm{langr-vað-bý} ‘long-ford-village’),
+	Nether Langwith (<~OE \fm{niþera} ‘lower’ + ON \fm{langr-vað} ‘long-ford’),
+	Rainworth (<~ON \fm{hreinn-vað} ‘clean-ford’),
+	Ravensworth (<~ON \fm{hrafn-vað} ‘raven-ford’, poss.\ a man \fm{Hrafn}),
+	Sandwith (<~ON \fm{sandr-vað} ‘sand-ford’),
+	Skelwith Bridge (<~ON \fm{skjalla-vað} \fm{bryggja} ‘clashing-ford bridge’),
+	Solway Firth (<~ON \fm{súla-vað} \fm{fjǫrðr} ‘pillar-ford fjord’),
+	Wass (<~ON \fm{vað} ‘ford’),
+	Wath (<~ON \fm{vað} ‘ford’).
+\end{Examples}
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{wold}{forest, woodland}
+\begin{Also}
+	\fm{weald}
+\end{Also}
+\end{Lemma}
+
+\begin{Lemma}
+\fm{worth} see \fm{with} ‘ford’
+\end{Lemma}
+
+\begin{Lemma}
+\HeadAndGloss{worth}{enclosure}
+\begin{Also}
+	\fm{wardine}, \fm{worthy}
+\end{Also}
+\end{Lemma}
+
+\section*{Abbreviations}
+
+\begin{description}[font=\normalfont, leftmargin=3.5em, style=sameline]\small
+\item[AGk]	Ancient Greek
+\item[Alb]		Albanian
+\item[AmE]	Modern American English
+\item[AN]		Anglo-Norman (Old Norman French in Britain after 1066)
+\item[Arm]	Armenian
+\item[Av]		Avestan
+\item[BrE]		Modern British English
+\item[Bre]		Breton
+\item[Bryt]	Brythonic
+\item[Bul]		Bulgarian
+\item[Cat]		Catalan
+\item[Corn]	Cornish (= Kernowek)
+\item[Cz]		Czech
+\item[Dan]	Danish
+\item[Du]		Dutch
+\item[Elf]		Elfdalian (Sweden)
+\item[Far]		Faroese
+\item[Fin]		Finnish
+\item[Fr]		French
+\item[Gaul]	Gaulish
+\item[Geo]	Georgian
+\item[Ger]		German
+\item[Gk]		Modern Greek
+\item[Got]		Gothic (of Wulfilas)
+\item[Gut]		Gutnish (Sweden)
+\item[Hit]		Hittite
+\item[Ir]		Irish
+\item[Is]		Icelandic (Íslenska)
+\item[It]		Italian
+\item[L]		Latin
+\item[LGer]	Low German (= Plattdeutsch, Low Saxon)
+\item[Lim]		Limburgish (Netherlands)
+\item[Lit]		Lithuanian
+\item[LSorb]	Lower Sorbian (= Northern Wendish)
+\item[Lux]		Luxembourgish
+\item[MDu]	Middle Dutch
+\item[MGk]	Medieval (or Middle) Greek
+\item[MHG]	Middle High German
+\item[MLG]	Middle Low German
+\item[MPer]	Middle Persian
+\item[MyGk]	Mycenaean Greek
+\item[NFri]	North Frisian
+\item[Nor]		Norwegian (Bokmål \&\ Nynorsk)
+\item[OArm]	Old Armenian
+\item[Occ]	Occitan (including Provençal)
+\item[OCS]	Old Church Slavonic
+\item[ODu]	Old Dutch (= Old Low Franconian)
+\item[OE]		Old English (= Anglo-Saxon)
+\item[OES]	Old East Slavic (= Old Rusʼian)
+\item[OFr]		Old French
+\item[OFri]	Old Frisian
+\item[OHG]	Old High German
+\item[OIr]		Old Irish
+\item[OIs]		Old Icelandic (later than Old Norse)
+\item[OL]		Old Latin (prisca Latinitas)
+\item[ON]		Old Norse (= Old Scandinavian)
+\item[OPr]	Old Prussian
+\item[OSax]	Old Saxon (= Old Low German)
+\item[PAlb]	Proto-Albanian
+\item[PArm]	Proto-Armenian
+\item[PBal]	Proto-Baltic
+\item[PBS]	Proto-Balto-Slavic
+\item[PCel]	Proto-Celtic
+\item[Per]		Persian (= Farsi)
+\item[PGmc]	Proto-Germanic
+\item[PHel]	Proto-Hellenic (= Proto-Greek)
+\item[PIE]		Proto-Indo-European
+\item[PII]		Proto-Indo-Iranian (= Proto-Indo-Aryan)
+\item[PIt]		Proto-Italic (= Italic)
+\item[Pol]		Polish
+\item[Pt]		Portuguese
+\item[PSlv]	Proto-Slavic
+\item[Rom]	Romanian
+\item[Ru]		Russian
+\item[Sard]	Sardinian
+\item[SatFri]	Saterland Frisian (Saterlandic, Seeltersk, ≈ East Frisan)
+\item[SC]		Serbo-Croatian
+\item[Scan]	Scanian (Sweden)
+\item[ScGae]	Scottish Gaelic
+\item[Skt]		Sanskrit
+\item[Sp]		Spanish
+\item[Svk]		Slovakian
+\item[Svn]	Slovenian
+\item[Sw]		Swedish
+\item[Syr]		Syriac (= Modern Aramaic)
+\item[TochA]	Tocharian A
+\item[TochB]	Tocharian B
+\item[USorb]	Upper Sorbian (= Southern Wendish)
+\item[Ven]		Venetian
+\item[VL]		Vulgar Latin
+\item[Wel]		Welsh
+\item[WFri]	West Frisian
+\item[Yid]		Yiddish
+\end{description}
+
+\end{document}
